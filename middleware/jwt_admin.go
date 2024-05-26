@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"strings"
+	"time"
 
 	"github.com/MinhSang97/order_app/sercurity"
 	"github.com/MinhSang97/order_app/usecases/claims"
@@ -27,12 +28,19 @@ func JWTMiddlewareAdmin() gin.HandlerFunc {
 
 		tokenString := authParts[1]
 
-		token, err := jwt.ParseWithClaims(tokenString, &claims.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		token, _ := jwt.ParseWithClaims(tokenString, &claims.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(sercurity.SECRET_KEY_ADMIN), nil
 		})
 
-		if err != nil || !token.Valid {
-			c.JSON(401, gin.H{"error": "invalid in Bear or expired Token"})
+		if token.Valid {
+			claims, ok := token.Claims.(*claims.JwtCustomClaims)
+			if !ok || time.Now().Unix() > claims.ExpiresAt {
+				c.JSON(401, gin.H{"error": "invalid or expired Token"})
+				c.Abort()
+				return
+			}
+		} else {
+			c.JSON(401, gin.H{"error": "invalid or expired Token"})
 			c.Abort()
 			return
 		}

@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"context"
+	"fmt"
 	errors "github.com/MinhSang97/order_app/error"
 	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/model/admin_model"
@@ -74,9 +75,11 @@ func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin 
 
 func (s adminRepository) DeleteAdmin(ctx context.Context, user_id string) error {
 	var user users_model.Users
+	fmt.Println(user_id)
 
 	// Check if user exists
-	if err := s.db.Table("Users").Where("user_id = ?", user_id).First(&user).Error; err != nil {
+	if err := s.db.Table("Users").Where("user_id = ?", user_id).Error; err != nil {
+
 		if err == gorm.ErrRecordNotFound {
 			return errors.UserNotFound
 		}

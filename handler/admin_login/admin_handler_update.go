@@ -11,6 +11,11 @@ import (
 	"net/http"
 )
 
+type AdminUpdateResponse struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
 func AdminUpdate() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
@@ -72,7 +77,7 @@ func AdminUpdate() func(*gin.Context) {
 			return
 		}
 
-		usersUpdate := admindto.Admin{
+		usersUpdate := AdminUpdateResponse{
 			Name:  req.Name,
 			Email: req.Email,
 		}
@@ -82,5 +87,6 @@ func AdminUpdate() func(*gin.Context) {
 			Message:    "Xử lý cập nhật thành công",
 			Data:       usersUpdate,
 		})
+
 	}
 }

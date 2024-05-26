@@ -14,8 +14,8 @@ type Admin struct {
 	CreatedAt   time.Time `json:"-"`
 	UpdatedAt   time.Time `json:"-"`
 	Token       string    `json:"-"`
-	PhoneNumber string    `json:"phone_number" validate:"required,number"`
-	Address     string    `json:"address" validate:"required"`
+	PhoneNumber string    `json:"phone_number"`
+	Address     string    `json:"address"`
 }
 
 func (c *Admin) ToPayload() *admin_payload.AddAdminRequest {

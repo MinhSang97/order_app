@@ -18,44 +18,6 @@ func AdminDelete() func(*gin.Context) {
 			return
 		}
 
-		//var validate *validator.Validate
-		//validate = validator.New(validator.WithRequiredStructEnabled())
-		//req := req.ReqUpdateUser{}
-		//if err := c.ShouldBind(&req); err != nil {
-		//	c.JSON(http.StatusBadRequest, res.Response{
-		//		StatusCode: http.StatusBadRequest,
-		//		Message:    err.Error(),
-		//		Data:       nil,
-		//	})
-		//	return
-		//}
-		//
-		//if err := validate.Struct(req); err != nil {
-		//	c.JSON(http.StatusForbidden, res.Response{
-		//		StatusCode: http.StatusForbidden,
-		//		Message:    err.Error(),
-		//		Data:       nil,
-		//	})
-		//	return
-		//}
-		//
-		//PassHashNew := sercurity.HashAndSalt([]byte(req.PassWord))
-		//userAdmin := admindto.Admin{
-		//	Name:     req.Name,
-		//	Email:    req.Email,
-		//	PassWord: PassHashNew,
-		//}
-		//
-		//err := validate.Struct(userAdmin)
-		//
-		//if err != nil {
-		//	c.JSON(http.StatusBadRequest, gin.H{
-		//		"error": err.Error(),
-		//	})
-		//	return
-		//}
-
-		//data := userAdmin.ToPayload().ToModel()
 		uc := usecases.NewAdminUseCase()
 
 		err := uc.DeleteAdmin(c.Request.Context(), user_id)

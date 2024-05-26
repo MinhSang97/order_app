@@ -1,8 +1,8 @@
 package sercurity
 
 import (
-	"github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 	"fmt"
+	"github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 
 	"github.com/golang-jwt/jwt"
 	"time"
@@ -21,7 +21,7 @@ func GenTokenAdmin(user admin_dto.Admin) (string, error) {
 		UserId: user.UserId,
 		Role:   user.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 3).Unix(),
 		},
 	}
 
