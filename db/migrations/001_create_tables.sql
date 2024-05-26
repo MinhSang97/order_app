@@ -86,7 +86,17 @@ CREATE TABLE discount_codes (
     code VARCHAR(50) NOT NULL UNIQUE,
     discount_percentage DECIMAL(5, 2),
     valid_from DATE,
-    valid_to DATE
+    valid_to DATE,
+    promotion_id INT,
+    CONSTRAINT fk_discount_codes_promotion_id FOREIGN KEY (promotion_id) REFERENCES promotions(promotion_id)
+);
+
+CREATE TABLE order_discounts (
+    order_discount_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    discount_code_id INT,
+    CONSTRAINT fk_order_discounts_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    CONSTRAINT fk_order_discounts_discount_code_id FOREIGN KEY (discount_code_id) REFERENCES discount_codes(discount_code_id)
 );
 
 CREATE TABLE payments (
@@ -110,5 +120,6 @@ DROP TABLE IF EXISTS item_customizations;
 DROP TABLE IF EXISTS menu_items;
 DROP TABLE IF EXISTS user_addresses;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS order_discounts;
 
 
