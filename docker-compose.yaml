@@ -1,0 +1,37 @@
+version: "3.1"
+
+services:
+  mysql:
+    image: mysql:latest
+    restart: always
+    volumes:
+      - ~/mysqloderapp:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_PASSWORD: 123456
+      MYSQL_USER: admin
+      MYSQL_DATABASE: order_app
+    # command:
+    #   [
+    #     "mysqld",
+    #     "--default-authentication-plugin=mysql_native_password",
+    #     "--character-set-server=utf8mb4",
+    #     "--collation-server=utf8mb4_unicode_ci",
+    #   ]
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ~/.docker/data/redisoderappconf:/redis.conf
+      - ~/.docker/data/redisoderapp:/var/lib/redis
+    command: redis-server --requirepass 1234
+
+volumes:
+  mysqloderapp:
+  redisoderappconf:
+  redisoderapp:

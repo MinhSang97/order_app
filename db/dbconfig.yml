@@ -1,0 +1,5 @@
+development:
+    dialect: mysql
+    datasource: admin:123456@tcp(localhost:3306)/order_app?parseTime=true
+    dir: migrations
+    table: schema_migrations ## table contains migration info
