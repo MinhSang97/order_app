@@ -38,7 +38,7 @@ func UsersSignUp() func(*gin.Context) {
 		}
 
 		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		role := payload.EMPLOYEE.String()
+		role := payload.USERS.String()
 
 		userUsersId, err := uuid.NewUUID()
 

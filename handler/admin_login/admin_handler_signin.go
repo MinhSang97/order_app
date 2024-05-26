@@ -16,7 +16,7 @@ func AdminSignIn() func(*gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
 		req := req.ReqSignIn{}
-		if err := c.ShouldBind(&req); err != nil {
+		if err := c.ShouldBindJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, res.Response{
 				StatusCode: http.StatusBadRequest,
 				Message:    err.Error(),
@@ -33,12 +33,24 @@ func AdminSignIn() func(*gin.Context) {
 			})
 			return
 		}
+		//gen token
+		token, err := sercurity.GenTokenAdmin(admin_dto.Admin{})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, res.Response{
+				StatusCode: http.StatusInternalServerError,
+				Message:    err.Error(),
+				Data:       nil,
+			})
+			return
+		}
+		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
 		userAdmin := admin_dto.ReqSignIn{
-			PassWord: req.PassWord,
+			PassWord: PassHash,
 			Email:    req.Email,
+			Token:    token,
 		}
 
-		err := validate.Struct(userAdmin)
+		err = validate.Struct(userAdmin)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -65,18 +77,7 @@ func AdminSignIn() func(*gin.Context) {
 		if !isTheSame {
 			c.JSON(http.StatusUnauthorized, res.Response{
 				StatusCode: http.StatusUnauthorized,
-				Message:    "Đăng nhập thất bại",
-				Data:       nil,
-			})
-			return
-		}
-
-		//gen token
-		token, err := sercurity.GenTokenAdmin(admin_dto.Admin{})
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, res.Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
+				Message:    "Đăng nhập thất bại. Kiểm tra lại email password",
 				Data:       nil,
 			})
 			return
@@ -85,7 +86,7 @@ func AdminSignIn() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       token,
+			Data:       adminPass.Token,
 		})
 
 	}

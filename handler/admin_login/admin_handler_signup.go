@@ -64,12 +64,14 @@ func AdminSignUp() func(*gin.Context) {
 		}
 
 		userAdmin := admindto.Admin{
-			UserId:   userAdminId.String(),
-			Name:     req.Name,
-			PassWord: PassHash,
-			Email:    req.Email,
-			Role:     role,
-			Token:    token,
+			UserId:      userAdminId.String(),
+			Name:        req.Name,
+			PassWord:    PassHash,
+			Email:       req.Email,
+			Role:        role,
+			Token:       token,
+			PhoneNumber: req.PhoneNumber,
+			Address:     req.Address,
 		}
 
 		err = validate.Struct(userAdmin)

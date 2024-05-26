@@ -1,18 +1,21 @@
 -- +migrate Up
 
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id varchar(255) PRIMARY KEY,
+    pass_word VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
     email VARCHAR(255) NOT NULL UNIQUE,
     phone_number VARCHAR(15) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    name VARCHAR(100),
     address VARCHAR(255),
-    role VARCHAR(255) NOT NULL
+    role enum('admin','employee') DEFAULT NULL,
+    created_at datetime(3) DEFAULT NULL,
+    updated_at datetime(3) DEFAULT NULL,
+    token varchar(255)
 );
 
 CREATE TABLE user_addresses (
     address_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+    user_id varchar(255),
     address VARCHAR(255),
     CONSTRAINT fk_user_addresses_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
@@ -44,7 +47,7 @@ CREATE TABLE promotions (
 
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+    user_id varchar(255),
     order_date DATETIME NOT NULL,
     total_price DECIMAL(10, 2),
     status VARCHAR(50),
@@ -74,7 +77,7 @@ CREATE TABLE order_customizations (
 
 CREATE TABLE feedbacks (
     feedback_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
+    user_id varchar(255),
     rating INT,
     comment TEXT,
     created_at DATETIME,
@@ -121,5 +124,3 @@ DROP TABLE IF EXISTS menu_items;
 DROP TABLE IF EXISTS user_addresses;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS order_discounts;
-
-

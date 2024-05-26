@@ -1,9 +1,11 @@
 package router
 
 import (
-	"github.com/MinhSang97/order_app/dbutil"
-	"github.com/MinhSang97/order_app/middleware"
 	"fmt"
+	"github.com/MinhSang97/order_app/dbutil"
+	admin_login "github.com/MinhSang97/order_app/handler/admin_login"
+	users_login "github.com/MinhSang97/order_app/handler/users_login"
+	"github.com/MinhSang97/order_app/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,27 +38,17 @@ func Route() {
 			api.GET("/test", func(c *gin.Context) {
 				c.JSON(200, gin.H{"message": "This is a secure route"})
 			})
-			// //admin
-			// items.POST("/admin/sign-up", handler.AdminSignUp())
-			// items.POST("/admin/sign-in", handler.AdminSignIn())
-			// items.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminUpdate())
-			// items.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), handler.AdminDelete())
+			//admin
+			api.POST("/admin/sign-up", admin_login.AdminSignUp())
+			api.GET("/admin/sign-in", admin_login.AdminSignIn())
+			api.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
+			api.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminDelete())
 
-			// //user
-			// items.POST("/users/sign-up", middleware.JWTMiddlewareAdmin(), usersHandler.UsersSignUp())
-			// items.POST("/users/sign-in", usersHandler.UsersSignIn())
-			// items.PATCH("/users/update/:user_id", middleware.JWTMiddlewareUsers(), usersHandler.UsersUpdate())
-			// items.DELETE("/users/delete/:user_id", middleware.JWTMiddlewareAdmin(), usersHandler.UsersDelete())
-
-			// //attendance
-			// items.POST("/attendance/check-in", middleware.JWTMiddlewareUsers(), attendance.AttendanceCheckIn())
-			// items.POST("/attendance/check-out/:id", middleware.JWTMiddlewareUsers(), attendance.AttendanceCheckOut())
-			// items.GET("/attendance/history", middleware.JWTMiddlewareUsers(), attendance.AttendanceHistory())
-			//items.GET("", handler.GetAllStudent(db))
-			//items.GET("/:id", handler.GetId(db))
-			//items.PATCH("/:id", handler.Update_One(db))
-			//items.DELETE("/:id", handler.Delete_One(db))
-			//items.GET("/search", handler.SearchStudents(db))
+			//user
+			api.POST("/users/sign-up", middleware.JWTMiddlewareAdmin(), users_login.UsersSignUp())
+			api.GET("/users/sign-in", users_login.UsersSignIn())
+			api.PATCH("/users/update/:user_id", middleware.JWTMiddlewareUsers(), users_login.UsersUpdate())
+			api.DELETE("/users/delete/:user_id", middleware.JWTMiddlewareAdmin(), users_login.UsersDelete())
 
 		}
 	}

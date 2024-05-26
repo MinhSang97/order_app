@@ -1,12 +1,12 @@
 package mysql
 
 import (
+	"context"
 	errors "github.com/MinhSang97/order_app/error"
 	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/model/admin_model"
 	"github.com/MinhSang97/order_app/model/users_model"
 	"github.com/MinhSang97/order_app/repo"
-	"context"
 	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 )
@@ -18,7 +18,7 @@ type adminRepository struct {
 func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Admin) error {
 	users := admin
 
-	err := s.db.Table("Users").Create(users).Error
+	err := s.db.Table("users").Create(users).Error
 	if err != nil {
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
 
@@ -33,8 +33,18 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 
 func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSignIn) (*admin_model.ReqSignIn, error) {
 	users := admin
+	err := s.db.Table("Users").Where("email = ?", users.Email).Updates(users).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
 
-	err := s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
+			if driverErr.Number == 1062 {
+				return users, errors.UserNotUpdated
+			}
+		}
+		return users, errors.UserNotUpdated
+	}
+
+	err = s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
 	if err != nil {
 		//log.Error(err.Error())
 		if err == gorm.ErrRecordNotFound {
