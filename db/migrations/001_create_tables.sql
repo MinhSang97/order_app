@@ -7,7 +7,7 @@ CREATE TABLE users (
     email VARCHAR(255) NOT NULL UNIQUE,
     phone_number VARCHAR(15) NOT NULL UNIQUE,
     address VARCHAR(255),
-    role enum('admin','employee') DEFAULT NULL,
+    role enum('admin','users') DEFAULT NULL,
     created_at datetime(3) DEFAULT NULL,
     updated_at datetime(3) DEFAULT NULL,
     token varchar(255)

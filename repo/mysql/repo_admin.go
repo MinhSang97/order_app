@@ -34,10 +34,27 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 
 func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSignIn) (*admin_model.ReqSignIn, error) {
 	users := admin
-	err := s.db.Table("Users").Where("email = ?", users.Email).Updates(users).Error
+
+	// Step 1: Query the database to get the user's role based on their email
+	var role string
+	err := s.db.Table("Users").Select("role").Where("email = ?", users.Email).Scan(&role).Error
+	if err != nil {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.UserNotFound
+		}
+		return nil, err
+	}
+
+	// Step 2: Check if the role is "admin"
+	if role != "admin" {
+		return nil, errors.NotAdmin
+	}
+
+	// Step 3: Proceed with the rest of the function if the role is "admin"
+	err = s.db.Table("Users").Where("email = ?", users.Email).Updates(users).Error
 	if err != nil {
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
-
 			if driverErr.Number == 1062 {
 				return users, errors.UserNotUpdated
 			}
@@ -47,7 +64,6 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 
 	err = s.db.Table("Users").Where("email = ?", users.Email).First(users).Error
 	if err != nil {
-		//log.Error(err.Error())
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.UserNotFound
 		}
