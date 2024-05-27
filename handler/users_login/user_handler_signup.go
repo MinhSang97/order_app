@@ -51,74 +51,27 @@ func UsersSignUp() func(*gin.Context) {
 			})
 			return
 		}
-		//
-		//token1, ok := c.Get("token")
-		//fmt.Println(token1)
-		//if !ok {
-		//	// Handle error: the token was not found in the context
-		//}
-		//token2, ok := token1.(*jwt.Token)
-		//if !ok {
-		//	// Handle error: the token is not of type *jwt.Token
-		//}
-		//fmt.Println(token2)
 
-		//authHeader := c.Request.Header.Get("Authorization")
-		//parts := strings.Split(authHeader, " ")
-		//if len(parts) != 2 || parts[0] != "Bearer" {
-		//	// Handle error: the Authorization header format is not correct
-		//}
-		//
-		//token1 := parts[1]
-		//token1 := c.Request.Header.Values("Authorization").(*jwt.Token)
-		//fmt.Println(token1)
-		//claims := token1.Claims.(*usecases.JwtCustomClaims)
-		//user := usersdto.Users{
-		//	UserId: claims.UserId,
-		//	Name:   req.Name,
-		//	Email:  req.Email,
-		//}
-		//fmt.Println(user)
-		//authHeader := c.Request.Header.Get("Authorization")
-		//parts := strings.Split(authHeader, " ")
-		//if len(parts) != 2 || parts[0] != "Bearer" {
-		//	// Handle error: the Authorization header format is not correct
-		//}
-		//tokenString := parts[1]
-		//token1, err := jwt.ParseWithClaims(tokenString, &usecases.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		//	// Validate the token here
-		//	return []byte(sercurity.SECRET_KEY_ADMIN), nil
-		//})
+		////gen token
+		//token, err := sercurity.GenTokenUsers(usersdto.Users{})
 		//if err != nil {
-		//	// Handle error: the token could not be parsed
+		//	c.JSON(http.StatusInternalServerError, res.Response{
+		//		StatusCode: http.StatusInternalServerError,
+		//		Message:    err.Error(),
+		//		Data:       nil,
+		//	})
+		//	return
 		//}
-
-		//claims := token1.Claims.(*usecases.JwtCustomClaims)
-		//user := usersdto.Users{
-		//	UserId: claims.UserId,
-		//	Name:   req.Name,
-		//	Email:  req.Email,
-		//}
-		//fmt.Println(user)
-
-		//gen token
-		token, err := sercurity.GenTokenUsers(usersdto.Users{})
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, res.Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
-				Data:       nil,
-			})
-			return
-		}
 
 		userUsers := usersdto.Users{
-			UserId:   userUsersId.String(),
-			Name:     req.Name,
-			PassWord: PassHash,
-			Email:    req.Email,
-			Role:     role,
-			Token:    token,
+			UserId:      userUsersId.String(),
+			Name:        req.Name,
+			PassWord:    PassHash,
+			Email:       req.Email,
+			Role:        role,
+			PhoneNumber: req.PhoneNumber,
+			Address:     req.Address,
+			//Token:    token,
 		}
 
 		err = validate.Struct(userUsers)

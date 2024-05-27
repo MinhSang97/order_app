@@ -8,10 +8,11 @@ import (
 type ReqUsersSignIn struct {
 	Email    string `json:"email,omitempty" validate:"required"`
 	PassWord string `json:"password,omitempty" validate:"required"`
+	Token    string `json:"token,omitempty" validate:"required"`
 }
 
 func (c *ReqUsersSignIn) TableName() string {
-	return "reqsignis"
+	return "reqsignin"
 }
 
 func (c *ReqUsersSignIn) ToJson() string {

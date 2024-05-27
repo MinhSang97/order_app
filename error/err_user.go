@@ -9,4 +9,5 @@ var (
 	UserNotUpdated = errors.New("Cập nhật không thành công")
 	UserNotDeleted = errors.New("Xoá không thành công")
 	NotAdmin       = errors.New("Không phải quyền Admin")
+	NotUsers       = errors.New("Không phải quyền Users")
 )

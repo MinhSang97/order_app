@@ -7,15 +7,17 @@ import (
 )
 
 type Users struct {
-	ID        int64     `json:"id" db:"id"`
-	UserId    string    `json:"-"  db:"user_id, omitempty"`
-	Name      string    `json:"name,omitempty" db:"name, omitempty" validate:"required"`
-	PassWord  string    `json:"-" db:"password, omitempty" validate:"required"`
-	Email     string    `json:"email,omitempty" db:"email, omitempty" validate:"required"`
-	Role      string    `json:"-" db:"role, omitempty"`
-	CreatedAt time.Time `json:"-" db:"created_at, omitempty"`
-	UpdatedAt time.Time `json:"-" db:"updated_at, omitempty"`
-	Token     string    `json:"-" db:"token"`
+	ID          int64     `json:"id" db:"id"`
+	UserId      string    `json:"-"  db:"user_id, omitempty"`
+	Name        string    `json:"name,omitempty" db:"name, omitempty" validate:"required"`
+	PassWord    string    `json:"-" db:"password, omitempty" validate:"required"`
+	Email       string    `json:"email,omitempty" db:"email, omitempty" validate:"required"`
+	Role        string    `json:"-" db:"role, omitempty"`
+	CreatedAt   time.Time `json:"-" db:"created_at, omitempty"`
+	UpdatedAt   time.Time `json:"-" db:"updated_at, omitempty"`
+	Token       string    `json:"-" db:"token"`
+	PhoneNumber string    `json:"phone_number,omitempty" db:"phone_number,omitempty" validate:"required"`
+	Address     string    `json:"address,omitempty" db:"address,omitempty" validate:"required"`
 }
 
 func (c *Users) TableName() string {

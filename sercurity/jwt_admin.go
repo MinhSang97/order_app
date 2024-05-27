@@ -74,7 +74,7 @@ func GenTokenAdmin(user admin_dto.Admin) (string, error) {
 		UserId: user.UserId,
 		Role:   user.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Second * 30).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 8).Unix(),
 		},
 	}
 

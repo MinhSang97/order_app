@@ -11,6 +11,11 @@ import (
 	"net/http"
 )
 
+type UsersUpdateResponse struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
 func UsersUpdate() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
