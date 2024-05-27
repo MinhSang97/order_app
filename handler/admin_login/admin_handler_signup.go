@@ -52,24 +52,24 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		//gen token
-		token, err := sercurity.GenTokenAdmin(admindto.Admin{})
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, res.Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
-				Data:       nil,
-			})
-			return
-		}
+		////gen token
+		//token, err := sercurity.GenTokenAdmin(admindto.Admin{})
+		//if err != nil {
+		//	c.JSON(http.StatusInternalServerError, res.Response{
+		//		StatusCode: http.StatusInternalServerError,
+		//		Message:    err.Error(),
+		//		Data:       nil,
+		//	})
+		//	return
+		//}
 
 		userAdmin := admindto.Admin{
-			UserId:      userAdminId.String(),
-			Name:        req.Name,
-			PassWord:    PassHash,
-			Email:       req.Email,
-			Role:        role,
-			Token:       token,
+			UserId:   userAdminId.String(),
+			Name:     req.Name,
+			PassWord: PassHash,
+			Email:    req.Email,
+			Role:     role,
+			//Token:       token,
 			PhoneNumber: req.PhoneNumber,
 			Address:     req.Address,
 		}
