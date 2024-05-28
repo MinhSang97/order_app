@@ -17,18 +17,36 @@ type adminRepository struct {
 }
 
 func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Admin) error {
-	users := admin
+	// Start a transaction
+	tx := s.db.Begin()
+	if tx.Error != nil {
+		return errors.SignUpFail
+	}
 
-	err := s.db.Table("users").Create(users).Error
+	// Insert into the users table
+	err := tx.Table("users").Create(admin).Error
 	if err != nil {
+		tx.Rollback()
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
-
 			if driverErr.Number == 1062 {
 				return errors.UserConflict
 			}
 		}
 		return errors.SignUpFail
 	}
+
+	// Insert into the user_addresses table
+	query := `INSERT INTO order_app.user_addresses (user_id, address) VALUES(?, ?);`
+	if err := tx.Exec(query, admin.UserId, admin.Address).Error; err != nil {
+		tx.Rollback()
+		return errors.SignUpFail
+	}
+
+	// Commit the transaction
+	if err := tx.Commit().Error; err != nil {
+		return errors.SignUpFail
+	}
+
 	return nil
 }
 
