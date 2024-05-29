@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/MinhSang97/order_app/sercurity"
-	"github.com/MinhSang97/order_app/usecases/claims"
+	"github.com/MinhSang97/order_app/sercurity/claims"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"strings"

@@ -1,8 +1,8 @@
 package usecases
 
 import (
-	"github.com/MinhSang97/order_app/model/admin_model"
 	"context"
+	"github.com/MinhSang97/order_app/model/admin_model"
 )
 
 type AdminUsecase interface {
