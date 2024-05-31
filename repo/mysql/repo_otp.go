@@ -27,11 +27,7 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 		if err == gorm.ErrRecordNotFound {
 			return fmt.Errorf("user not found with email: %s", otp.Email)
 		}
-		return err // return the error instead of nil
-	}
-
-	if user_id == "" {
-		return fmt.Errorf("no user_id found for email: %s", otp.Email)
+		return err
 	}
 
 	otpSave := model.OtpModel{
@@ -53,16 +49,6 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 		}
 		return errors.CreatOTPFail
 	}
-	//err = s.db.Table("recover_password").Create(otpSave).Error
-	//if err != nil {
-	//	if driverErr, ok := err.(*mysql.MySQLError); ok {
-	//		if driverErr.Number == 1452 {
-	//			return errors.CreatOTPFail
-	//		}
-	//	}
-	//	return errors.CreatOTPFail
-	//}
-
 	return nil
 }
 

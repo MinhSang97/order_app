@@ -34,19 +34,19 @@ func Route() {
 			api.POST("/verify_otp", handler.VerifiOTP())
 
 			//admin
-			api.POST("/admin/sign-up", admin_login.AdminSignUp())
-			api.GET("/admin/sign-in", admin_login.AdminSignIn())
+			api.POST("/admin/sign_up", admin_login.AdminSignUp())
+			api.GET("/admin/sign_in", admin_login.AdminSignIn())
 			api.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
 			api.PATCH("/admin/forget_password/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminForgetPassword())
 			api.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminDelete())
 
 			//admin_function_member
-			api.GET("/admin/member-view", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
-			api.PATCH("/admin/member-edit/:user_id", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
+			api.GET("/admin/member_view", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
+			api.PATCH("/admin/member_edit/:user_id", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
 
 			//user
-			api.POST("/users/sign-up", users_login.UsersSignUp())
-			api.GET("/users/sign-in", users_login.UsersSignIn())
+			api.POST("/users/sign_up", users_login.UsersSignUp())
+			api.GET("/users/sign_in", users_login.UsersSignIn())
 			api.PATCH("/users/update/:user_id", middleware.JWTMiddlewareUsers(), users_login.UsersUpdate())
 			api.DELETE("/users/delete/:user_id", middleware.JWTMiddlewareAdmin(), users_login.UsersDelete())
 

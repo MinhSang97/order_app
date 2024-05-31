@@ -82,7 +82,7 @@ func SendOTP() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       "OTP sent to email" + otp,
+			Data:       "OTP sent to email " + otp,
 		})
 	}
 }
