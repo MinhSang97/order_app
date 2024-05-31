@@ -23,3 +23,7 @@ func NewAdminFunctionUseCase() AdminFunctionUsecase {
 func (uc *adminFunctionUseCase) GetAll(ctx context.Context) ([]admin_model.AdminFunctionModel, error) {
 	return uc.adminFunctionRepo.GetAll(ctx)
 }
+
+func (uc *adminFunctionUseCase) Edit(ctx context.Context, user_id string, users *admin_model.AdminFunctionModel) error {
+	return uc.adminFunctionRepo.Edit(ctx, user_id, users)
+}

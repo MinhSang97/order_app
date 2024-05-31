@@ -4,9 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	errors "github.com/MinhSang97/order_app/error"
 	"github.com/MinhSang97/order_app/model/admin_model"
 	"github.com/MinhSang97/order_app/redis"
 	"github.com/MinhSang97/order_app/repo"
+	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 	"log"
 )
@@ -20,8 +22,6 @@ var RedisClient = redis.ConnectRedis()
 func (s adminFunctionRepository) GetAll(ctx context.Context) ([]admin_model.AdminFunctionModel, error) {
 	var users []admin_model.AdminFunctionModel
 
-	//RedisClient := redis.ConnectRedis()
-	//
 	// Đọc danh sách users từ Redis (nếu có)
 	cachedUsersJSON, err := RedisClient.Get(ctx, "users").Result()
 	if err == nil {
@@ -39,6 +39,7 @@ func (s adminFunctionRepository) GetAll(ctx context.Context) ([]admin_model.Admi
 	if err := s.db.Table("users").Scan(&users).Error; err != nil {
 		return users, fmt.Errorf("get all users error: %w", err)
 	}
+	fmt.Println("Users", users)
 
 	// Cache danh sách sinh viên vào Redis
 	jsonUsers, err := json.Marshal(users)
@@ -55,6 +56,21 @@ func (s adminFunctionRepository) GetAll(ctx context.Context) ([]admin_model.Admi
 	fmt.Println("Students query from MySQL")
 
 	return users, nil
+}
+
+func (s adminFunctionRepository) Edit(ctx context.Context, user_id string, users *admin_model.AdminFunctionModel) error {
+
+	err := s.db.Table("Users").Where("user_id = ?", user_id).Updates(users).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserNotUpdated
+			}
+		}
+		return errors.SignUpFail
+	}
+	return nil
 }
 
 var instance adminFunctionRepository

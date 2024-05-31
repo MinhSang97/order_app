@@ -3,6 +3,7 @@ package router
 import (
 	"fmt"
 	"github.com/MinhSang97/order_app/dbutil"
+	"github.com/MinhSang97/order_app/handler"
 	admin_function_member "github.com/MinhSang97/order_app/handler/admin_function/member"
 	admin_login "github.com/MinhSang97/order_app/handler/admin_login"
 	users_login "github.com/MinhSang97/order_app/handler/users_login"
@@ -28,14 +29,19 @@ func Route() {
 			api.GET("/test", func(c *gin.Context) {
 				c.JSON(200, gin.H{"message": "This is a secure route"})
 			})
+			//api.POST("/send_otp", handler.SendOTP())
+			api.POST("verify_otp", handler.VerifiOTP())
+
 			//admin
 			api.POST("/admin/sign-up", admin_login.AdminSignUp())
 			api.GET("/admin/sign-in", admin_login.AdminSignIn())
 			api.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
+			api.PATCH("/admin/forget_password/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminForgetPassword())
 			api.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminDelete())
 
 			//admin_function_member
 			api.GET("/admin/member-view", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
+			api.PATCH("/admin/member-edit/:user_id", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
 
 			//user
 			api.POST("/users/sign-up", users_login.UsersSignUp())

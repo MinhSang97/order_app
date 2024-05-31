@@ -7,7 +7,7 @@ import (
 type AdminFunctionDto struct {
 	UserId      string `json:"-"`
 	Name        string `json:"name"  validate:"required"`
-	PassWord    string `json:"-" validate:"required"`
+	PassWord    string `json:"-"`
 	Email       string `json:"email" validate:"required,email"`
 	Role        string `json:"-"`
 	PhoneNumber string `json:"phone_number"`
