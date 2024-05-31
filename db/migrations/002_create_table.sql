@@ -16,7 +16,7 @@ CREATE TABLE users (
 CREATE TABLE recover_password (
                        id INT AUTO_INCREMENT PRIMARY KEY,
                        user_id varchar(255),
-                       pass_word_new VARCHAR(255) NOT NULL,
+                       pass_word_new VARCHAR(255),
                        email VARCHAR(255) NOT NULL UNIQUE,
                        otp VARCHAR(15) NOT NULL UNIQUE,
                        created_at datetime(3) DEFAULT NULL,

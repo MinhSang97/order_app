@@ -1,12 +1,13 @@
-package model
+package payload
 
 import (
 	"encoding/json"
+	"github.com/MinhSang97/order_app/model"
 	"log"
 	"time"
 )
 
-type OtpModel struct {
+type OtpPayload struct {
 	ID          int64     `json:"id" db:"id"`
 	UserId      string    `json:"user_id"  db:"user_id, omitempty"`
 	PassWordNew string    `json:"pass_word_new" db:"pass_word_new, omitempty" validate:"required"`
@@ -15,19 +16,20 @@ type OtpModel struct {
 	CreatedAt   time.Time `json:"-"`
 }
 
-func (c *OtpModel) TableName() string {
-	return "admins"
-}
-
-func (c *OtpModel) ToJson() string {
-	bs, err := json.Marshal(c)
-	if err != nil {
-		log.Fatalln(err)
-
+func (c *OtpPayload) ToModel() *model.OtpModel {
+	otp := &model.OtpModel{
+		ID:          c.ID,
+		UserId:      c.UserId,
+		PassWordNew: c.PassWordNew,
+		Email:       c.Email,
+		Otp:         c.Otp,
+		CreatedAt:   c.CreatedAt,
 	}
-	return string(bs)
+
+	return otp
 }
-func (c *OtpModel) FromJson(a string) {
+
+func (c *OtpPayload) FromJson(a string) {
 	err := json.Unmarshal([]byte(a), c)
 	if err != nil {
 		log.Fatalln(err)

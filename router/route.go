@@ -29,8 +29,9 @@ func Route() {
 			api.GET("/test", func(c *gin.Context) {
 				c.JSON(200, gin.H{"message": "This is a secure route"})
 			})
-			//api.POST("/send_otp", handler.SendOTP())
-			api.POST("verify_otp", handler.VerifiOTP())
+
+			api.POST("/send_otp", handler.SendOTP())
+			api.POST("/verify_otp", handler.VerifiOTP())
 
 			//admin
 			api.POST("/admin/sign-up", admin_login.AdminSignUp())
