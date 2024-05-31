@@ -33,7 +33,7 @@ func SendOTP() func(*gin.Context) {
 			})
 			return
 		}
-		fmt.Println("mailhandler", req.Email)
+
 		if err := validate.Struct(req); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -89,7 +89,7 @@ func SendOTP() func(*gin.Context) {
 
 func generateOTP() string {
 	rand.Seed(time.Now().UnixNano())
-	return fmt.Sprintf("%04d", rand.Intn(10000))
+	return fmt.Sprintf("%04d", rand.Intn(1000000))
 }
 func sendEmail(to string, otp string) error {
 	m := gomail.NewMessage()
