@@ -31,7 +31,7 @@ func Route() {
 			})
 
 			api.POST("/send_otp", handler.SendOTP())
-			api.POST("/verify_otp", handler.VerifiOTP())
+			api.GET("/verify_otp/:otp", handler.VerifiOTP())
 
 			//admin
 			api.POST("/admin/sign_up", admin_login.AdminSignUp())

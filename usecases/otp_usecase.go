@@ -23,3 +23,7 @@ func NewOtpUseCase() OtpUsecase {
 func (uc *otpUseCase) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 	return uc.otpRepo.SendOtp(ctx, otp)
 }
+
+func (uc *otpUseCase) VerifyOtp(ctx context.Context, otp *model.OtpModel) error {
+	return uc.otpRepo.VerifyOtp(ctx, otp)
+}

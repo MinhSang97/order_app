@@ -8,6 +8,6 @@ import (
 type OtpRepo interface {
 	SendOtp(ctx context.Context, otp *model.OtpModel) error
 	//GetAdmin(ctx context.Context, admin *admin_model.ReqSignIn) (*admin_model.ReqSignIn, error)
-	//UpdateAdmin(ctx context.Context, user_id string, admin *admin_model.Admin) error
+	VerifyOtp(ctx context.Context, otp *model.OtpModel) error
 	//DeleteAdmin(ctx context.Context, user_id string) error
 }

@@ -67,6 +67,19 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 	return nil
 }
 
+func (s otpRepository) VerifyOtp(ctx context.Context, otp *model.OtpModel) error {
+	var count int64
+	err := s.db.Table("recover_password").Where("email = ? AND otp = ?", otp.Email, otp.Otp).Count(&count).Error
+	if err != nil {
+		return err
+	}
+
+	if count == 0 {
+		return errors.OTPVerified
+	}
+	return nil
+}
+
 var instancess otpRepository
 
 func NewOtpRepository(db *gorm.DB) repo.OtpRepo {
