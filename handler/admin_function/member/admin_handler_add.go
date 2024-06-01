@@ -1,12 +1,16 @@
 package member
 
 import (
-	"fmt"
+	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/payload"
+	"github.com/MinhSang97/order_app/sercurity"
+	"github.com/MinhSang97/order_app/usecases"
+	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/google/uuid"
 	"net/http"
 )
 
@@ -33,18 +37,7 @@ func AdminMemberAdd() func(*gin.Context) {
 			return
 		}
 
-		//PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		//role := payload.ADMIN.String()
-		//fmt.Println(reflect.TypeOf(role))
-		//var role string
-		//if req.Role == "admin" {
-		//
-		//	role := payload.ADMIN.String()
-		//
-		//}
-		//reqRole := role
-		//fmt.Println(reqRole)
-
+		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
 		var reqRole string
 		if req.Role == "admin" {
 			reqRole = payload.ADMIN.String()
@@ -59,57 +52,64 @@ func AdminMemberAdd() func(*gin.Context) {
 			return
 		}
 		role := reqRole
-		fmt.Println(role)
-		//userAdminId, err := uuid.NewUUID()
-		//
-		//if err != nil {
-		//	log.Error(err.Error())
-		//	c.JSON(http.StatusForbidden, res.Response{
-		//		StatusCode: http.StatusForbidden,
-		//		Message:    err.Error(),
-		//		Data:       nil,
-		//	})
-		//	return
-		//}
 
-		//userAdmin := admindto.Admin{
-		//	UserId:   userAdminId.String(),
-		//	Name:     req.Name,
-		//	PassWord: PassHash,
-		//	Email:    req.Email,
-		//	Role:     role,
-		//	//Token:       token,
-		//	PhoneNumber: req.PhoneNumber,
-		//	Address:     req.Address,
-		//}
-		//
-		//err = validate.Struct(userAdmin)
-		//
-		//if err != nil {
-		//	c.JSON(http.StatusBadRequest, gin.H{
-		//		"error": err.Error(),
-		//	})
-		//	return
-		//}
-		//
-		//data := userAdmin.ToPayload().ToModel()
+		userId, err := uuid.NewUUID()
+		if err != nil {
+			log.Error(err.Error())
+			c.JSON(http.StatusForbidden, res.Response{
+				StatusCode: http.StatusForbidden,
+				Message:    err.Error(),
+				Data:       nil,
+			})
+			return
+		}
+
+		user := admindto.AdminFunctionDto{
+			UserId:      userId.String(),
+			Name:        req.Name,
+			PassWord:    PassHash,
+			Email:       req.Email,
+			Role:        role,
+			PhoneNumber: req.PhoneNumber,
+			Address:     req.Address,
+		}
+
+		err = validate.Struct(user)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		data := user.ToPayload().ToModel()
+		uc := usecases.NewAdminFunctionUseCase()
 		//uc := usecases.NewAdminUseCase()
 		//
 		//err = uc.CreateAdmin(c.Request.Context(), data)
 		//
-		//if err != nil {
-		//	c.JSON(http.StatusConflict, res.Response{
-		//		StatusCode: http.StatusConflict,
-		//		Message:    err.Error(),
-		//		Data:       nil,
-		//	})
-		//	return
-		//}
+		err = uc.AddUser(c.Request.Context(), data)
+		if err != nil {
+			c.JSON(http.StatusConflict, res.Response{
+				StatusCode: http.StatusConflict,
+				Message:    err.Error(),
+				Data:       nil,
+			})
+			return
+		}
+		usersAdd := admindto.AdminFunctionDto{
+			UserId:   data.UserId,
+			Name:     req.Name,
+			Email:    req.Email,
+			PassWord: req.PassWord,
+			Role:     req.Role,
+		}
 
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       "data.UserId",
+			Data:       usersAdd,
 		})
 	}
 }

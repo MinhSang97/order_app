@@ -10,6 +10,7 @@ import (
 	"github.com/MinhSang97/order_app/repo"
 	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
+	"time"
 )
 
 type adminRepository struct {
@@ -94,7 +95,7 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin *admin_model.Admin) error {
 	users := admin
 
-	err := s.db.Table("Users").Where("user_id = ?", user_id).Updates(users).Error
+	err := s.db.Table("Users").Where("user_id = ? AND updated_at = ?", user_id, time.Now()).Updates(users).Error
 	if err != nil {
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
 

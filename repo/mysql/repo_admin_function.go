@@ -11,6 +11,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"time"
 )
 
 type adminFunctionRepository struct {
@@ -18,6 +19,42 @@ type adminFunctionRepository struct {
 }
 
 var RedisClient = redis.ConnectRedis()
+
+func (s adminFunctionRepository) AddUser(ctx context.Context, users *admin_model.AdminFunctionModel) error {
+	// Start a transaction
+	tx := s.db.Begin()
+	if tx.Error != nil {
+		return errors.SignUpFail
+	}
+
+	// Insert into the users table
+	addUsers := `INSERT INTO order_app.users (user_id, pass_word, name, email, phone_number, address, role, created_at) 
+					VALUES(?,?,?,?,?,?,?,?);`
+	err := tx.Exec(addUsers, users.UserId, users.Password, users.Name, users.Name, users.PhoneNumber, users.Address, users.Role, time.Now()).Error
+	if err != nil {
+		tx.Rollback()
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+			if driverErr.Number == 1062 {
+				return errors.UserConflict
+			}
+		}
+		return errors.SignUpFail
+	}
+
+	// Insert into the user_addresses table
+	query := `INSERT INTO order_app.user_addresses (user_id, address) VALUES(?, ?);`
+	if err := tx.Exec(query, users.UserId, users.Address).Error; err != nil {
+		tx.Rollback()
+		return errors.SignUpFail
+	}
+
+	// Commit the transaction
+	if err := tx.Commit().Error; err != nil {
+		return errors.SignUpFail
+	}
+
+	return nil
+}
 
 func (s adminFunctionRepository) GetAll(ctx context.Context) ([]admin_model.AdminFunctionModel, error) {
 	var users []admin_model.AdminFunctionModel

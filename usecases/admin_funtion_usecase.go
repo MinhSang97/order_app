@@ -27,3 +27,7 @@ func (uc *adminFunctionUseCase) GetAll(ctx context.Context) ([]admin_model.Admin
 func (uc *adminFunctionUseCase) Edit(ctx context.Context, user_id string, users *admin_model.AdminFunctionModel) error {
 	return uc.adminFunctionRepo.Edit(ctx, user_id, users)
 }
+
+func (uc *adminFunctionUseCase) AddUser(ctx context.Context, user *admin_model.AdminFunctionModel) error {
+	return uc.adminFunctionRepo.AddUser(ctx, user)
+}
