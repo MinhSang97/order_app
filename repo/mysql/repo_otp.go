@@ -42,7 +42,7 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 		if err != nil {
 			return err
 		}
-		//fmt.Println("Số lượng bản ghi:", checkOTP)
+
 		if count == 1 {
 			// Tìm thấy bản ghi
 			query := `UPDATE order_app.recover_password SET otp= ?, created_at= ? WHERE user_id= ? AND email=?;`
