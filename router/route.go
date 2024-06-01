@@ -36,13 +36,14 @@ func Route() {
 
 			//admin
 			api.POST("/admin/sign_up", admin_login.AdminSignUp())
-			api.GET("/admin/sign_in", admin_login.AdminSignIn())
+			api.POST("/admin/sign_in", admin_login.AdminSignIn())
 			api.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
 			api.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminDelete())
 
 			//admin_function_member
 			api.GET("/admin/member_view", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
 			api.PATCH("/admin/member_edit/:user_id", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
+			api.POST("/admin/member_add", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberAdd())
 
 			//user
 			api.POST("/users/sign_up", users_login.UsersSignUp())
