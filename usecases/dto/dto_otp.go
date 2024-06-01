@@ -8,7 +8,7 @@ import (
 type OtpDto struct {
 	ID          int64     `json:"id" db:"id"`
 	UserId      string    `json:"user_id"  db:"user_id, omitempty"`
-	PassWordNew string    `json:"pass_word_new" db:"pass_word_new"`
+	PassWordNew string    `json:"password_new" db:"pass_word_new"`
 	Email       string    `json:"email,omitempty" db:"email, omitempty" validate:"required"`
 	Otp         string    `json:"-" db:"role, omitempty"`
 	CreatedAt   time.Time `json:"-"`

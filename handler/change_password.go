@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/MinhSang97/order_app/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
-	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
+	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -11,20 +11,26 @@ import (
 	"net/http"
 )
 
-func AdminForgetPassword() func(*gin.Context) {
+type UsersUpdateResponse struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+func ChangePassWord() func(*gin.Context) {
 	return func(c *gin.Context) {
-		user_id := c.Param("user_id")
-		if user_id == "" {
+		otp_code := c.Param("otp")
+		if otp_code == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "không tìm thấy user_id",
+				"error": "không tìm thấy OTP code",
 			})
 			return
 		}
 
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
-		req := req.ReqUpdateUser{}
-		if err := c.ShouldBind(&req); err != nil {
+		req := req.ReqChangePassword{}
+
+		if err := c.ShouldBindBodyWithJSON(&req); err != nil {
 			c.JSON(http.StatusBadRequest, res.Response{
 				StatusCode: http.StatusBadRequest,
 				Message:    err.Error(),
@@ -41,15 +47,25 @@ func AdminForgetPassword() func(*gin.Context) {
 			})
 			return
 		}
-
-		PassHashNew := sercurity.HashAndSalt([]byte(req.PassWord))
-		userAdmin := admindto.Admin{
-			Name:     req.Name,
-			Email:    req.Email,
-			PassWord: PassHashNew,
+		otpData := dto.OtpDto{
+			Email: req.Email,
+			Otp:   otp_code,
+		}
+		err := validate.Struct(otpData)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+			return
 		}
 
-		err := validate.Struct(userAdmin)
+		PassHashNew := sercurity.HashAndSalt([]byte(req.PassWordNew))
+		changePassword := dto.OtpDto{
+			Email:       req.Email,
+			PassWordNew: PassHashNew,
+		}
+
+		err = validate.Struct(changePassword)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -58,10 +74,10 @@ func AdminForgetPassword() func(*gin.Context) {
 			return
 		}
 
-		data := userAdmin.ToPayload().ToModel()
-		uc := usecases.NewAdminUseCase()
+		data := changePassword.ToPayload().ToModel()
+		uc := usecases.NewOtpUseCase()
 
-		err = uc.UpdateAdmin(c.Request.Context(), user_id, data)
+		err = uc.ChangePassword(c.Request.Context(), otp_code, data)
 
 		if err != nil {
 			c.JSON(http.StatusUnprocessableEntity, res.Response{
@@ -75,8 +91,7 @@ func AdminForgetPassword() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý cập nhật thành công",
-			Data:       data,
+			Data:       "Thay đổi password thành công cho email " + data.Email,
 		})
-
 	}
 }

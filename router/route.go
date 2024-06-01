@@ -29,15 +29,15 @@ func Route() {
 			api.GET("/test", func(c *gin.Context) {
 				c.JSON(200, gin.H{"message": "This is a secure route"})
 			})
-
+			//OTP
 			api.POST("/send_otp", handler.SendOTP())
-			api.GET("/verify_otp/:otp", handler.VerifiOTP())
+			api.POST("/verify_otp/:otp", handler.VerifiOTP())
+			api.PATCH("/change_password/:otp", handler.ChangePassWord())
 
 			//admin
 			api.POST("/admin/sign_up", admin_login.AdminSignUp())
 			api.GET("/admin/sign_in", admin_login.AdminSignIn())
 			api.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
-			api.PATCH("/admin/forget_password/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminForgetPassword())
 			api.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminDelete())
 
 			//admin_function_member

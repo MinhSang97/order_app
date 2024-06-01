@@ -27,3 +27,7 @@ func (uc *otpUseCase) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 func (uc *otpUseCase) VerifyOtp(ctx context.Context, otp *model.OtpModel) error {
 	return uc.otpRepo.VerifyOtp(ctx, otp)
 }
+
+func (uc *otpUseCase) ChangePassword(ctx context.Context, otp_code string, otp *model.OtpModel) error {
+	return uc.otpRepo.ChangePassword(ctx, otp_code, otp)
+}

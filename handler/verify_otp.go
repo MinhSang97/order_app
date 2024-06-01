@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -33,8 +32,7 @@ func VerifiOTP() func(*gin.Context) {
 			})
 			return
 		}
-		fmt.Println(otp_code)
-		fmt.Println(req.Email)
+
 		if err := validate.Struct(req); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
