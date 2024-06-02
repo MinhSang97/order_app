@@ -25,6 +25,19 @@ func (s usersRepository) CreateUsers(ctx context.Context, users *users_model.Use
 		}
 		return errors.SignUpFail
 	}
+
+	// Insert into the user_addresses table
+	query := `INSERT INTO order_app.user_addresses (user_id, address) VALUES(?, ?);`
+	err = s.db.Exec(query, users.UserId, users.Address).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserConflict
+			}
+		}
+		return errors.SignUpFail
+	}
 	return nil
 }
 
@@ -43,7 +56,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 
 	// Step 2: Check if the role is "users"
 	if role != "users" {
-		return nil, errors.UserNotFound
+		return nil, errors.NotUsers
 	}
 
 	// Step 3: Proceed with the rest of the function if the role is "users"
@@ -89,6 +102,22 @@ func (s usersRepository) DeleteUsers(ctx context.Context, user_id string) error 
 	if err := s.db.Table("Users").Where("user_id = ?", user_id).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return errors.UserNotFound
+		}
+		return err
+	}
+
+	if user_id == "" {
+		return errors.UserNotFound
+	}
+
+	query := `DELETE FROM order_app.user_addresses WHERE user_id = ?;`
+	err := s.db.Exec(query, user_id).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserNotDeleted
+			}
 		}
 		return err
 	}

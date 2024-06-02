@@ -30,7 +30,7 @@ func (s adminFunctionRepository) AddUser(ctx context.Context, users *admin_model
 	// Insert into the users table
 	addUsers := `INSERT INTO order_app.users (user_id, pass_word, name, email, phone_number, address, role, created_at) 
 					VALUES(?,?,?,?,?,?,?,?);`
-	err := tx.Exec(addUsers, users.UserId, users.Password, users.Name, users.Name, users.PhoneNumber, users.Address, users.Role, time.Now()).Error
+	err := tx.Exec(addUsers, users.UserId, users.Password, users.Name, users.Email, users.PhoneNumber, users.Address, users.Role, time.Now()).Error
 	if err != nil {
 		tx.Rollback()
 		if driverErr, ok := err.(*mysql.MySQLError); ok {
@@ -107,6 +107,45 @@ func (s adminFunctionRepository) Edit(ctx context.Context, user_id string, users
 		}
 		return errors.SignUpFail
 	}
+	return nil
+}
+
+func (s adminFunctionRepository) DeleteUsers(ctx context.Context, email string) error {
+	var user_id string
+	// Check if user exists
+	if err := s.db.Table("Users").Where("email = ?", email).Select("user_id").Scan(&user_id).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return err
+	}
+
+	if user_id == "" {
+		return errors.UserNotFound
+	}
+	query := `DELETE FROM order_app.user_addresses WHERE user_id = ?;`
+	err := s.db.Exec(query, user_id).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserNotDeleted
+			}
+		}
+		return err
+	}
+
+	// If user exists, delete the user
+	deleteUsers := `DELETE FROM order_app.users WHERE user_id = ?;`
+	if err := s.db.Exec(deleteUsers, user_id).Error; err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+			if driverErr.Number == 1062 {
+				return errors.UserNotDeleted
+			}
+		}
+		return err
+	}
+
 	return nil
 }
 

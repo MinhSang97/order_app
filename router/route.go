@@ -44,6 +44,7 @@ func Route() {
 			api.GET("/admin/member_view", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
 			api.PATCH("/admin/member_edit/:user_id", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
 			api.POST("/admin/member_add", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberAdd())
+			api.DELETE("/admin/member_delete/:email", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberDelete())
 
 			//user
 			api.POST("/users/sign_up", users_login.UsersSignUp())

@@ -31,3 +31,8 @@ func (uc *adminFunctionUseCase) Edit(ctx context.Context, user_id string, users 
 func (uc *adminFunctionUseCase) AddUser(ctx context.Context, user *admin_model.AdminFunctionModel) error {
 	return uc.adminFunctionRepo.AddUser(ctx, user)
 }
+
+// DeleteUsers(ctx context.Context, users *admin_model.AdminFunctionModel) error
+func (uc *adminFunctionUseCase) DeleteUsers(ctx context.Context, email string) error {
+	return uc.adminFunctionRepo.DeleteUsers(ctx, email)
+}

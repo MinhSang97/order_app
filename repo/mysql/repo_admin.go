@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"context"
-	"fmt"
 	errors "github.com/MinhSang97/order_app/error"
 	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/model/admin_model"
@@ -110,13 +109,27 @@ func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin 
 
 func (s adminRepository) DeleteAdmin(ctx context.Context, user_id string) error {
 	var user users_model.Users
-	fmt.Println(user_id)
 
 	// Check if user exists
 	if err := s.db.Table("Users").Where("user_id = ?", user_id).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
 			return errors.UserNotFound
+		}
+		return err
+	}
+	if user_id == "" {
+		return errors.UserNotFound
+	}
+
+	query := `DELETE FROM order_app.user_addresses WHERE user_id = ?;`
+	err := s.db.Exec(query, user_id).Error
+	if err != nil {
+		if driverErr, ok := err.(*mysql.MySQLError); ok {
+
+			if driverErr.Number == 1062 {
+				return errors.UserNotDeleted
+			}
 		}
 		return err
 	}
