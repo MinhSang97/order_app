@@ -15,7 +15,7 @@ Order App is an application that allows users to place orders online.
 ## Clone project
 
 ```bash
-git clone https://github.com/thinh2k2004/giao-do-an-1ship.git
+git clone https://github.com/MinhSang97/order_app.git
 ```
 
 ## Check out to branch clear
