@@ -3,21 +3,20 @@ package redis
 import (
 	"context"
 	"fmt"
-	"github.com/redis/go-redis/v9"
+	"github.com/go-redis/redis/v8"
+	"github.com/joho/godotenv"
 	"log"
 	"os"
 	"strconv"
-
-	"github.com/joho/godotenv"
 )
 
 var RedisClient *redis.Client
 
 func ConnectRedis() *redis.Client {
-	// Load environment variables from ae.env file
+	// Load environment variables from .env file
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading ae.env file")
+		log.Fatal("Error loading .env file")
 	}
 
 	// Get environment variables

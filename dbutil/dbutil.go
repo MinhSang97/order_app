@@ -1,13 +1,12 @@
 package dbutil
 
 import (
-	"log"
-	"os"
-	"sync"
-
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"log"
+	"os"
+	"sync"
 )
 
 var (
@@ -17,9 +16,9 @@ var (
 
 func ConnectDB() *gorm.DB {
 	once.Do(func() {
-		err := godotenv.Load("ae.env") // Load environment variables from ae.env file
+		err := godotenv.Load(".env") // Load environment variables from .env file
 		if err != nil {
-			log.Fatal("Error loading ae.env file")
+			log.Fatal("Error loading .env file")
 		}
 
 		// Read environment variables
