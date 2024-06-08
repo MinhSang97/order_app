@@ -1,4 +1,4 @@
-package mysql
+package postgres
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/model"
 	"github.com/MinhSang97/order_app/repo"
-	"github.com/go-sql-driver/mysql"
+	"github.com/lib/pq"
 	"gorm.io/gorm"
 	"time"
 )
@@ -20,7 +20,7 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 	// Start a transaction
 	var user_id string
 	var cN int64
-	err := s.db.Table("Users").Select("user_id").Where("email = ?", otp.Email).Scan(&user_id).Count(&cN).Error
+	err := s.db.Table("users").Select("user_id").Where("email = ?", otp.Email).Scan(&user_id).Count(&cN).Error
 	if err != nil {
 		log.Error(err.Error())
 		if err == gorm.ErrRecordNotFound {
@@ -42,13 +42,13 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 		if err != nil {
 			return err
 		}
-		//fmt.Println("Số lượng bản ghi:", checkOTP)
+
 		if count == 1 {
 			// Tìm thấy bản ghi
-			query := `UPDATE order_app.recover_password SET otp= ?, created_at= ? WHERE user_id= ? AND email=?;`
+			query := `UPDATE recover_password SET otp= ?, created_at= ? WHERE user_id= ? AND email=?;`
 			if err := s.db.Exec(query, otpSave.Otp, otpSave.CreatedAt, otpSave.UserId, otpSave.Email).Error; err != nil {
-				if driverErr, ok := err.(*mysql.MySQLError); ok {
-					if driverErr.Number == 1452 {
+				if pgErr, ok := err.(*pq.Error); ok {
+					if pgErr.Code == "42P01" {
 						return errors.CreatOTPFail
 					}
 				}
@@ -57,10 +57,10 @@ func (s otpRepository) SendOtp(ctx context.Context, otp *model.OtpModel) error {
 
 		} else {
 			// Không tìm thấy bản ghi
-			query := `INSERT INTO order_app.recover_password ( user_id, email, otp, created_at) VALUES( ?, ?, ?, ?);`
+			query := `INSERT INTO recover_password ( user_id, email, otp, created_at) VALUES( ?, ?, ?, ?);`
 			if err := s.db.Exec(query, otpSave.UserId, otpSave.Email, otpSave.Otp, otpSave.CreatedAt).Error; err != nil {
-				if driverErr, ok := err.(*mysql.MySQLError); ok {
-					if driverErr.Number == 1452 {
+				if pgErr, ok := err.(*pq.Error); ok {
+					if pgErr.Code == "42P01" {
 						return errors.CreatOTPFail
 					}
 				}
@@ -99,7 +99,7 @@ func (s otpRepository) ChangePassword(ctx context.Context, otp_code string, otp 
 	if count == 0 {
 		return errors.OTPVerified
 	} else {
-		err := s.db.Table("Users").Select("user_id").Where("email = ?", otp.Email).Scan(&user_id).Error
+		err := s.db.Table("users").Select("user_id").Where("email = ?", otp.Email).Scan(&user_id).Error
 		if err != nil {
 			log.Error(err.Error())
 			if err == gorm.ErrRecordNotFound {
@@ -108,19 +108,19 @@ func (s otpRepository) ChangePassword(ctx context.Context, otp_code string, otp 
 			return err
 		}
 		fmt.Println(user_id)
-		query_users := `UPDATE order_app.users SET pass_word= ? WHERE email= ? AND user_id = ?;`
+		query_users := `UPDATE users SET pass_word= ? WHERE email= ? AND user_id = ?;`
 		if err := s.db.Exec(query_users, otp.PassWordNew, otp.Email, user_id).Error; err != nil {
-			if driverErr, ok := err.(*mysql.MySQLError); ok {
-				if driverErr.Number == 1452 {
+			if pgErr, ok := err.(*pq.Error); ok {
+				if pgErr.Code == "42P01" {
 					return errors.ChangePasswordByOTPFail
 				}
 			}
 			return errors.ChangePasswordByOTPFail
 		}
-		query_recover_password := `UPDATE order_app.recover_password SET password_new= ? WHERE otp= ? AND email=? AND user_id = ?;`
+		query_recover_password := `UPDATE recover_password SET password_new= ? WHERE otp= ? AND email=? AND user_id = ?;`
 		if err := s.db.Exec(query_recover_password, otp.PassWordNew, otp_code, otp.Email, user_id).Error; err != nil {
-			if driverErr, ok := err.(*mysql.MySQLError); ok {
-				if driverErr.Number == 1452 {
+			if pgErr, ok := err.(*pq.Error); ok {
+				if pgErr.Code == "42P01" {
 					return errors.ChangePasswordByOTPFail
 				}
 			}

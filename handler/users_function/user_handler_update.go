@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"github.com/MinhSang97/order_app/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	usersdto "github.com/MinhSang97/order_app/usecases/dto/users_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -12,10 +11,30 @@ import (
 )
 
 type UsersUpdateResponse struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name string `json:"name"`
+	//Email       string `json:"email"`
+	//PhoneNumber string `json:"phone_number"`
+	Sex       string `json:"sex"`
+	BirthDate string `json:"birth_date"`
+	Telegram  string `json:"telegram"`
 }
 
+// UsersUpdate godoc
+// @Summary Users can update
+// @Description Users can update
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Param name body string true "Name"
+// @Param sex body string true "Sex"
+// @Param birth_date body string true "BirthDate"
+// @Param telegram body string true "Telegram"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/update/{user_id} [patch]
 func UsersUpdate() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
@@ -47,11 +66,14 @@ func UsersUpdate() func(*gin.Context) {
 			return
 		}
 
-		PassHashNew := sercurity.HashAndSalt([]byte(req.PassWord))
+		//PassHashNew := sercurity.HashAndSalt([]byte(req.PassWord))
 		userUsers := usersdto.Users{
-			Name:     req.Name,
-			Email:    req.Email,
-			PassWord: PassHashNew,
+			Name: req.Name,
+			//Email:       req.Email,
+			//PhoneNumber: req.PhoneNumber,
+			Sex:       req.Sex,
+			BirthDate: req.BirthDate,
+			Telegram:  req.Telegram,
 		}
 
 		err := validate.Struct(userUsers)
@@ -78,8 +100,12 @@ func UsersUpdate() func(*gin.Context) {
 		}
 
 		usersUpdate := usersdto.Users{
-			Name:  req.Name,
-			Email: req.Email,
+			Name: req.Name,
+			//Email:       req.Email,
+			//PhoneNumber: req.PhoneNumber,
+			Sex:       req.Sex,
+			BirthDate: req.BirthDate,
+			Telegram:  req.Telegram,
 		}
 
 		c.JSON(http.StatusOK, res.Response{

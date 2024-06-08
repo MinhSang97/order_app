@@ -1,15 +1,3 @@
-# .PHONY: migrate-up migrate-down
-
-# # Pattern rule for migration
-# migrate-%:
-# 	$(eval CMD := $*)
-# 	cd db; \
-# 	sql-migrate $(CMD) -config=dbconfig.yml
-
-# # Explicit targets for up and down migrations
-# migrate-up: migrate-up
-# migrate-down: migrate-down
-
 .PHONY: migrate-up migrate-down
 
 migrate-up:
@@ -26,3 +14,7 @@ migrate-new:
 	timestamp=$$(date +"%Y%m%d%H%M%S"); \
 	echo "-- +migrate Up\n\n\n-- +migrate Down\n" > db/migrations/$$timestamp-$$name.sql; \
 	echo "Created migration file: db/migrations/$$timestamp-$$name.sql"
+
+#Run server:
+run:
+	cd cmd && go run main.go

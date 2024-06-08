@@ -1,0 +1,871 @@
+definitions:
+  res.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/api/admin/delete/{user_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin can delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can delete user
+      tags:
+      - admin
+  /v1/api/admin/member_add:
+    post:
+      consumes:
+      - application/json
+      description: Admin can add member
+      parameters:
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PassWord
+        in: body
+        name: pass_word
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      - description: Address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can add member
+      tags:
+      - adminfunction
+  /v1/api/admin/member_delete/{email}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin can delete member
+      parameters:
+      - description: Email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can delete member
+      tags:
+      - adminfunction
+  /v1/api/admin/member_edit/{user_id}:
+    patch:
+      consumes:
+      - application/json
+      description: Admin can edit member
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      - description: Address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: Role
+        in: body
+        name: role
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can edit member
+      tags:
+      - adminfunction
+  /v1/api/admin/member_viewall:
+    get:
+      consumes:
+      - application/json
+      description: Admin can view all member
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can view all member
+      tags:
+      - adminfunction
+  /v1/api/admin/sign_in:
+    post:
+      consumes:
+      - application/json
+      description: Admin can sign in
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PassWord
+        in: body
+        name: pass_word
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can sign in
+      tags:
+      - admin
+  /v1/api/admin/sign_up:
+    post:
+      consumes:
+      - application/json
+      description: Admin sign up with email and password
+      parameters:
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PassWord
+        in: body
+        name: pass_word
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      - description: Address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: Telegram
+        in: body
+        name: telegram
+        required: true
+        schema:
+          type: string
+      - description: Lat
+        in: body
+        name: lat
+        required: true
+        schema:
+          type: number
+      - description: Long
+        in: body
+        name: long
+        required: true
+        schema:
+          type: number
+      - description: WardId
+        in: body
+        name: ward_id
+        required: true
+        schema:
+          type: string
+      - description: WardText
+        in: body
+        name: ward_text
+        required: true
+        schema:
+          type: string
+      - description: DistrictId
+        in: body
+        name: district_id
+        required: true
+        schema:
+          type: string
+      - description: DistrictText
+        in: body
+        name: district_text
+        required: true
+        schema:
+          type: string
+      - description: ProvinceId
+        in: body
+        name: province_id
+        required: true
+        schema:
+          type: string
+      - description: ProvinceText
+        in: body
+        name: province_text
+        required: true
+        schema:
+          type: string
+      - description: NationalId
+        in: body
+        name: national_id
+        required: true
+        schema:
+          type: string
+      - description: NationalText
+        in: body
+        name: national_text
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin sign up with email and password
+      tags:
+      - admin
+  /v1/api/admin/update/{user_id}:
+    patch:
+      consumes:
+      - application/json
+      description: Admin can update information
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Sex
+        in: body
+        name: sex
+        required: true
+        schema:
+          type: string
+      - description: BirthDate
+        in: body
+        name: birth_date
+        required: true
+        schema:
+          type: string
+      - description: Telegram
+        in: body
+        name: telegram
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can update information
+      tags:
+      - admin
+  /v1/api/users/change_password/{otp}:
+    patch:
+      consumes:
+      - application/json
+      description: Users can change password
+      parameters:
+      - description: OTP
+        in: path
+        name: otp
+        required: true
+        type: string
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PassWordNew
+        in: body
+        name: pass_word_new
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can change password
+      tags:
+      - otp
+  /v1/api/users/delete/{user_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Delete user
+      tags:
+      - users
+  /v1/api/users/get-address/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: Users can get address
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can get address
+      tags:
+      - usersFunction
+  /v1/api/users/send_otp:
+    post:
+      consumes:
+      - application/json
+      description: Send OTP to email
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Send OTP to email
+      tags:
+      - otp
+  /v1/api/users/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: Users sign up with email and password
+      parameters:
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PassWord
+        in: body
+        name: pass_word
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      - description: Address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: Telegram
+        in: body
+        name: telegram
+        required: true
+        schema:
+          type: string
+      - description: Lat
+        in: body
+        name: lat
+        required: true
+        schema:
+          type: number
+      - description: Long
+        in: body
+        name: long
+        required: true
+        schema:
+          type: number
+      - description: WardId
+        in: body
+        name: ward_id
+        required: true
+        schema:
+          type: string
+      - description: WardText
+        in: body
+        name: ward_text
+        required: true
+        schema:
+          type: string
+      - description: DistrictId
+        in: body
+        name: district_id
+        required: true
+        schema:
+          type: string
+      - description: DistrictText
+        in: body
+        name: district_text
+        required: true
+        schema:
+          type: string
+      - description: ProvinceId
+        in: body
+        name: province_id
+        required: true
+        schema:
+          type: string
+      - description: ProvinceText
+        in: body
+        name: province_text
+        required: true
+        schema:
+          type: string
+      - description: NationalId
+        in: body
+        name: national_id
+        required: true
+        schema:
+          type: string
+      - description: NationalText
+        in: body
+        name: national_text
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users sign up with email and password
+      tags:
+      - users
+  /v1/api/users/sign_in:
+    post:
+      consumes:
+      - application/json
+      description: Users can sign in
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: PassWord
+        in: body
+        name: pass_word
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can sign in
+      tags:
+      - users
+  /v1/api/users/update/{user_id}:
+    patch:
+      consumes:
+      - application/json
+      description: Users can update
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Sex
+        in: body
+        name: sex
+        required: true
+        schema:
+          type: string
+      - description: BirthDate
+        in: body
+        name: birth_date
+        required: true
+        schema:
+          type: string
+      - description: Telegram
+        in: body
+        name: telegram
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can update
+      tags:
+      - users
+  /v1/api/users/verify_otp/{otp}:
+    patch:
+      consumes:
+      - application/json
+      description: Users can verify OTP
+      parameters:
+      - description: OTP
+        in: path
+        name: otp
+        required: true
+        type: string
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can verify OTP
+      tags:
+      - otp
+swagger: "2.0"

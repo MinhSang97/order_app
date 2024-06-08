@@ -5,7 +5,7 @@ import (
 	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/model"
 	"github.com/MinhSang97/order_app/repo"
-	"github.com/MinhSang97/order_app/repo/mysql"
+	"github.com/MinhSang97/order_app/repo/postgres"
 )
 
 type otpUseCase struct {
@@ -14,7 +14,7 @@ type otpUseCase struct {
 
 func NewOtpUseCase() OtpUsecase {
 	db := dbutil.ConnectDB()
-	otpRepo := mysql.NewOtpRepository(db)
+	otpRepo := postgres.NewOtpRepository(db)
 	return &otpUseCase{
 		otpRepo: otpRepo,
 	}

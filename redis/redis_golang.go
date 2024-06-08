@@ -14,10 +14,10 @@ import (
 var RedisClient *redis.Client
 
 func ConnectRedis() *redis.Client {
-	// Load environment variables from .env file
+	// Load environment variables from ae.env file
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatal("Error loading ae.env file")
 	}
 
 	// Get environment variables

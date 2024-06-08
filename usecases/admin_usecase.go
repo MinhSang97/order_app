@@ -1,11 +1,11 @@
 package usecases
 
 import (
+	"context"
 	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/model/admin_model"
 	"github.com/MinhSang97/order_app/repo"
-	"github.com/MinhSang97/order_app/repo/mysql"
-	"context"
+	"github.com/MinhSang97/order_app/repo/postgres"
 )
 
 type adminUseCase struct {
@@ -14,7 +14,7 @@ type adminUseCase struct {
 
 func NewAdminUseCase() AdminUsecase {
 	db := dbutil.ConnectDB()
-	adminRepo := mysql.NewAdminRepository(db)
+	adminRepo := postgres.NewAdminRepository(db)
 	return &adminUseCase{
 		adminRepo: adminRepo,
 	}

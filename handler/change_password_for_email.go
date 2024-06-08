@@ -16,6 +16,20 @@ type UsersUpdateResponse struct {
 	Email string `json:"email"`
 }
 
+// ChangePassWord godoc
+// @Summary Users can change password
+// @Description Users can change password
+// @Tags otp
+// @Accept json
+// @Produce json
+// @Param otp path string true "OTP"
+// @Param email body string true "Email"
+// @Param pass_word_new body string true "PassWordNew"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/change_password/{otp} [patch]
 func ChangePassWord() func(*gin.Context) {
 	return func(c *gin.Context) {
 		otp_code := c.Param("otp")

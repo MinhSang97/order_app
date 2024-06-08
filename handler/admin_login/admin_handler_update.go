@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"github.com/MinhSang97/order_app/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -12,10 +11,30 @@ import (
 )
 
 type AdminUpdateResponse struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name string `json:"name"`
+	//Email       string `json:"email"`
+	//PhoneNumber string `json:"phone_number"`
+	Sex       string `json:"sex"`
+	BirthDate string `json:"birth_date"`
+	Telegram  string `json:"telegram"`
 }
 
+// AdminUpdate godoc
+// @Summary Admin can update information
+// @Description Admin can update information
+// @Tags admin
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Param name body string true "Name"
+// @Param sex body string true "Sex"
+// @Param birth_date body string true "BirthDate"
+// @Param telegram body string true "Telegram"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/admin/update/{user_id} [patch]
 func AdminUpdate() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
@@ -47,11 +66,13 @@ func AdminUpdate() func(*gin.Context) {
 			return
 		}
 
-		PassHashNew := sercurity.HashAndSalt([]byte(req.PassWord))
 		userAdmin := admindto.Admin{
-			Name:     req.Name,
-			Email:    req.Email,
-			PassWord: PassHashNew,
+			Name: req.Name,
+			//Email:       req.Email,
+			//PhoneNumber: req.PhoneNumber,
+			Sex:       req.Sex,
+			BirthDate: req.BirthDate,
+			Telegram:  req.Telegram,
 		}
 
 		err := validate.Struct(userAdmin)
@@ -78,8 +99,12 @@ func AdminUpdate() func(*gin.Context) {
 		}
 
 		usersUpdate := AdminUpdateResponse{
-			Name:  req.Name,
-			Email: req.Email,
+			Name: req.Name,
+			//Email:       req.Email,
+			//PhoneNumber: req.PhoneNumber,
+			Sex:       req.Sex,
+			BirthDate: req.BirthDate,
+			Telegram:  req.Telegram,
 		}
 
 		c.JSON(http.StatusOK, res.Response{

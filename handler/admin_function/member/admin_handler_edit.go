@@ -10,6 +10,23 @@ import (
 	"net/http"
 )
 
+// AdminMemberEdit godoc
+// @Summary Admin can edit member
+// @Description Admin can edit member
+// @Tags adminfunction
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Param name body string true "Name"
+// @Param email body string true "Email"
+// @Param phone_number body string true "PhoneNumber"
+// @Param address body string true "Address"
+// @Param role body string true "Role"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/admin/member_edit/{user_id} [patch]
 func AdminMemberEdit() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")

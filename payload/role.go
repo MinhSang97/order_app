@@ -5,10 +5,10 @@ type Role int
 const (
 	ADMIN Role = iota
 	USERS
-	ADMIN1
-	ADMIN2
+	DRIVER
+	SHOP
 )
 
 func (r Role) String() string {
-	return []string{"ADMIN", "USERS"}[r]
+	return []string{"ADMIN", "USERS", "DRIVER", "SHOP"}[r]
 }

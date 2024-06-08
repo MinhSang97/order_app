@@ -1,0 +1,5 @@
+.env
+log_middleware/
+vendor/
+example/
+.idea/

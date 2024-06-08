@@ -1,37 +1,3 @@
-//package middleware
-//
-//import (
-//	"log"
-//	"os"
-//	"time"
-//)
-//
-//func SaveLogRequest() {
-//	// Lấy ngày hiện tại và định dạng thành chuỗi "2006-01-02"
-//	currentDate := time.Now().Format("2006-01-02")
-//
-//	// Tạo đường dẫn thư mục và tên tệp tin log
-//	logDirectory := "log_middleware"
-//	logFileName := logDirectory + "/log_middleware_" + currentDate + ".txt"
-//
-//	// Kiểm tra xem thư mục log có tồn tại không, nếu không tạo mới
-//	if _, err := os.Stat(logDirectory); os.IsNotExist(err) {
-//		err := os.Mkdir(logDirectory, os.ModePerm)
-//		if err != nil {
-//			log.Fatal(err)
-//		}
-//	}
-//
-//	// Mở hoặc tạo một tệp tin để lưu log middleware
-//	LogFile, err := os.OpenFile(logFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-//	if err != nil {
-//		log.Fatal(err)
-//	}
-//	defer LogFile.Close()
-//
-//	// Sử dụng middleware.Logger() để ghi log và đặt Output là tệp tin đã mở
-//}
-
 package middleware
 
 import (

@@ -19,6 +19,18 @@ import (
 
 var otpStore = make(map[string]string)
 
+// SendOTP godoc
+// @Summary Send OTP to email
+// @Description Send OTP to email
+// @Tags otp
+// @Accept json
+// @Produce json
+// @Param email body string true "Email"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/send_otp [post]
 func SendOTP() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate

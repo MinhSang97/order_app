@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/labstack/echo"
+
 	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
 	"io"
 	"os"
@@ -86,46 +87,6 @@ func InitLogger(forTest bool) *MyLogger {
 	return singletonLogger
 }
 
-// LoggerHandler middleware logs the information about each HTTP request.
-//
-//	func LoggerHandler(next gin.HandlerFunc) gin.HandlerFunc {
-//		return func(c *gin.Context) {
-//			req := ctx.Request
-//			if !strings.Contains(req.RequestURI, "healthcheck") {
-//				// add some default fields to the logger ~ on all messages
-//				logger := Log.WithFields(logrus.Fields{
-//					"id":          req.Header.Get(echo.HeaderXRequestID),
-//					"method":      req.Method,
-//					"ip":          ctx.RealIP(),
-//					"request_uri": req.RequestURI,
-//				})
-//				ctx.Set("logger", logger)
-//				startTime := time.Now()
-//
-//				defer func() {
-//					rsp := ctx.Response()
-//					// at the end we will want to log a few more interesting fields
-//					logger.WithFields(logrus.Fields{
-//						"status_code":  rsp.Status,
-//						"runtime_nano": time.Since(startTime).Nanoseconds(),
-//					}).Info("Finished request")
-//				}()
-//
-//				// now we will log out that we have actually started the request
-//				logger.WithFields(logrus.Fields{
-//					"id":             req.Header.Get(echo.HeaderXRequestID),
-//					"user_agent":     req.UserAgent(),
-//					"content_length": req.ContentLength,
-//				}).Info("Starting request")
-//			}
-//
-//			err := next(ctx)
-//			if err != nil {
-//				ctx.Error(err)
-//			}
-//			return err
-//		}
-//	}
 func LoggerHandler(next gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		req := c.Request // change from ctx.Request to c.Request

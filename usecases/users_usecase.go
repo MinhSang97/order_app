@@ -1,11 +1,11 @@
 package usecases
 
 import (
+	"context"
 	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/model/users_model"
 	"github.com/MinhSang97/order_app/repo"
-	"github.com/MinhSang97/order_app/repo/mysql"
-	"context"
+	"github.com/MinhSang97/order_app/repo/postgres"
 )
 
 type usersUseCase struct {
@@ -14,7 +14,7 @@ type usersUseCase struct {
 
 func NewUsersUseCase() UsersUsecase {
 	db := dbutil.ConnectDB()
-	usersRepo := mysql.NewUsersRepository(db)
+	usersRepo := postgres.NewUsersRepository(db)
 	return &usersUseCase{
 		usersRepo: usersRepo,
 	}
@@ -33,4 +33,8 @@ func (uc *usersUseCase) UpdateUsers(ctx context.Context, user_id string, users *
 
 func (uc *usersUseCase) DeleteUsers(ctx context.Context, user_id string) error {
 	return uc.usersRepo.DeleteUsers(ctx, user_id)
+}
+
+func (uc *usersUseCase) GetAddressUsersFunction(ctx context.Context, user_id string) (*users_model.UsersAddressModel, error) {
+	return uc.usersRepo.GetAddressUsersFunction(ctx, user_id)
 }

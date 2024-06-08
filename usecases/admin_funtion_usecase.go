@@ -5,7 +5,7 @@ import (
 	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/model/admin_model"
 	"github.com/MinhSang97/order_app/repo"
-	"github.com/MinhSang97/order_app/repo/mysql"
+	"github.com/MinhSang97/order_app/repo/postgres"
 )
 
 type adminFunctionUseCase struct {
@@ -14,7 +14,7 @@ type adminFunctionUseCase struct {
 
 func NewAdminFunctionUseCase() AdminFunctionUsecase {
 	db := dbutil.ConnectDB()
-	adminFunctionRepo := mysql.NewAdminFunctionUseCase(db)
+	adminFunctionRepo := postgres.NewAdminFunctionUseCase(db)
 	return &adminFunctionUseCase{
 		adminFunctionRepo: adminFunctionRepo,
 	}

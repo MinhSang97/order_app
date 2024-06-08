@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/MinhSang97/order_app/usecases"
@@ -8,8 +9,30 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UsersDelete godoc
+// @Summary Delete user
+// @Description Delete user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/delete/{user_id} [delete]
 func UsersDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
+		// Trích xuất Bear token từ tiêu đề yêu cầu
+		token1 := c.GetHeader("Authorization")
+		if token1 == "" {
+			c.JSON(http.StatusUnauthorized, gin.H{
+				"error": "Missing authorization token",
+			})
+			return
+		}
+		fmt.Println("token1: ", token1)
+
 		user_id := c.Param("user_id")
 
 		if user_id == "" {

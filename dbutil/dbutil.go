@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/joho/godotenv"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -17,22 +17,23 @@ var (
 
 func ConnectDB() *gorm.DB {
 	once.Do(func() {
-		err := godotenv.Load(".env") // Load environment variables from .env file
+		err := godotenv.Load("ae.env") // Load environment variables from ae.env file
 		if err != nil {
-			log.Fatal("Error loading .env file")
+			log.Fatal("Error loading ae.env file")
 		}
 
 		// Read environment variables
 		dbUser := os.Getenv("DB_USER")
 		dbPass := os.Getenv("DB_PASS")
-		dbIP := os.Getenv("DB_IP")
+		dbHost := os.Getenv("HOST")
 		dbPort := os.Getenv("DB_PORT")
 		dbName := os.Getenv("DB_NAME")
-
+		sslMode := os.Getenv("SSL_MODE")
+		timezone := os.Getenv("TIMEZONE")
 		// Construct DSN
-		dsn := dbUser + ":" + dbPass + "@tcp(" + dbIP + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
+		dsn := "host=" + dbHost + " port=" + dbPort + " user=" + dbUser + " password=" + dbPass + " dbname=" + dbName + " sslmode=" + sslMode + " TimeZone=" + timezone
 
-		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 		if err != nil {
 			log.Fatal(err)
 		}

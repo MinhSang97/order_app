@@ -8,6 +8,17 @@ import (
 	"net/http"
 )
 
+// AdminMemberView godoc
+// @Summary Admin can view all member
+// @Description Admin can view all member
+// @Tags adminfunction
+// @Accept json
+// @Produce json
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/admin/member_viewall [get]
 func AdminMemberView() func(*gin.Context) {
 	return func(c *gin.Context) {
 

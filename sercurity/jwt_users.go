@@ -1,43 +1,3 @@
-//package sercurity
-//
-//import (
-//	"fmt"
-//	"github.com/MinhSang97/order_app/usecases/dto/admin_dto"
-//	usersdto "github.com/MinhSang97/order_app/usecases/dto/users_dto"
-//	"sync"
-//
-//	"github.com/golang-jwt/jwt"
-//	"time"
-//)
-//
-//const SECRET_KEY_USERS = "userssecretkeylear"
-//
-//type JwtCustomClaimsUsers struct {
-//	UserId string
-//	Role   string
-//	jwt.StandardClaims
-//}
-//
-//func GenTokenUsers(user usersdto.Users) (string, error) {
-//	claims := &JwtCustomClaims{
-//		UserId: user.UserId,
-//		Role:   user.Role,
-//		StandardClaims: jwt.StandardClaims{
-//			ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
-//		},
-//	}
-//
-//	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-//	result, err := token.SignedString([]byte(SECRET_KEY_USERS))
-//	if err != nil {
-//		fmt.Println("Loi tao token", err.Error())
-//		return "Tao Token Loi!", err
-//	}
-//
-//	return result, nil
-//
-//}
-
 package sercurity
 
 import (
@@ -76,7 +36,7 @@ func GenTokenUsers(user usersdto.Users) (string, error) {
 		UserId: user.UserId,
 		Role:   user.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Second * 30).Unix(),
+			ExpiresAt: time.Now().Add(time.Hour * 8).Unix(),
 		},
 	}
 

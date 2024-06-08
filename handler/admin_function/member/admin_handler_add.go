@@ -12,8 +12,26 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"net/http"
+	"strings"
 )
 
+// AdminMemberAdd godoc
+// @Summary Admin can add member
+// @Description Admin can add member
+// @Tags adminfunction
+// @Accept json
+// @Produce json
+// @Param name body string true "Name"
+// @Param email body string true "Email"
+// @Param pass_word body string true "PassWord"
+// @Param phone_number body string true "PhoneNumber"
+// @Param address body string true "Address"
+// @Param role body string true "Role"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/admin/member_add [post]
 func AdminMemberAdd() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
@@ -43,6 +61,10 @@ func AdminMemberAdd() func(*gin.Context) {
 			reqRole = payload.ADMIN.String()
 		} else if req.Role == "users" {
 			reqRole = payload.USERS.String()
+		} else if req.Role == "shipper" {
+			reqRole = payload.DRIVER.String()
+		} else if req.Role == "shop" {
+			reqRole = payload.SHOP.String()
 		} else {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -69,7 +91,7 @@ func AdminMemberAdd() func(*gin.Context) {
 			Name:        req.Name,
 			PassWord:    PassHash,
 			Email:       req.Email,
-			Role:        role,
+			Role:        strings.ToLower(role),
 			PhoneNumber: req.PhoneNumber,
 			Address:     req.Address,
 		}

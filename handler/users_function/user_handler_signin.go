@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/MinhSang97/order_app/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
-	"github.com/MinhSang97/order_app/usecases/dto/admin_dto"
+	"github.com/MinhSang97/order_app/usecases/dto/users_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -11,10 +11,10 @@ import (
 	"net/http"
 )
 
-// AdminSignIn godoc
-// @Summary Admin can sign in
-// @Description Admin can sign in
-// @Tags admin
+// UsersSignIn godoc
+// @Summary Users can sign in
+// @Description Users can sign in
+// @Tags users
 // @Accept json
 // @Produce json
 // @Param email body string true "Email"
@@ -24,8 +24,8 @@ import (
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
-// @Router /v1/api/admin/sign_in [post]
-func AdminSignIn() func(*gin.Context) {
+// @Router /v1/api/users/sign_in [post]
+func UsersSignIn() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
@@ -39,7 +39,6 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 
-		//vl
 		if err := validate.Struct(req); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -49,7 +48,7 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 		//gen token
-		token, err := sercurity.GenTokenAdmin(admin_dto.Admin{})
+		token, err := sercurity.GenTokenUsers(users_dto.Users{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -59,14 +58,14 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		userAdmin := admin_dto.ReqSignIn{
+		users := users_dto.ReqSignIn{
 			PassWord:    PassHash,
 			Email:       req.Email,
 			Token:       token,
 			PhoneNumber: req.PhoneNumber,
 		}
 
-		err = validate.Struct(userAdmin)
+		err = validate.Struct(users)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -75,10 +74,10 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 
-		data := userAdmin.ToPayload().ToModel()
-		uc := usecases.NewAdminUseCase()
+		data := users.ToPayload().ToModel()
+		uc := usecases.NewUsersUseCase()
 
-		adminPass, err := uc.GetAdmin(c.Request.Context(), data)
+		usersPass, err := uc.GetUsers(c.Request.Context(), data)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, res.Response{
 				StatusCode: http.StatusUnauthorized,
@@ -89,7 +88,7 @@ func AdminSignIn() func(*gin.Context) {
 		}
 
 		//check pass
-		isTheSame := sercurity.ComparePasswords(adminPass.PassWord, []byte(req.PassWord))
+		isTheSame := sercurity.ComparePasswords(usersPass.PassWord, []byte(req.PassWord))
 		if !isTheSame {
 			c.JSON(http.StatusUnauthorized, res.Response{
 				StatusCode: http.StatusUnauthorized,
@@ -102,7 +101,7 @@ func AdminSignIn() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       "Token: " + adminPass.Token,
+			Data:       "Token: " + usersPass.Token,
 		})
 
 	}

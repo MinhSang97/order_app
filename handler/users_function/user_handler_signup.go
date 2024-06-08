@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/payload"
 	"github.com/MinhSang97/order_app/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
-	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
+	usersdto "github.com/MinhSang97/order_app/usecases/dto/users_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// AdminSignUp godoc
-// @Summary Admin sign up with email and password
-// @Description Admin sign up with email and password
-// @Tags admin
+// UsersSignUp godoc
+// @Summary Users sign up with email and password
+// @Description Users sign up with email and password
+// @Tags users
 // @Accept  json
 // @Produce  json
 // @Param   name     body   string     true       "Name"
@@ -41,8 +42,8 @@ import (
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
-// @Router /v1/api/admin/sign_up [post]
-func AdminSignUp() func(*gin.Context) {
+// @Router /v1/api/users/sign-up [post]
+func UsersSignUp() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
@@ -55,7 +56,7 @@ func AdminSignUp() func(*gin.Context) {
 			})
 			return
 		}
-
+		fmt.Println("req", req)
 		if err := validate.Struct(req); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -66,9 +67,9 @@ func AdminSignUp() func(*gin.Context) {
 		}
 
 		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		role := payload.ADMIN.String()
+		role := payload.USERS.String()
 
-		userAdminId, err := uuid.NewUUID()
+		userUsersId, err := uuid.NewUUID()
 
 		if err != nil {
 			log.Error(err.Error())
@@ -80,8 +81,8 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		userAdmin := admindto.Admin{
-			UserId:       userAdminId.String(),
+		userUsers := usersdto.Users{
+			UserId:       userUsersId.String(),
 			Name:         req.Name,
 			PassWord:     PassHash,
 			Email:        req.Email,
@@ -101,7 +102,7 @@ func AdminSignUp() func(*gin.Context) {
 			NationalText: req.NationalText,
 		}
 
-		err = validate.Struct(userAdmin)
+		err = validate.Struct(userUsers)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -110,10 +111,10 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		data := userAdmin.ToPayload().ToModel()
-		uc := usecases.NewAdminUseCase()
+		data := userUsers.ToPayload().ToModel()
+		uc := usecases.NewUsersUseCase()
 
-		err = uc.CreateAdmin(c.Request.Context(), data)
+		err = uc.CreateUsers(c.Request.Context(), data)
 
 		if err != nil {
 			c.JSON(http.StatusConflict, res.Response{

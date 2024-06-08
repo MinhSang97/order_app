@@ -7,16 +7,18 @@ import (
 )
 
 type GetAdminRequest struct {
-	PassWord string `json:"-" db:"password, omitempty" validate:"required"`
-	Email    string `json:"email,omitempty" db:"email, omitempty" validate:"required"`
-	Token    string `json:"token,omitempty" db:"token, omitempty" validate:"required"`
+	PassWord    string `json:"-" db:"password, omitempty" validate:"required"`
+	Email       string `json:"email,omitempty" db:"email, omitempty" validate:"required"`
+	Token       string `json:"token,omitempty" db:"token, omitempty" validate:"required"`
+	PhoneNumber string `json:"phone_number,omitempty" db:"phone_number, omitempty" validate:"required"`
 }
 
 func (c *GetAdminRequest) ToModel() *admin_model.ReqSignIn {
 	admin := &admin_model.ReqSignIn{
-		PassWord: c.PassWord,
-		Email:    c.Email,
-		Token:    c.Token,
+		PassWord:    c.PassWord,
+		Email:       c.Email,
+		Token:       c.Token,
+		PhoneNumber: c.PhoneNumber,
 	}
 
 	return admin
