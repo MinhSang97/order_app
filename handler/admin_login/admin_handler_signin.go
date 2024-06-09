@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/MinhSang97/order_app/sercurity"
+	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -49,7 +49,7 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 		//gen token
-		token, err := sercurity.GenTokenAdmin(admin_dto.Admin{})
+		token, err := sercurity2.GenTokenAdmin(admin_dto.Admin{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -58,7 +58,7 @@ func AdminSignIn() func(*gin.Context) {
 			})
 			return
 		}
-		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
+		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
 		userAdmin := admin_dto.ReqSignIn{
 			PassWord:    PassHash,
 			Email:       req.Email,
@@ -89,7 +89,7 @@ func AdminSignIn() func(*gin.Context) {
 		}
 
 		//check pass
-		isTheSame := sercurity.ComparePasswords(adminPass.PassWord, []byte(req.PassWord))
+		isTheSame := sercurity2.ComparePasswords(adminPass.PassWord, []byte(req.PassWord))
 		if !isTheSame {
 			c.JSON(http.StatusUnauthorized, res.Response{
 				StatusCode: http.StatusUnauthorized,

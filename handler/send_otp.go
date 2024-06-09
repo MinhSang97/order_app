@@ -1,20 +1,14 @@
 package handler
 
 import (
-	"fmt"
-	"github.com/MinhSang97/order_app/log"
+	"github.com/MinhSang97/order_app/pkg/otp"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"gopkg.in/gomail.v2"
-	"math/rand"
 	"net/http"
-	"os"
-	"strconv"
-	"time"
 )
 
 var otpStore = make(map[string]string)
@@ -55,12 +49,12 @@ func SendOTP() func(*gin.Context) {
 			return
 		}
 
-		otp := generateOTP()
-		otpStore[req.Email] = otp
+		GenOtp := otp.GenerateOTP()
+		otpStore[req.Email] = GenOtp
 
 		otpData := dto.OtpDto{
 			Email: req.Email,
-			Otp:   otp,
+			Otp:   GenOtp,
 		}
 		err := validate.Struct(otpData)
 		if err != nil {
@@ -82,7 +76,8 @@ func SendOTP() func(*gin.Context) {
 			})
 			return
 		}
-		if err := sendEmail(req.Email, otp); err != nil {
+
+		if err := otp.SendEmail(req.Email, GenOtp); err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
 				Message:    err.Error(),
@@ -97,36 +92,4 @@ func SendOTP() func(*gin.Context) {
 			Data:       "OTP sent to email " + req.Email,
 		})
 	}
-}
-
-func generateOTP() string {
-	rand.Seed(time.Now().UnixNano())
-	return fmt.Sprintf("%04d", rand.Intn(1000000))
-}
-func sendEmail(to string, otp string) error {
-	m := gomail.NewMessage()
-	m.SetHeader("From", os.Getenv("SMTP_USERNAME"))
-	m.SetHeader("To", to)
-	m.SetHeader("Subject", "Your OTP Code")
-	m.SetBody("text/plain", fmt.Sprintf("Your OTP code is: %s", otp))
-
-	smtpHost := os.Getenv("SMTP_HOST")
-	smtpPort := os.Getenv("SMTP_PORT")
-	smtpUsername := os.Getenv("SMTP_USERNAME")
-	smtpPassword := os.Getenv("SMTP_PASSWORD")
-
-	port, err := strconv.Atoi(smtpPort)
-	if err != nil {
-		log.Printf("Invalid SMTP port: %v", err)
-		return err
-	}
-
-	d := gomail.NewDialer(smtpHost, port, smtpUsername, smtpPassword)
-
-	if err := d.DialAndSend(m); err != nil {
-		// Log the error
-		log.Printf("Failed to send email to %s: %v", to, err)
-		return err
-	}
-	return nil
 }

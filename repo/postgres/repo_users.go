@@ -2,9 +2,9 @@ package postgres
 
 import (
 	"context"
-	errors "github.com/MinhSang97/order_app/error"
-	"github.com/MinhSang97/order_app/log"
 	"github.com/MinhSang97/order_app/model/users_model"
+	"github.com/MinhSang97/order_app/pkg/error"
+	"github.com/MinhSang97/order_app/pkg/log"
 	"github.com/MinhSang97/order_app/repo"
 	"github.com/lib/pq"
 	"gorm.io/gorm"

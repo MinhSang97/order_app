@@ -1,9 +1,8 @@
 package member
 
 import (
-	"github.com/MinhSang97/order_app/log"
-	"github.com/MinhSang97/order_app/payload"
-	"github.com/MinhSang97/order_app/sercurity"
+	"github.com/MinhSang97/order_app/pkg/log"
+	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -55,16 +54,16 @@ func AdminMemberAdd() func(*gin.Context) {
 			return
 		}
 
-		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
+		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
 		var reqRole string
 		if req.Role == "admin" {
-			reqRole = payload.ADMIN.String()
+			reqRole = sercurity2.ADMIN.String()
 		} else if req.Role == "users" {
-			reqRole = payload.USERS.String()
+			reqRole = sercurity2.USERS.String()
 		} else if req.Role == "shipper" {
-			reqRole = payload.DRIVER.String()
+			reqRole = sercurity2.DRIVER.String()
 		} else if req.Role == "shop" {
-			reqRole = payload.SHOP.String()
+			reqRole = sercurity2.SHOP.String()
 		} else {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,

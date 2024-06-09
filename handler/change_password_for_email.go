@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/MinhSang97/order_app/sercurity"
+	"github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"

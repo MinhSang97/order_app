@@ -1,9 +1,8 @@
 package handler
 
 import (
-	"github.com/MinhSang97/order_app/log"
-	"github.com/MinhSang97/order_app/payload"
-	"github.com/MinhSang97/order_app/sercurity"
+	"github.com/MinhSang97/order_app/pkg/log"
+	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -65,8 +64,8 @@ func AdminSignUp() func(*gin.Context) {
 			return
 		}
 
-		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		role := payload.ADMIN.String()
+		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
+		role := sercurity2.ADMIN.String()
 
 		userAdminId, err := uuid.NewUUID()
 

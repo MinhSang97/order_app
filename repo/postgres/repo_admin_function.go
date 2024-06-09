@@ -3,8 +3,8 @@ package postgres
 import (
 	"context"
 	"fmt"
-	errors "github.com/MinhSang97/order_app/error"
 	"github.com/MinhSang97/order_app/model/admin_model"
+	"github.com/MinhSang97/order_app/pkg/error"
 	"github.com/MinhSang97/order_app/redis"
 	"github.com/MinhSang97/order_app/repo"
 	"github.com/lib/pq"

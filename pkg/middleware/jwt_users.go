@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"github.com/MinhSang97/order_app/sercurity"
-	"github.com/MinhSang97/order_app/sercurity/claims"
+	"github.com/MinhSang97/order_app/pkg/sercurity"
+	"github.com/MinhSang97/order_app/pkg/sercurity/claims"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"strings"

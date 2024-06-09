@@ -1,5 +1,12 @@
 .PHONY: migrate-up migrate-down
 
+# Docker commands:
+docker up:
+	docker compose up -d
+
+docker down:
+	docker compose down
+
 migrate-up:
 	cd db && sql-migrate up -config=dbconfig.yml
 

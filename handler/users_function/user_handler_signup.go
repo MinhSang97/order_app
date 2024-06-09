@@ -2,9 +2,8 @@ package handler
 
 import (
 	"fmt"
-	"github.com/MinhSang97/order_app/log"
-	"github.com/MinhSang97/order_app/payload"
-	"github.com/MinhSang97/order_app/sercurity"
+	"github.com/MinhSang97/order_app/pkg/log"
+	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	usersdto "github.com/MinhSang97/order_app/usecases/dto/users_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -66,8 +65,8 @@ func UsersSignUp() func(*gin.Context) {
 			return
 		}
 
-		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
-		role := payload.USERS.String()
+		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
+		role := sercurity2.USERS.String()
 
 		userUsersId, err := uuid.NewUUID()
 

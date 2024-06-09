@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/MinhSang97/order_app/sercurity"
+	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto/users_dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -48,7 +48,7 @@ func UsersSignIn() func(*gin.Context) {
 			return
 		}
 		//gen token
-		token, err := sercurity.GenTokenUsers(users_dto.Users{})
+		token, err := sercurity2.GenTokenUsers(users_dto.Users{})
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, res.Response{
 				StatusCode: http.StatusInternalServerError,
@@ -57,7 +57,7 @@ func UsersSignIn() func(*gin.Context) {
 			})
 			return
 		}
-		PassHash := sercurity.HashAndSalt([]byte(req.PassWord))
+		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
 		users := users_dto.ReqSignIn{
 			PassWord:    PassHash,
 			Email:       req.Email,
@@ -88,7 +88,7 @@ func UsersSignIn() func(*gin.Context) {
 		}
 
 		//check pass
-		isTheSame := sercurity.ComparePasswords(usersPass.PassWord, []byte(req.PassWord))
+		isTheSame := sercurity2.ComparePasswords(usersPass.PassWord, []byte(req.PassWord))
 		if !isTheSame {
 			c.JSON(http.StatusUnauthorized, res.Response{
 				StatusCode: http.StatusUnauthorized,
