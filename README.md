@@ -21,7 +21,7 @@ git clone https://github.com/MinhSang97/order_app.git
 ## Move to oneship folder
 
 ```bash
-cd oneship
+cd order_app
 ```
 
 ## Install dependencies
