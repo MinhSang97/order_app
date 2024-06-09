@@ -20,9 +20,11 @@ git clone https://github.com/MinhSang97/order_app.git
 
 ## Check out to branch clear
 
-```bash
-git checkout clear
-```
+[//]: # (```bash)
+
+[//]: # (git checkout clear)
+
+[//]: # (```)
 
 ## Move to oneship folder
 
