@@ -37,6 +37,7 @@ import (
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
 // @Router /v1/api/users/change-address-default/{user_id} [patch]
+
 func UsersChangeAddressDefault() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
