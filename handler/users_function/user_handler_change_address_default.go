@@ -47,7 +47,7 @@ func UsersChangeAddressDefault() func(*gin.Context) {
 			})
 			return
 		}
-		///
+
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
 		req := req.ReqAddress{}
