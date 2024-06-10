@@ -38,7 +38,7 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 
 	// Insert into the user_addresses table
 	queryUserAddress := `INSERT INTO user_addresses (user_id, address, lat, long, ward_id, ward_text, district_id, district_text, province_id, province_text, national_id, national_text, address_default, name, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15);`
-	if err := tx.Exec(queryUserAddress, admin.UserId, admin.Address, admin.Lat, admin.Long, admin.WardId, admin.WardText, admin.DistrictId, admin.DistrictText, admin.ProvinceId, admin.ProvinceText, admin.NationalId, admin.NationalText, "default", admin.Name, admin.PhoneNumber).Error; err != nil {
+	if err := tx.Exec(queryUserAddress, admin.UserId, admin.Address, admin.Lat, admin.Long, admin.WardId, admin.WardText, admin.DistrictId, admin.DistrictText, admin.ProvinceId, admin.ProvinceText, admin.NationalId, admin.NationalText, "no", admin.Name, admin.PhoneNumber).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "23502" {

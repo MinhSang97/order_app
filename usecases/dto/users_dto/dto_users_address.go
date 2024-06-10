@@ -7,7 +7,7 @@ type UsersAddressDto struct {
 	Address        string  `json:"address,omitempty"`
 	Name           string  `json:"name,omitempty"`
 	PhoneNumber    string  `json:"phone_number,omitempty"`
-	Type           string  `json:"type,omitempty"`
+	TypeAddress    string  `json:"type_address,omitempty"`
 	AddressDefault string  `json:"address_default,omitempty"`
 	Lat            float64 `json:"lat,omitempty"`
 	Long           float64 `json:"long,omitempty"`
@@ -27,7 +27,7 @@ func (c *UsersAddressDto) ToPayload() *users_payload.UsersAddressPayload {
 		Address:        c.Address,
 		Name:           c.Name,
 		PhoneNumber:    c.PhoneNumber,
-		Type:           c.Type,
+		TypeAddress:    c.TypeAddress,
 		AddressDefault: c.AddressDefault,
 		Lat:            c.Lat,
 		Long:           c.Long,

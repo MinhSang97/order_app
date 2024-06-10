@@ -10,7 +10,7 @@ type UsersAddressModel struct {
 	Address        string  `json:"address,omitempty"`
 	Name           string  `json:"name,omitempty"`
 	PhoneNumber    string  `json:"phone_number,omitempty"`
-	Type           string  `json:"type,omitempty"`
+	TypeAddress    string  `json:"type_address,omitempty"`
 	AddressDefault string  `json:"address_default,omitempty"`
 	Lat            float64 `json:"lat,omitempty"`
 	Long           float64 `json:"long,omitempty"`

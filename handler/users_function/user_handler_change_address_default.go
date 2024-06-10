@@ -10,9 +10,9 @@ import (
 	"net/http"
 )
 
-// UsersAddAddress godoc
-// @Summary Users can add address
-// @Description Users can add address
+// UsersChangeAddressDefault godoc
+// @Summary Users can change address default
+// @Description Users can change address default
 // @Tags usersFunction
 // @Accept json
 // @Produce json
@@ -36,8 +36,8 @@ import (
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
-// @Router /v1/api/users/add-address/{user_id} [post]
-func UsersAddAddress() func(*gin.Context) {
+// @Router /v1/api/users/change-address-default/{user_id} [patch]
+func UsersChangeAddressDefault() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
 		if user_id == "" || user_id == ":user_id" {
@@ -86,7 +86,7 @@ func UsersAddAddress() func(*gin.Context) {
 		}
 		data := userAddress.ToPayload().ToModel()
 		uc := usecases.NewUsersUseCase()
-		err = uc.AddAddressUsersFunction(c.Request.Context(), user_id, data)
+		err = uc.DefaultAddressUsersFunction(c.Request.Context(), user_id, data)
 		if err != nil {
 			c.JSON(http.StatusConflict, res.Response{
 				StatusCode: http.StatusConflict,
@@ -98,7 +98,7 @@ func UsersAddAddress() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       "UserID: " + user_id + " đã thêm địa chỉ thành công",
+			Data:       "UserID: " + user_id + " đã thêm địa chỉ mặc định thành công",
 		})
 	}
 }

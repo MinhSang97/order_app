@@ -28,12 +28,12 @@ CREATE TABLE recover_password (
 
 CREATE TABLE user_addresses (
    address_id SERIAL PRIMARY KEY,
-   user_id VARCHAR(255),
+   user_id VARCHAR(255) NOT NULL,
    address VARCHAR(255),
    name VARCHAR(100) NOT NULL,
-   phone_number VARCHAR(15) NOT NULL,
-   type VARCHAR(255) CHECK (type IN ('home', 'office', 'other')) DEFAULT NULL,
-   address_default VARCHAR(255),
+   phone_number VARCHAR(15) NOT NULL UNIQUE,
+   type_address VARCHAR(255) CHECK (type_address IN ('home', 'office', 'other')) DEFAULT NULL,
+   address_default VARCHAR(255) CHECK (address_default IN ('yes', 'no')) DEFAULT NULL,
    lat DECIMAL(10, 8),
    long DECIMAL(11, 8),
    ward_id VARCHAR(255),

@@ -75,6 +75,7 @@ func Route() {
 			//user_function
 			api.GET("/users/get_address/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersGetAddress())
 			api.POST("/users/add_address/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersAddAddress())
+			api.PATCH("/users/change_address_default/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersChangeAddressDefault())
 
 		}
 	}

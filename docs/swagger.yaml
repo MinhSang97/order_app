@@ -580,6 +580,129 @@ paths:
       summary: Users can add address
       tags:
       - usersFunction
+  /v1/api/users/change-address-default/{user_id}:
+    patch:
+      consumes:
+      - application/json
+      description: Users can change address default
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: PhoneNumber
+        in: body
+        name: phone_number
+        required: true
+        schema:
+          type: string
+      - description: Type
+        in: body
+        name: type
+        required: true
+        schema:
+          type: string
+      - description: AddressDefault
+        in: body
+        name: address_default
+        required: true
+        schema:
+          type: string
+      - description: Lat
+        in: body
+        name: lat
+        required: true
+        schema:
+          type: number
+      - description: Long
+        in: body
+        name: long
+        required: true
+        schema:
+          type: number
+      - description: WardId
+        in: body
+        name: ward_id
+        required: true
+        schema:
+          type: string
+      - description: WardText
+        in: body
+        name: ward_text
+        required: true
+        schema:
+          type: string
+      - description: DistrictId
+        in: body
+        name: district_id
+        required: true
+        schema:
+          type: string
+      - description: DistrictText
+        in: body
+        name: district_text
+        required: true
+        schema:
+          type: string
+      - description: ProvinceId
+        in: body
+        name: province_id
+        required: true
+        schema:
+          type: string
+      - description: ProvinceText
+        in: body
+        name: province_text
+        required: true
+        schema:
+          type: string
+      - description: NationalId
+        in: body
+        name: national_id
+        required: true
+        schema:
+          type: string
+      - description: NationalText
+        in: body
+        name: national_text
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can change address default
+      tags:
+      - usersFunction
   /v1/api/users/change_password/{otp}:
     patch:
       consumes:

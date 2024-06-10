@@ -4,7 +4,7 @@ type ReqAddress struct {
 	Address        string  `json:"address,omitempty" validate:"required"`
 	Name           string  `json:"name,omitempty" validate:"required"`
 	PhoneNumber    string  `json:"phone_number,omitempty" validate:"required"`
-	Type           string  `json:"type,omitempty" validate:"required"`
+	TypeAddress    string  `json:"type_address,omitempty" validate:"required"`
 	AddressDefault string  `json:"address_default,omitempty"`
 	Lat            float64 `json:"lat,omitempty" validate:"required"`
 	Long           float64 `json:"long,omitempty" validate:"required"`

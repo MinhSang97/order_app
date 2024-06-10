@@ -36,7 +36,7 @@ func (s usersRepository) CreateUsers(ctx context.Context, users *users_model.Use
 
 	// Insert into the user_addresses table
 	queryUserAddress := `INSERT INTO user_addresses (user_id, address, lat, long, ward_id, ward_text, district_id, district_text, province_id, province_text, national_id, national_text, address_default, name, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15);`
-	if err := tx.Exec(queryUserAddress, users.UserId, users.Address, users.Lat, users.Long, users.WardId, users.WardText, users.DistrictId, users.DistrictText, users.ProvinceId, users.ProvinceText, users.NationalId, users.NationalText, "default", users.Name, users.PhoneNumber).Error; err != nil {
+	if err := tx.Exec(queryUserAddress, users.UserId, users.Address, users.Lat, users.Long, users.WardId, users.WardText, users.DistrictId, users.DistrictText, users.ProvinceId, users.ProvinceText, users.NationalId, users.NationalText, "yes", users.Name, users.PhoneNumber).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "42P01" {
@@ -175,15 +175,30 @@ func (s usersRepository) GetAddressUsersFunction(ctx context.Context, user_id st
 }
 
 func (s usersRepository) AddAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error {
+	err := s.db.Table("user_addresses").Where("user_id = ?", user_id).Update("address_default", "no").Error
+	if err != nil {
+		return errors.DefaultAddressFail
+
+	}
 	// Start a transaction
 	tx := s.db.Begin()
 	if tx.Error != nil {
 		return errors.AddAddressFail
 	}
-
+	var address_default string
+	err = s.db.Table("user_addresses").Select("address_default").Where("user_id = ?", user_id).Scan(&address_default).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserAddressNotFound
+		}
+		return errors.AddAddressFail
+	}
+	if address_default == "yes" {
+		address.AddressDefault = "no"
+	}
 	// Insert into the user_addresses table
-	queryUserAddress := `INSERT INTO user_addresses (user_id, address, lat, long, ward_id, ward_text, district_id, district_text, province_id, province_text, national_id, national_text, address_default, name, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15);`
-	if err := tx.Exec(queryUserAddress, user_id, address.Address, address.Lat, address.Long, address.WardId, address.WardText, address.DistrictId, address.DistrictText, address.ProvinceId, address.ProvinceText, address.NationalId, address.NationalText, address.AddressDefault, address.Name, address.PhoneNumber).Error; err != nil {
+	queryUserAddress := `INSERT INTO user_addresses (user_id, address, lat, long, ward_id, ward_text, district_id, district_text, province_id, province_text, national_id, national_text, address_default, name, phone_number,type_address) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15,$16);`
+	if err := tx.Exec(queryUserAddress, user_id, address.Address, address.Lat, address.Long, address.WardId, address.WardText, address.DistrictId, address.DistrictText, address.ProvinceId, address.ProvinceText, address.NationalId, address.NationalText, address.AddressDefault, address.Name, address.PhoneNumber, address.TypeAddress).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "23505" {
@@ -198,6 +213,46 @@ func (s usersRepository) AddAddressUsersFunction(ctx context.Context, user_id st
 		return errors.AddAddressFail
 	}
 
+	return nil
+
+}
+
+func (s usersRepository) DefaultAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error {
+	var countUser int64
+	err := s.db.Table("users").Where("user_id = ?", user_id).Count(&countUser).Error
+	if err != nil {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return errors.UserNotFound
+	}
+	var countAddress int64
+	err = s.db.Table("user_addresses").Where("user_id = ?", user_id).Count(&countAddress).Error
+	if err != nil {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return errors.UserNotFound
+	}
+	if countUser == 0 || countAddress == 0 {
+		return errors.UserAddressNotFound
+	}
+
+	err = s.db.Table("user_addresses").Where("user_id = ?", user_id).Update("address_default", "no").Error
+	if err != nil {
+		return errors.DefaultAddressFail
+	}
+
+	err = s.db.Table("user_addresses").Where("user_id = ? and address = ?", user_id, address.Address).Update("address_default", address.AddressDefault).Error
+	if err != nil {
+		if pgErr, ok := err.(*pq.Error); ok {
+			if pgErr.Code == "23505" {
+				return errors.DefaultAddressFail
+			}
+		}
+	}
 	return nil
 
 }

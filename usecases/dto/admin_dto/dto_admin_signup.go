@@ -6,29 +6,30 @@ import (
 )
 
 type Admin struct {
-	UserId       string    `json:"-"`
-	Name         string    `json:"name" validate:"required"`
-	PassWord     string    `json:"-"`
-	Email        string    `json:"email" validate:"required"`
-	Role         string    `json:"-"`
-	CreatedAt    time.Time `json:"-"`
-	UpdatedAt    time.Time `json:"-"`
-	Token        string    `json:"-"`
-	PhoneNumber  string    `json:"phone_number" validate:"required"`
-	Address      string    `json:"address"`
-	Telegram     string    `json:"telegram,omitempty" validate:"required"`
-	Sex          string    `json:"sex,omitempty"`
-	BirthDate    string    `json:"birth_date,omitempty"`
-	Lat          float64   `json:"lat,omitempty"`
-	Long         float64   `json:"long,omitempty"`
-	WardId       string    `json:"ward_id,omitempty"`
-	WardText     string    `json:"ward_text,omitempty"`
-	DistrictId   string    `json:"district_id,omitempty"`
-	DistrictText string    `json:"district_text,omitempty"`
-	ProvinceId   string    `json:"province_id,omitempty"`
-	ProvinceText string    `json:"province_text,omitempty"`
-	NationalId   string    `json:"national_id,omitempty"`
-	NationalText string    `json:"national_text,omitempty"`
+	UserId         string    `json:"-"`
+	Name           string    `json:"name" validate:"required"`
+	PassWord       string    `json:"-"`
+	Email          string    `json:"email" validate:"required"`
+	Role           string    `json:"-"`
+	CreatedAt      time.Time `json:"-"`
+	UpdatedAt      time.Time `json:"-"`
+	Token          string    `json:"-"`
+	PhoneNumber    string    `json:"phone_number" validate:"required"`
+	Address        string    `json:"address"`
+	AddressDefault string    `json:"address_default"`
+	Telegram       string    `json:"telegram,omitempty" validate:"required"`
+	Sex            string    `json:"sex,omitempty"`
+	BirthDate      string    `json:"birth_date,omitempty"`
+	Lat            float64   `json:"lat,omitempty"`
+	Long           float64   `json:"long,omitempty"`
+	WardId         string    `json:"ward_id,omitempty"`
+	WardText       string    `json:"ward_text,omitempty"`
+	DistrictId     string    `json:"district_id,omitempty"`
+	DistrictText   string    `json:"district_text,omitempty"`
+	ProvinceId     string    `json:"province_id,omitempty"`
+	ProvinceText   string    `json:"province_text,omitempty"`
+	NationalId     string    `json:"national_id,omitempty"`
+	NationalText   string    `json:"national_text,omitempty"`
 }
 
 func (c *Admin) ToPayload() *admin_payload.AddAdminRequest {

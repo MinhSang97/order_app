@@ -11,6 +11,7 @@ var (
 	UserNotDeleted      = errors.New("Xoá không thành công")
 	NotAdmin            = errors.New("Không phải quyền Admin")
 	NotUsers            = errors.New("Không phải quyền Users")
-	UserAddressNotFound = errors.New("Không tìm thấy địa chỉ người dùng")
+	UserAddressNotFound = errors.New("User không có tồn tại")
 	AddAddressFail      = errors.New("Thêm địa chỉ thất bại")
+	DefaultAddressFail  = errors.New("Đặt địa chỉ mặc định thất bại")
 )

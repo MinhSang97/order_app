@@ -14,4 +14,5 @@ type UsersRepo interface {
 	//UserFunction
 	GetAddressUsersFunction(ctx context.Context, user_id string) (*users_model.UsersAddressModel, error)
 	AddAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error
+	DefaultAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error
 }
