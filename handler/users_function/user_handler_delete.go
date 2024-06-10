@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/MinhSang97/order_app/usecases"
@@ -23,21 +22,10 @@ import (
 // @Router /v1/api/users/delete/{user_id} [delete]
 func UsersDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
-		// Trích xuất Bear token từ tiêu đề yêu cầu
-		token1 := c.GetHeader("Authorization")
-		if token1 == "" {
-			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Missing authorization token",
-			})
-			return
-		}
-		fmt.Println("token1: ", token1)
-
 		user_id := c.Param("user_id")
-
-		if user_id == "" {
+		if user_id == "" || user_id == ":user_id" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "ko tim thay user_id",
+				"error": "không tìm thấy user_id",
 			})
 			return
 		}

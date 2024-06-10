@@ -32,14 +32,13 @@ type UsersUpdateResponse struct {
 // @Router /v1/api/users/change_password/{otp} [patch]
 func ChangePassWord() func(*gin.Context) {
 	return func(c *gin.Context) {
-		otp_code := c.Param("otp")
-		if otp_code == "" {
+		otp_code := c.Param("otp_code")
+		if otp_code == "" || otp_code == ":otp_code" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "không tìm thấy OTP code",
+				"error": "không tìm thấy otp_code",
 			})
 			return
 		}
-
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
 		req := req.ReqChangePassword{}

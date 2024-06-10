@@ -174,6 +174,34 @@ func (s usersRepository) GetAddressUsersFunction(ctx context.Context, user_id st
 	return &userAddress, nil
 }
 
+func (s usersRepository) AddAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error {
+	// Start a transaction
+	tx := s.db.Begin()
+	if tx.Error != nil {
+		return errors.AddAddressFail
+	}
+
+	// Insert into the user_addresses table
+	queryUserAddress := `INSERT INTO user_addresses (user_id, address, lat, long, ward_id, ward_text, district_id, district_text, province_id, province_text, national_id, national_text, address_default, name, phone_number) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15);`
+	if err := tx.Exec(queryUserAddress, user_id, address.Address, address.Lat, address.Long, address.WardId, address.WardText, address.DistrictId, address.DistrictText, address.ProvinceId, address.ProvinceText, address.NationalId, address.NationalText, address.AddressDefault, address.Name, address.PhoneNumber).Error; err != nil {
+		tx.Rollback()
+		if pgErr, ok := err.(*pq.Error); ok {
+			if pgErr.Code == "23505" {
+				return errors.AddAddressFail
+			}
+		}
+		return errors.AddAddressFail
+	}
+
+	// Commit the transaction
+	if err := tx.Commit().Error; err != nil {
+		return errors.AddAddressFail
+	}
+
+	return nil
+
+}
+
 var instancesUsers usersRepository
 
 func NewUsersRepository(db *gorm.DB) repo.UsersRepo {

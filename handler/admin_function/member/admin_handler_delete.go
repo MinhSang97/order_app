@@ -22,10 +22,9 @@ import (
 func AdminMemberDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
 		email := c.Param("email")
-
-		if email == "" {
+		if email == "" || email == ":email" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "ko tim thay email",
+				"error": "không tìm thấy email address",
 			})
 			return
 		}

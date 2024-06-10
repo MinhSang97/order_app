@@ -38,7 +38,7 @@ type UsersUpdateResponse struct {
 func UsersUpdate() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
-		if user_id == "" {
+		if user_id == "" || user_id == ":user_id" {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "không tìm thấy user_id",
 			})

@@ -31,7 +31,7 @@ CREATE TABLE user_addresses (
    user_id VARCHAR(255),
    address VARCHAR(255),
    name VARCHAR(100) NOT NULL,
-   phone_number VARCHAR(15) NOT NULL UNIQUE,
+   phone_number VARCHAR(15) NOT NULL,
    type VARCHAR(255) CHECK (type IN ('home', 'office', 'other')) DEFAULT NULL,
    address_default VARCHAR(255),
    lat DECIMAL(10, 8),
@@ -158,15 +158,16 @@ CREATE TABLE history_transaction (
 -- +migrate Down
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS order_discounts;
-DROP TABLE IF EXISTS discount_codes;
-DROP TABLE IF EXISTS feedbacks;
 DROP TABLE IF EXISTS order_customizations;
 DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS history_transaction;
 DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS promotions;
+DROP TABLE IF EXISTS discount_codes;
+DROP TABLE IF EXISTS feedbacks;
 DROP TABLE IF EXISTS item_customizations;
 DROP TABLE IF EXISTS menu_items;
 DROP TABLE IF EXISTS user_addresses;
 DROP TABLE IF EXISTS recover_password;
+DROP TABLE IF EXISTS user_ratings;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS history_transaction;
+DROP TABLE IF EXISTS promotions;

@@ -12,4 +12,5 @@ var (
 	NotAdmin            = errors.New("Không phải quyền Admin")
 	NotUsers            = errors.New("Không phải quyền Users")
 	UserAddressNotFound = errors.New("Không tìm thấy địa chỉ người dùng")
+	AddAddressFail      = errors.New("Thêm địa chỉ thất bại")
 )

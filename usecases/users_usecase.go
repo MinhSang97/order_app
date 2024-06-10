@@ -38,3 +38,7 @@ func (uc *usersUseCase) DeleteUsers(ctx context.Context, user_id string) error {
 func (uc *usersUseCase) GetAddressUsersFunction(ctx context.Context, user_id string) (*users_model.UsersAddressModel, error) {
 	return uc.usersRepo.GetAddressUsersFunction(ctx, user_id)
 }
+
+func (uc *usersUseCase) AddAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error {
+	return uc.usersRepo.AddAddressUsersFunction(ctx, user_id, address)
+}

@@ -22,10 +22,9 @@ import (
 func AdminDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")
-
-		if user_id == "" {
+		if user_id == "" || user_id == ":user_id" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "ko tim thay user_id",
+				"error": "không tìm thấy user_id",
 			})
 			return
 		}
