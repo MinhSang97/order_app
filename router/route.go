@@ -5,9 +5,10 @@ import (
 	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/handler"
 	admin_function_member "github.com/MinhSang97/order_app/handler/admin_function/member"
+	admin_function_menu "github.com/MinhSang97/order_app/handler/admin_function/menu"
 	admin_login "github.com/MinhSang97/order_app/handler/admin_login"
 	users_function "github.com/MinhSang97/order_app/handler/users_function"
-	middleware2 "github.com/MinhSang97/order_app/pkg/middleware"
+	middleware "github.com/MinhSang97/order_app/pkg/middleware"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
@@ -36,8 +37,8 @@ func Route() {
 	fmt.Println("Connected: ", db)
 
 	r := gin.Default()
-	r.Use(middleware2.ErrorHandler())
-	r.Use(middleware2.SaveLogRequest())
+	r.Use(middleware.ErrorHandler())
+	r.Use(middleware.SaveLogRequest())
 
 	// Swagger endpoint
 	r.GET("/doc/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -57,25 +58,32 @@ func Route() {
 			//admin
 			api.POST("/admin/sign_up", admin_login.AdminSignUp())
 			api.POST("/admin/sign_in", admin_login.AdminSignIn())
-			api.PATCH("/admin/update/:user_id", middleware2.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
-			api.DELETE("/admin/delete/:user_id", middleware2.JWTMiddlewareAdmin(), admin_login.AdminDelete())
+			api.PATCH("/admin/update/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminUpdate())
+			api.DELETE("/admin/delete/:user_id", middleware.JWTMiddlewareAdmin(), admin_login.AdminDelete())
 
 			//admin_function_member
-			api.GET("/admin/member_view", middleware2.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
-			api.PATCH("/admin/member_edit/:user_id", middleware2.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
-			api.POST("/admin/member_add", middleware2.JWTMiddlewareAdmin(), admin_function_member.AdminMemberAdd())
-			api.DELETE("/admin/member_delete/:email", middleware2.JWTMiddlewareAdmin(), admin_function_member.AdminMemberDelete())
+			api.GET("/admin/member_view", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberView())
+			api.PATCH("/admin/member_edit/:user_id", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberEdit())
+			api.POST("/admin/member_add", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberAdd())
+			api.DELETE("/admin/member_delete/:email", middleware.JWTMiddlewareAdmin(), admin_function_member.AdminMemberDelete())
+
+			//admin_function_menu
+			api.GET("/admin/menu_view", middleware.JWTMiddlewareAdmin(), admin_function_menu.AdminMenuView())
+			api.PATCH("/admin/menu_edit/:item_id", middleware.JWTMiddlewareAdmin(), admin_function_menu.AdminMenuEdit())
+			api.POST("/admin/menu_add", middleware.JWTMiddlewareAdmin(), admin_function_menu.AdminMenuAdd())
+			api.DELETE("/admin/menu_delete/:item_id", middleware.JWTMiddlewareAdmin(), admin_function_menu.AdminMenuDelete())
 
 			//user
 			api.POST("/users/sign-up", users_function.UsersSignUp())
 			api.POST("/users/sign_in", users_function.UsersSignIn())
-			api.PATCH("/users/update/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersUpdate())
-			api.DELETE("/users/delete/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersDelete())
+			api.PATCH("/users/update/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersUpdate())
+			api.DELETE("/users/delete/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersDelete())
 
 			//user_function
-			api.GET("/users/get_address/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersGetAddress())
-			api.POST("/users/add_address/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersAddAddress())
-			api.PATCH("/users/change_address_default/:user_id", middleware2.JWTMiddlewareUsers(), users_function.UsersChangeAddressDefault())
+			api.GET("/users/get_address/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersGetAddress())
+			api.POST("/users/add_address/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersAddAddress())
+			api.PATCH("/users/change_address_default/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersChangeAddressDefault())
+			api.GET("/users/get_menu", middleware.JWTMiddlewareUsers(), users_function.UsersGetMenu())
 
 		}
 	}

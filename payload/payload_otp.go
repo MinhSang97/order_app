@@ -25,7 +25,6 @@ func (c *OtpPayload) ToModel() *model.OtpModel {
 		Otp:         c.Otp,
 		CreatedAt:   c.CreatedAt,
 	}
-
 	return otp
 }
 

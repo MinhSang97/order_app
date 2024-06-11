@@ -14,4 +14,8 @@ var (
 	UserAddressNotFound = errors.New("User không có tồn tại")
 	AddAddressFail      = errors.New("Thêm địa chỉ thất bại")
 	DefaultAddressFail  = errors.New("Đặt địa chỉ mặc định thất bại")
+	AddMenuItemsFail    = errors.New("Thêm menu items thất bại")
+	EditMenuItemsFail   = errors.New("Sửa menu items thất bại")
+	ItemIDNotFound      = errors.New("Item không tồn tại")
+	DeleteMenuItemsFail = errors.New("Xoá menu items thất bại")
 )

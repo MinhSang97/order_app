@@ -56,7 +56,7 @@ CREATE TABLE user_ratings (
 );
 
 CREATE TABLE menu_items (
-   item_id SERIAL PRIMARY KEY,
+   item_id VARCHAR(255) PRIMARY KEY,
    name VARCHAR(255) NOT NULL,
    description TEXT,
    price DECIMAL(10, 2) NOT NULL,
@@ -65,11 +65,30 @@ CREATE TABLE menu_items (
 
 CREATE TABLE item_customizations (
    customization_id SERIAL PRIMARY KEY,
-   item_id INT,
-   customization_option VARCHAR(255),
-   extra_price DECIMAL(10, 2),
+   item_id VARCHAR(255),
+   customization_option_1 VARCHAR(255) DEFAULT NULL,
+   extra_price_1 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_2 VARCHAR(255) DEFAULT NULL,
+   extra_price_2 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_3 VARCHAR(255) DEFAULT NULL,
+   extra_price_3 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_4 VARCHAR(255) DEFAULT NULL,
+   extra_price_4 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_5 VARCHAR(255) DEFAULT NULL,
+   extra_price_5 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_6 VARCHAR(255) DEFAULT NULL,
+   extra_price_6 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_7 VARCHAR(255) DEFAULT NULL,
+   extra_price_7 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_8 VARCHAR(255) DEFAULT NULL,
+   extra_price_8 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_9 VARCHAR(255) DEFAULT NULL,
+   extra_price_9 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option_10 VARCHAR(255) DEFAULT NULL,
+   extra_price_10 DECIMAL(10, 2) DEFAULT NULL,
    CONSTRAINT fk_item_customizations_item_id FOREIGN KEY (item_id) REFERENCES menu_items(item_id)
 );
+
 
 CREATE TABLE promotions (
    promotion_id SERIAL PRIMARY KEY,
@@ -95,7 +114,7 @@ CREATE TABLE orders (
 CREATE TABLE order_items (
    order_item_id SERIAL PRIMARY KEY,
    order_id INT,
-   item_id INT,
+   item_id VARCHAR(255),
    quantity INT,
    price DECIMAL(10, 2),
    CONSTRAINT fk_order_items_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id),

@@ -27,11 +27,11 @@ func (s usersRepository) CreateUsers(ctx context.Context, users *users_model.Use
 	if err := tx.Exec(queryUser, users.UserId, users.Email, users.PassWord, users.Name, users.PhoneNumber, users.Role, time.Now(), users.Address, users.Telegram).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
-			if pgErr.Code == "23514" {
+			if pgErr.Code == "23505" {
 				return errors.UserConflict
 			}
 		}
-		return errors.SignUpFail
+		return errors.UserConflict
 	}
 
 	// Insert into the user_addresses table

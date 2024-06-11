@@ -1,24 +1,37 @@
 package menu
 
 import (
-	"github.com/MinhSang97/order_app/pkg/log"
-	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
+	"fmt"
 	"github.com/MinhSang97/order_app/usecases"
-	admindto "github.com/MinhSang97/order_app/usecases/dto/admin_dto"
+	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid"
 	"net/http"
-	"strings"
 )
 
+// AdminMenuAdd godoc
+// @Summary AdminMenuAdd
+// @Description AdminMenuAdd
+// @Tags AdminMenu
+// @Accept  json
+// @Produce  json
+// @Param name body string true "Name"
+// @Param description body string true "Description"
+// @Param price body float64 true "Price"
+// @Param image_url body string true "ImageUrl"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/admin/menu_add [post]
 func AdminMenuAdd() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
-		req := req.ReqAdminFunctionAdd{}
+		req := req.ReqMenuItems{}
 		if err := c.ShouldBind(&req); err != nil {
 			c.JSON(http.StatusBadRequest, res.Response{
 				StatusCode: http.StatusBadRequest,
@@ -37,49 +50,42 @@ func AdminMenuAdd() func(*gin.Context) {
 			return
 		}
 
-		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
-		var reqRole string
-		if req.Role == "admin" {
-			reqRole = sercurity2.ADMIN.String()
-		} else if req.Role == "users" {
-			reqRole = sercurity2.USERS.String()
-		} else if req.Role == "shipper" {
-			reqRole = sercurity2.DRIVER.String()
-		} else if req.Role == "shop" {
-			reqRole = sercurity2.SHOP.String()
-		} else {
-			c.JSON(http.StatusForbidden, res.Response{
-				StatusCode: http.StatusForbidden,
-				Message:    "Sai role",
-				Data:       req.Role,
-			})
-			return
-		}
-		role := reqRole
-
-		userId, err := uuid.NewUUID()
+		id_str, err := uuid.NewV4()
 		if err != nil {
-			log.Error(err.Error())
-			c.JSON(http.StatusForbidden, res.Response{
-				StatusCode: http.StatusForbidden,
-				Message:    err.Error(),
-				Data:       nil,
-			})
+			fmt.Printf("Lỗi khi tạo UUID: %v\n", err)
 			return
 		}
+		item_id := id_str.String()
 
-		user := admindto.AdminFunctionDto{
-			UserId:      userId.String(),
-			Name:        req.Name,
-			PassWord:    PassHash,
-			Email:       req.Email,
-			Role:        strings.ToLower(role),
-			PhoneNumber: req.PhoneNumber,
-			Address:     req.Address,
+		menu := dto.MenuItemsDto{
+			ItemID:                item_id,
+			Name:                  req.Name,
+			Description:           req.Description,
+			Price:                 req.Price,
+			ImageUrl:              req.ImageUrl,
+			CustomizationOption1:  req.CustomizationOption1,
+			ExtraPrice1:           req.ExtraPrice1,
+			CustomizationOption2:  req.CustomizationOption2,
+			ExtraPrice2:           req.ExtraPrice2,
+			CustomizationOption3:  req.CustomizationOption3,
+			ExtraPrice3:           req.ExtraPrice3,
+			CustomizationOption4:  req.CustomizationOption4,
+			ExtraPrice4:           req.ExtraPrice4,
+			CustomizationOption5:  req.CustomizationOption5,
+			ExtraPrice5:           req.ExtraPrice5,
+			CustomizationOption6:  req.CustomizationOption6,
+			ExtraPrice6:           req.ExtraPrice6,
+			CustomizationOption7:  req.CustomizationOption7,
+			ExtraPrice7:           req.ExtraPrice7,
+			CustomizationOption8:  req.CustomizationOption8,
+			ExtraPrice8:           req.ExtraPrice8,
+			CustomizationOption9:  req.CustomizationOption9,
+			ExtraPrice9:           req.ExtraPrice9,
+			CustomizationOption10: req.CustomizationOption10,
+			ExtraPrice10:          req.ExtraPrice10,
 		}
 
-		err = validate.Struct(user)
-
+		err = validate.Struct(menu)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": err.Error(),
@@ -87,13 +93,9 @@ func AdminMenuAdd() func(*gin.Context) {
 			return
 		}
 
-		data := user.ToPayload().ToModel()
+		data := menu.ToPayLoad().ToModel()
 		uc := usecases.NewAdminFunctionUseCase()
-		//uc := usecases.NewAdminUseCase()
-		//
-		//err = uc.CreateAdmin(c.Request.Context(), data)
-		//
-		err = uc.AddUser(c.Request.Context(), data)
+		menuAdd, err := uc.AddMenu(c.Request.Context(), data)
 		if err != nil {
 			c.JSON(http.StatusConflict, res.Response{
 				StatusCode: http.StatusConflict,
@@ -102,18 +104,11 @@ func AdminMenuAdd() func(*gin.Context) {
 			})
 			return
 		}
-		usersAdd := admindto.AdminFunctionDto{
-			UserId:   data.UserId,
-			Name:     req.Name,
-			Email:    req.Email,
-			PassWord: req.PassWord,
-			Role:     req.Role,
-		}
 
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       usersAdd,
+			Data:       "Thêm món thành công với ID: " + menuAdd.ItemID,
 		})
 	}
 }
