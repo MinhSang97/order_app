@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/pkg/sercurity/claims"
 	"github.com/gin-gonic/gin"
@@ -10,6 +11,7 @@ import (
 
 func JWTMiddlewareUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		db := dbutil.ConnectDB()
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
 			c.JSON(401, gin.H{"error": "Unauthorized"})
@@ -25,6 +27,19 @@ func JWTMiddlewareUsers() gin.HandlerFunc {
 		}
 
 		tokenString := authParts[1]
+
+		var count int64
+		err := db.Table("users").Where("token = ?", tokenString).Count(&count).Error
+		if err != nil {
+			c.JSON(401, gin.H{"error": "invalid or expired Token"})
+			c.Abort()
+			return
+		}
+		if count == 0 {
+			c.JSON(401, gin.H{"error": "invalid or expired Token"})
+			c.Abort()
+			return
+		}
 
 		token, err := jwt.ParseWithClaims(tokenString, &claims.JwtCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(sercurity.SECRET_KEY_USERS), nil
