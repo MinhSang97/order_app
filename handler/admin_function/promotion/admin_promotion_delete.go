@@ -1,4 +1,4 @@
-package menu
+package promotion
 
 import (
 	"github.com/MinhSang97/order_app/usecases"
@@ -7,31 +7,31 @@ import (
 	"net/http"
 )
 
-// AdminMenuDelete godoc
-// @Summary Admin can delete menu
-// @Description Admin can delete menu
-// @Tags AdminMenu
-// @Accept json
-// @Produce json
-// @Param item_id path string true "Item ID"
+// AdminPromotionDelete godoc
+// @Summary AdminPromotionDelete
+// @Description AdminPromotionDelete
+// @Tags AdminPromotion
+// @Accept  json
+// @Produce  json
+// @Param discount_code_id path string true "Discount Code ID"
 // @Success 200 {object} res.Response
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
-// @Router /v1/api/admin/menu_delete/{item_id} [delete]
-func AdminMenuDelete() func(*gin.Context) {
+// @Router /v1/api/admin/promotion_delete/{discount_code_id} [delete]
+func AdminPromotionDelete() func(*gin.Context) {
 	return func(c *gin.Context) {
-		item_id := c.Param("item_id")
-		if item_id == "" || item_id == ":item_id" {
+		discount_code_id := c.Param("discount_code_id")
+		if discount_code_id == "" || discount_code_id == ":discount_code_id" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "không tìm thấy item_id",
+				"error": "không tìm thấy discount_code_id",
 			})
 			return
 		}
 
 		uc := usecases.NewAdminFunctionUseCase()
 
-		err := uc.DeleteMenu(c.Request.Context(), item_id)
+		err := uc.DeleteDiscount(c.Request.Context(), discount_code_id)
 
 		if err != nil {
 			c.JSON(http.StatusUnprocessableEntity, res.Response{
@@ -45,7 +45,7 @@ func AdminMenuDelete() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xoá thành công",
-			Data:       map[string]interface{}{"item_id": item_id},
+			Data:       map[string]interface{}{"discount_code_id": discount_code_id},
 		})
 	}
 }

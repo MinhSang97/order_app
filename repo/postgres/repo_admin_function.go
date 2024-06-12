@@ -261,6 +261,88 @@ func (s adminFunctionRepository) DeleteMenu(ctx context.Context, item_id string)
 		return errors.DeleteMenuItemsFail
 	}
 	return nil
+}
+
+// admin_function_discount
+
+func (s adminFunctionRepository) GetDiscountAll(ctx context.Context) ([]model.DiscountCodesModel, error) {
+	var discount []model.DiscountCodesModel
+	if err := s.db.Table("discount_codes").Scan(&discount).Error; err != nil {
+		return discount, fmt.Errorf("get all discount codes error: %w", err)
+	}
+	return discount, nil
+
+}
+func (s adminFunctionRepository) AddDiscount(ctx context.Context, discount *model.DiscountCodesModel) (*model.DiscountCodesModel, error) {
+
+	err := s.db.Table("discount_codes").Where("code = ?", discount.Code).First(&discount).Error
+	if err == nil {
+		return nil, errors.DiscountCodeConflict
+	}
+	err = s.db.Table("discount_codes").Create(discount).Error
+	if err != nil {
+		if pgErr, ok := err.(*pq.Error); ok {
+			if pgErr.Code == "22P02" {
+				return nil, errors.AddDiscountFail
+			}
+		}
+		return nil, errors.AddDiscountFail
+
+	}
+	return discount, nil
+}
+
+func (s adminFunctionRepository) EditDiscount(ctx context.Context, discount_code_id string, discount *model.DiscountCodesModel) error {
+	var count int64
+	err := s.db.Table("discount_codes").Where("discount_code_id = ?", discount_code_id).Count(&count).Error
+	if err != nil {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return errors.DiscountCodeIDNotFound
+		}
+		return errors.DiscountCodeIDNotFound
+	}
+	if count == 0 {
+		return errors.DiscountCodeIDNotFound
+	}
+
+	err = s.db.Table("discount_codes").Where("discount_code_id = ?", discount_code_id).Updates(discount).Error
+	if err != nil {
+		if pgErr, ok := err.(*pq.Error); ok {
+			if pgErr.Code == "22P02" {
+				return errors.EditDiscountFail
+			}
+		}
+		return errors.EditDiscountFail
+	}
+	return nil
+}
+
+func (s adminFunctionRepository) DeleteDiscount(ctx context.Context, discount_code_id string) error {
+	var count int64
+	err := s.db.Table("discount_codes").Where("discount_code_id = ?", discount_code_id).Count(&count).Error
+	if err != nil {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
+			return errors.DiscountCodeIDNotFound
+		}
+		return errors.DiscountCodeIDNotFound
+	}
+	if count == 0 {
+		return errors.DiscountCodeIDNotFound
+	}
+
+	query := `DELETE FROM discount_codes WHERE discount_code_id = $1;`
+	err = s.db.Exec(query, discount_code_id).Error
+	if err != nil {
+		if pgErr, ok := err.(*pq.Error); ok {
+			if pgErr.Code == "22P02" {
+				return errors.DeleteDiscountFail
+			}
+		}
+		return errors.DeleteDiscountFail
+	}
+	return nil
 
 }
 

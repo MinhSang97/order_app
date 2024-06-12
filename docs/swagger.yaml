@@ -43,6 +43,81 @@ paths:
       summary: Admin can delete user
       tags:
       - admin
+  /v1/api/admin/discount_code_edit/{discount_code_id}:
+    patch:
+      consumes:
+      - application/json
+      description: AdminDiscountCodeEdit
+      parameters:
+      - description: Discount Code ID
+        in: path
+        name: discount_code_id
+        required: true
+        type: string
+      - description: Title
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: Description
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      - description: Code
+        in: body
+        name: code
+        required: true
+        schema:
+          type: string
+      - description: DiscountPercentage
+        in: body
+        name: discount_percentage
+        required: true
+        schema:
+          type: integer
+      - description: ValidFrom
+        in: body
+        name: valid_from
+        required: true
+        schema:
+          type: string
+      - description: ValidTo
+        in: body
+        name: valid_to
+        required: true
+        schema:
+          type: string
+      - description: PromotionID
+        in: body
+        name: promotion_id
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminDiscountCodeEdit
+      tags:
+      - AdminPromotion
   /v1/api/admin/member_add:
     post:
       consumes:
@@ -230,6 +305,545 @@ paths:
       summary: Admin can view all member
       tags:
       - adminfunction
+  /v1/api/admin/menu_add:
+    post:
+      consumes:
+      - application/json
+      description: AdminMenuAdd
+      parameters:
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Description
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      - description: Price
+        in: body
+        name: price
+        required: true
+        schema:
+          type: number
+      - description: ImageUrl
+        in: body
+        name: image_url
+        required: true
+        schema:
+          type: string
+      - description: CustomizationOption1
+        in: body
+        name: customization_option1
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice1
+        in: body
+        name: extra_price1
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption2
+        in: body
+        name: customization_option2
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice2
+        in: body
+        name: extra_price2
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption3
+        in: body
+        name: customization_option3
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice3
+        in: body
+        name: extra_price3
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption4
+        in: body
+        name: customization_option4
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice4
+        in: body
+        name: extra_price4
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption5
+        in: body
+        name: customization_option5
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice5
+        in: body
+        name: extra_price5
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption6
+        in: body
+        name: customization_option6
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice6
+        in: body
+        name: extra_price6
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption7
+        in: body
+        name: customization_option7
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice7
+        in: body
+        name: extra_price7
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption8
+        in: body
+        name: customization_option8
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice8
+        in: body
+        name: extra_price8
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption9
+        in: body
+        name: customization_option9
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice9
+        in: body
+        name: extra_price9
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption10
+        in: body
+        name: customization_option10
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice10
+        in: body
+        name: extra_price10
+        required: true
+        schema:
+          type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminMenuAdd
+      tags:
+      - AdminMenu
+  /v1/api/admin/menu_delete/{item_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Admin can delete menu
+      parameters:
+      - description: Item ID
+        in: path
+        name: item_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Admin can delete menu
+      tags:
+      - AdminMenu
+  /v1/api/admin/menu_edit/{item_id}:
+    patch:
+      consumes:
+      - application/json
+      description: AdminMenuEdit
+      parameters:
+      - description: Item ID
+        in: path
+        name: item_id
+        required: true
+        type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Description
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      - description: Price
+        in: body
+        name: price
+        required: true
+        schema:
+          type: number
+      - description: ImageUrl
+        in: body
+        name: image_url
+        required: true
+        schema:
+          type: string
+      - description: CustomizationOption1
+        in: body
+        name: customization_option_1
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice1
+        in: body
+        name: extra_price_1
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption2
+        in: body
+        name: customization_option_2
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice2
+        in: body
+        name: extra_price_2
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption3
+        in: body
+        name: customization_option_3
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice3
+        in: body
+        name: extra_price_3
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption4
+        in: body
+        name: customization_option_4
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice4
+        in: body
+        name: extra_price_4
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption5
+        in: body
+        name: customization_option_5
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice5
+        in: body
+        name: extra_price_5
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption6
+        in: body
+        name: customization_option_6
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice6
+        in: body
+        name: extra_price_6
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption7
+        in: body
+        name: customization_option_7
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice7
+        in: body
+        name: extra_price_7
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption8
+        in: body
+        name: customization_option_8
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice8
+        in: body
+        name: extra_price_8
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption9
+        in: body
+        name: customization_option_9
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice9
+        in: body
+        name: extra_price_9
+        required: true
+        schema:
+          type: number
+      - description: CustomizationOption10
+        in: body
+        name: customization_option_10
+        required: true
+        schema:
+          type: string
+      - description: ExtraPrice10
+        in: body
+        name: extra_price_10
+        required: true
+        schema:
+          type: number
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminMenuEdit
+      tags:
+      - AdminMenu
+  /v1/api/admin/menu_view:
+    get:
+      consumes:
+      - application/json
+      description: AdminMenuView
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminMenuView
+      tags:
+      - AdminMenu
+  /v1/api/admin/promotion_add:
+    post:
+      consumes:
+      - application/json
+      description: AdminPromotionAdd
+      parameters:
+      - description: Title
+        in: body
+        name: title
+        required: true
+        schema:
+          type: string
+      - description: Description
+        in: body
+        name: description
+        required: true
+        schema:
+          type: string
+      - description: Code
+        in: body
+        name: code
+        required: true
+        schema:
+          type: string
+      - description: DiscountPercentage
+        in: body
+        name: discount_percentage
+        required: true
+        schema:
+          type: number
+      - description: ValidFrom
+        in: body
+        name: valid_from
+        required: true
+        schema:
+          type: string
+      - description: ValidTo
+        in: body
+        name: valid_to
+        required: true
+        schema:
+          type: string
+      - description: PromotionID
+        in: body
+        name: promotion_id
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminPromotionAdd
+      tags:
+      - AdminPromotion
+  /v1/api/admin/promotion_delete/{discount_code_id}:
+    delete:
+      consumes:
+      - application/json
+      description: AdminPromotionDelete
+      parameters:
+      - description: Discount Code ID
+        in: path
+        name: discount_code_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminPromotionDelete
+      tags:
+      - AdminPromotion
+  /v1/api/admin/promotion_view:
+    get:
+      consumes:
+      - application/json
+      description: AdminPromotionView
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminPromotionView
+      tags:
+      - AdminPromotion
   /v1/api/admin/sign_in:
     post:
       consumes:
@@ -580,26 +1194,26 @@ paths:
       summary: Users can add address
       tags:
       - usersFunction
-  /v1/api/users/change-address-default/{user_id}:
+  /v1/api/users/change_address_default{user_id}:
     patch:
       consumes:
       - application/json
-      description: Users can change address default
+      description: UsersChangeAddressDefault
       parameters:
       - description: User ID
         in: path
         name: user_id
         required: true
         type: string
-      - description: Name
-        in: body
-        name: name
-        required: true
-        schema:
-          type: string
       - description: Address
         in: body
         name: address
+        required: true
+        schema:
+          type: string
+      - description: Name
+        in: body
+        name: name
         required: true
         schema:
           type: string
@@ -609,9 +1223,9 @@ paths:
         required: true
         schema:
           type: string
-      - description: Type
+      - description: TypeAddress
         in: body
-        name: type
+        name: type_address
         required: true
         schema:
           type: string
@@ -620,7 +1234,7 @@ paths:
         name: address_default
         required: true
         schema:
-          type: string
+          type: boolean
       - description: Lat
         in: body
         name: lat
@@ -700,7 +1314,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/res.Response'
-      summary: Users can change address default
+      summary: UsersChangeAddressDefault
       tags:
       - usersFunction
   /v1/api/users/change_password/{otp}:
@@ -812,6 +1426,33 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: Users can get address
+      tags:
+      - usersFunction
+  /v1/api/users/get_promotion:
+    get:
+      consumes:
+      - application/json
+      description: UsersGetDiscountCodes
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: UsersGetDiscountCodes
       tags:
       - usersFunction
   /v1/api/users/send_otp:

@@ -89,16 +89,6 @@ CREATE TABLE item_customizations (
    CONSTRAINT fk_item_customizations_item_id FOREIGN KEY (item_id) REFERENCES menu_items(item_id)
 );
 
-
-CREATE TABLE promotions (
-   promotion_id SERIAL PRIMARY KEY,
-   title VARCHAR(255),
-   description TEXT,
-   discount_percentage DECIMAL(5, 2),
-   start_date DATE,
-   end_date DATE
-);
-
 CREATE TABLE orders (
    order_id SERIAL PRIMARY KEY,
    user_id VARCHAR(255),
@@ -139,19 +129,20 @@ CREATE TABLE feedbacks (
 );
 
 CREATE TABLE discount_codes (
-   discount_code_id SERIAL PRIMARY KEY,
+   discount_code_id VARCHAR(255) PRIMARY KEY,
+    title VARCHAR(255),
+    description TEXT,
    code VARCHAR(50) NOT NULL UNIQUE,
-   discount_percentage DECIMAL(5, 2),
+   discount_percentage DECIMAL(10, 2),
    valid_from DATE,
    valid_to DATE,
-   promotion_id INT,
-   CONSTRAINT fk_discount_codes_promotion_id FOREIGN KEY (promotion_id) REFERENCES promotions(promotion_id)
+   promotion_id VARCHAR(255)
 );
 
 CREATE TABLE order_discounts (
    order_discount_id SERIAL PRIMARY KEY,
    order_id INT,
-   discount_code_id INT,
+   discount_code_id VARCHAR(255),
    CONSTRAINT fk_order_discounts_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id),
    CONSTRAINT fk_order_discounts_discount_code_id FOREIGN KEY (discount_code_id) REFERENCES discount_codes(discount_code_id)
 );
@@ -189,4 +180,3 @@ DROP TABLE IF EXISTS user_addresses;
 DROP TABLE IF EXISTS recover_password;
 DROP TABLE IF EXISTS user_ratings;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS promotions;

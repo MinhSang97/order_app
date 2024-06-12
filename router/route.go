@@ -6,6 +6,7 @@ import (
 	"github.com/MinhSang97/order_app/handler"
 	admin_function_member "github.com/MinhSang97/order_app/handler/admin_function/member"
 	admin_function_menu "github.com/MinhSang97/order_app/handler/admin_function/menu"
+	admin_function_promotion "github.com/MinhSang97/order_app/handler/admin_function/promotion"
 	admin_login "github.com/MinhSang97/order_app/handler/admin_login"
 	users_function "github.com/MinhSang97/order_app/handler/users_function"
 	middleware "github.com/MinhSang97/order_app/pkg/middleware"
@@ -73,6 +74,12 @@ func Route() {
 			api.POST("/admin/menu_add", middleware.JWTMiddlewareAdmin(), admin_function_menu.AdminMenuAdd())
 			api.DELETE("/admin/menu_delete/:item_id", middleware.JWTMiddlewareAdmin(), admin_function_menu.AdminMenuDelete())
 
+			//admin_function_promotion
+			api.GET("/admin/promotion_view", middleware.JWTMiddlewareAdmin(), admin_function_promotion.AdminPromotionView())
+			api.PATCH("/admin/promotion_edit/:discount_code_id", middleware.JWTMiddlewareAdmin(), admin_function_promotion.AdminDiscountCodeEdit())
+			api.POST("/admin/promotion_add", middleware.JWTMiddlewareAdmin(), admin_function_promotion.AdminPromotionAdd())
+			api.DELETE("/admin/promotion_delete/:discount_code_id", middleware.JWTMiddlewareAdmin(), admin_function_promotion.AdminPromotionDelete())
+
 			//user
 			api.POST("/users/sign-up", users_function.UsersSignUp())
 			api.POST("/users/sign_in", users_function.UsersSignIn())
@@ -84,6 +91,7 @@ func Route() {
 			api.POST("/users/add_address/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersAddAddress())
 			api.PATCH("/users/change_address_default/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersChangeAddressDefault())
 			api.GET("/users/get_menu", middleware.JWTMiddlewareUsers(), users_function.UsersGetMenu())
+			api.GET("/users/get_promotion", middleware.JWTMiddlewareUsers(), users_function.UsersGetDiscountCodes())
 
 		}
 	}

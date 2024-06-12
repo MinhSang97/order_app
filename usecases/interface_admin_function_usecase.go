@@ -18,4 +18,10 @@ type AdminFunctionUsecase interface {
 	AddMenu(ctx context.Context, menu *model.MenuItemsModel) (*model.MenuItemsModel, error)
 	EditMenu(ctx context.Context, item_id string, menu *model.MenuItemsModel) error
 	DeleteMenu(ctx context.Context, item_id string) error
+
+	//admin_function_discount
+	GetDiscountAll(ctx context.Context) ([]model.DiscountCodesModel, error)
+	AddDiscount(ctx context.Context, discount *model.DiscountCodesModel) (*model.DiscountCodesModel, error)
+	EditDiscount(ctx context.Context, discount_code_id string, discount *model.DiscountCodesModel) error
+	DeleteDiscount(ctx context.Context, discount_code_id string) error
 }

@@ -53,3 +53,20 @@ func (uc *adminFunctionUseCase) EditMenu(ctx context.Context, item_id string, me
 func (uc *adminFunctionUseCase) DeleteMenu(ctx context.Context, item_id string) error {
 	return uc.adminFunctionRepo.DeleteMenu(ctx, item_id)
 }
+
+// admin_function_discount
+func (uc *adminFunctionUseCase) GetDiscountAll(ctx context.Context) ([]model.DiscountCodesModel, error) {
+	return uc.adminFunctionRepo.GetDiscountAll(ctx)
+
+}
+func (uc *adminFunctionUseCase) AddDiscount(ctx context.Context, discount *model.DiscountCodesModel) (*model.DiscountCodesModel, error) {
+	return uc.adminFunctionRepo.AddDiscount(ctx, discount)
+}
+
+func (uc *adminFunctionUseCase) EditDiscount(ctx context.Context, discount_code_id string, discount *model.DiscountCodesModel) error {
+	return uc.adminFunctionRepo.EditDiscount(ctx, discount_code_id, discount)
+}
+
+func (uc *adminFunctionUseCase) DeleteDiscount(ctx context.Context, discount_code_id string) error {
+	return uc.adminFunctionRepo.DeleteDiscount(ctx, discount_code_id)
+}

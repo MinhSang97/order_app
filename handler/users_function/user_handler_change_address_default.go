@@ -11,17 +11,17 @@ import (
 )
 
 // UsersChangeAddressDefault godoc
-// @Summary Users can change address default
-// @Description Users can change address default
+// @Summary UsersChangeAddressDefault
+// @Description UsersChangeAddressDefault
 // @Tags usersFunction
-// @Accept json
-// @Produce json
+// @Accept  json
+// @Produce  json
 // @Param user_id path string true "User ID"
-// @Param name body string true "Name"
 // @Param address body string true "Address"
+// @Param name body string true "Name"
 // @Param phone_number body string true "PhoneNumber"
-// @Param type body string true "Type"
-// @Param address_default body string true "AddressDefault"
+// @Param type_address body string true "TypeAddress"
+// @Param address_default body bool true "AddressDefault"
 // @Param lat body float64 true "Lat"
 // @Param long body float64 true "Long"
 // @Param ward_id body string true "WardId"
@@ -36,8 +36,7 @@ import (
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
-// @Router /v1/api/users/change-address-default/{user_id} [patch]
-
+// @Router /v1/api/users/change_address_default{user_id} [patch]
 func UsersChangeAddressDefault() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")

@@ -1,4 +1,4 @@
-package menu
+package promotion
 
 import (
 	"github.com/MinhSang97/order_app/payload"
@@ -8,21 +8,21 @@ import (
 	"net/http"
 )
 
-// AdminMenuView godoc
-// @Summary AdminMenuView
-// @Description AdminMenuView
-// @Tags AdminMenu
+// AdminPromotionView godoc
+// @Summary AdminPromotionView
+// @Description AdminPromotionView
+// @Tags AdminPromotion
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} res.Response
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
 // @Failure 500 {object} res.Response
-// @Router /v1/api/admin/menu_view [get]
-func AdminMenuView() func(*gin.Context) {
+// @Router /v1/api/admin/promotion_view [get]
+func AdminPromotionView() func(*gin.Context) {
 	return func(c *gin.Context) {
 
-		var Data = payload.MenuItemsPayload{}
+		var Data = payload.DiscountCodesPayload{}
 
 		if err := c.ShouldBind(&Data); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
@@ -32,7 +32,7 @@ func AdminMenuView() func(*gin.Context) {
 		}
 
 		uc := usecases.NewAdminFunctionUseCase()
-		menuAll, err := uc.GetMenuAll(c.Request.Context())
+		discountCodesAll, err := uc.GetDiscountAll(c.Request.Context())
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
 				"error": err.Error(),
@@ -43,7 +43,7 @@ func AdminMenuView() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       menuAll,
+			Data:       discountCodesAll,
 		})
 	}
 }

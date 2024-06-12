@@ -11,7 +11,7 @@ import (
 // UsersGetMenu godoc
 // @Summary UsersGetMenu
 // @Description UsersGetMenu
-// @Tags Users
+// @Tags usersFunction
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} res.Response
