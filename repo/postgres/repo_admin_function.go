@@ -264,7 +264,6 @@ func (s adminFunctionRepository) DeleteMenu(ctx context.Context, item_id string)
 }
 
 // admin_function_discount
-
 func (s adminFunctionRepository) GetDiscountAll(ctx context.Context) ([]model.DiscountCodesModel, error) {
 	var discount []model.DiscountCodesModel
 	if err := s.db.Table("discount_codes").Scan(&discount).Error; err != nil {

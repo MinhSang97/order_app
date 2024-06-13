@@ -20,6 +20,7 @@ import (
 // @Produce  json
 // @Param title body string true "Title"
 // @Param description body string true "Description"
+// @Param quantity body int true "Quantity"
 // @Param code body string true "Code"
 // @Param discount_percentage body float64 true "DiscountPercentage"
 // @Param valid_from body string true "ValidFrom"
@@ -64,6 +65,7 @@ func AdminPromotionAdd() func(*gin.Context) {
 			DiscountCodeID:     discount_code_id,
 			Title:              req.Title,
 			Description:        req.Description,
+			Quantity:           req.Quantity,
 			Code:               req.Code,
 			DiscountPercentage: req.DiscountPercentage,
 			ValidFrom:          req.ValidFrom,

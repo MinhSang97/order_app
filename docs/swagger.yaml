@@ -66,6 +66,12 @@ paths:
         required: true
         schema:
           type: string
+      - description: Quantity
+        in: body
+        name: quantity
+        required: true
+        schema:
+          type: integer
       - description: Code
         in: body
         name: code
@@ -713,7 +719,7 @@ paths:
             $ref: '#/definitions/res.Response'
       summary: AdminMenuView
       tags:
-      - AdminMenu
+      - adminFunction
   /v1/api/admin/promotion_add:
     post:
       consumes:
@@ -732,6 +738,12 @@ paths:
         required: true
         schema:
           type: string
+      - description: Quantity
+        in: body
+        name: quantity
+        required: true
+        schema:
+          type: integer
       - description: Code
         in: body
         name: code

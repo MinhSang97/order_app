@@ -132,6 +132,7 @@ CREATE TABLE discount_codes (
    discount_code_id VARCHAR(255) PRIMARY KEY,
     title VARCHAR(255),
     description TEXT,
+   quantity INT,
    code VARCHAR(50) NOT NULL UNIQUE,
    discount_percentage DECIMAL(10, 2),
    valid_from DATE,

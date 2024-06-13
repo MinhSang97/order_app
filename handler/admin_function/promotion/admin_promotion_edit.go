@@ -19,6 +19,7 @@ import (
 // @Param discount_code_id path string true "Discount Code ID"
 // @Param title body string true "Title"
 // @Param description body string true "Description"
+// @Param quantity body int true "Quantity"
 // @Param code body string true "Code"
 // @Param discount_percentage body int true "DiscountPercentage"
 // @Param valid_from body string true "ValidFrom"
@@ -62,6 +63,7 @@ func AdminDiscountCodeEdit() func(*gin.Context) {
 		discountCodes := dto.DiscountCodesDto{
 			Title:              req.Title,
 			Description:        req.Description,
+			Quantity:           req.Quantity,
 			Code:               req.Code,
 			DiscountPercentage: req.DiscountPercentage,
 			ValidFrom:          req.ValidFrom,

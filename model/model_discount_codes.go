@@ -10,6 +10,7 @@ type DiscountCodesModel struct {
 	DiscountCodeID     string    `json:"discount_code_id" db:"discount_codes_id"`
 	Title              string    `json:"title" db:"title"`
 	Description        string    `json:"description" db:"description"`
+	Quantity           int       `json:"quantity" db:"quantity"`
 	Code               string    `json:"code" db:"code"`
 	DiscountPercentage float64   `json:"discount_percentage" db:"discount_percentage"`
 	ValidFrom          time.Time `json:"valid_from" db:"valid_from"`

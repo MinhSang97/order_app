@@ -94,6 +94,15 @@
                         }
                     },
                     {
+                        "description": "Quantity",
+                        "name": "quantity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
                         "description": "Code",
                         "name": "code",
                         "in": "body",
@@ -1035,7 +1044,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "AdminMenu"
+                    "adminFunction"
                 ],
                 "summary": "AdminMenuView",
                 "responses": {
@@ -1096,6 +1105,15 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Quantity",
+                        "name": "quantity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     },
                     {

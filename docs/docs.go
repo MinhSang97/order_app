@@ -105,6 +105,15 @@ const docTemplate = `{
                         }
                     },
                     {
+                        "description": "Quantity",
+                        "name": "quantity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
                         "description": "Code",
                         "name": "code",
                         "in": "body",
@@ -1046,7 +1055,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "AdminMenu"
+                    "adminFunction"
                 ],
                 "summary": "AdminMenuView",
                 "responses": {
@@ -1107,6 +1116,15 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Quantity",
+                        "name": "quantity",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
                         }
                     },
                     {
