@@ -21,6 +21,11 @@ git clone https://github.com/MinhSang97/order_app.git
 ```bash
 cd order_app
 ```
+## Install container docker
+
+```bash
+docker compose up -d
+```
 
 ## Install dependencies
 
