@@ -16,6 +16,29 @@ import (
 	"github.com/MinhSang97/order_app/usecases/res"
 )
 
+// UsersOrder godoc
+// @Summary Users can order
+// @Description Users can order
+// @Tags usersOrder
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Param order_date body string true "OrderDate"
+// @Param total_price body float64 true "TotalPrice"
+// @Param status body string true "Status"
+// @Param address body string true "Address"
+// @Param payment_method body string true "PaymentMethod"
+// @Param payment_date body string true "PaymentDate"
+// @Param amount body float64 true "Amount"
+// @Param discount_code_id body string true "DiscountCodeId"
+// @Param item_id body []string true "ItemID"
+// @Param quantity body []int true "Quantity"
+// @Param price body []float64 true "Price"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/order/{user_id} [post]
 func UsersOrder() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")

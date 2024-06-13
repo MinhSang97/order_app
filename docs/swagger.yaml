@@ -1467,6 +1467,111 @@ paths:
       summary: UsersGetDiscountCodes
       tags:
       - usersFunction
+  /v1/api/users/order/{user_id}:
+    post:
+      consumes:
+      - application/json
+      description: Users can order
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: OrderDate
+        in: body
+        name: order_date
+        required: true
+        schema:
+          type: string
+      - description: TotalPrice
+        in: body
+        name: total_price
+        required: true
+        schema:
+          type: number
+      - description: Status
+        in: body
+        name: status
+        required: true
+        schema:
+          type: string
+      - description: Address
+        in: body
+        name: address
+        required: true
+        schema:
+          type: string
+      - description: PaymentMethod
+        in: body
+        name: payment_method
+        required: true
+        schema:
+          type: string
+      - description: PaymentDate
+        in: body
+        name: payment_date
+        required: true
+        schema:
+          type: string
+      - description: Amount
+        in: body
+        name: amount
+        required: true
+        schema:
+          type: number
+      - description: DiscountCodeId
+        in: body
+        name: discount_code_id
+        required: true
+        schema:
+          type: string
+      - description: ItemID
+        in: body
+        name: item_id
+        required: true
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Quantity
+        in: body
+        name: quantity
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      - description: Price
+        in: body
+        name: price
+        required: true
+        schema:
+          items:
+            type: number
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Users can order
+      tags:
+      - usersOrder
   /v1/api/users/send_otp:
     post:
       consumes:
