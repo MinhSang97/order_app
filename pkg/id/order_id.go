@@ -17,8 +17,8 @@ func OrderID() int64 {
 	order_id_str := fmt.Sprintf("%d", timestamp)
 
 	// Lấy 16 chữ số đầu tiên (hoặc bao nhiêu tùy ý bạn)
-	if len(order_id_str) > 16 {
-		order_id_str = order_id_str[:16]
+	if len(order_id_str) > 9 {
+		order_id_str = order_id_str[:9]
 	}
 
 	// Chuyển chuỗi thành int64

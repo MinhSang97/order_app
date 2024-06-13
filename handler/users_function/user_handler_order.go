@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
+	"strconv"
 
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
@@ -100,7 +101,7 @@ func UsersOrder() func(*gin.Context) {
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Order successfully",
-			Data:       orderDB.OrderID,
+			Data:       "OrderID: " + strconv.FormatInt(orderDB.OrderID, 10),
 		})
 	}
 }

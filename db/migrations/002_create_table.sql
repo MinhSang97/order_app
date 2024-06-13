@@ -90,7 +90,7 @@ CREATE TABLE item_customizations (
 );
 
 CREATE TABLE orders (
-   order_id INT PRIMARY KEY,
+   order_id BIGINT PRIMARY KEY,
    user_id VARCHAR(255),
    order_date TIMESTAMP NOT NULL,
    total_price DECIMAL(10, 2),
@@ -103,7 +103,7 @@ CREATE TABLE orders (
 
 CREATE TABLE order_items (
    order_item_id SERIAL PRIMARY KEY,
-   order_id INT,
+   order_id BIGINT,
    item_id VARCHAR(255),
    quantity INT,
    price DECIMAL(10, 2),
@@ -121,7 +121,7 @@ CREATE TABLE order_items (
 
 CREATE TABLE feedbacks (
    feedback_id SERIAL PRIMARY KEY,
-   order_id INT,
+   order_id BIGINT,
    user_id VARCHAR(255),
    rating INT,
    comment TEXT,
@@ -144,7 +144,7 @@ CREATE TABLE discount_codes (
 
 CREATE TABLE order_discounts (
    order_discount_id SERIAL PRIMARY KEY,
-   order_id INT,
+   order_id BIGINT,
    discount_code_id VARCHAR(255),
    CONSTRAINT fk_order_discounts_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id),
    CONSTRAINT fk_order_discounts_discount_code_id FOREIGN KEY (discount_code_id) REFERENCES discount_codes(discount_code_id)
@@ -152,31 +152,47 @@ CREATE TABLE order_discounts (
 
 CREATE TABLE payments (
    payment_id SERIAL PRIMARY KEY,
-   order_id INT,
+   order_id BIGINT,
    payment_method VARCHAR(50) CHECK ( payment_method IN ('cash', 'paypal')) DEFAULT 'cash',
    amount DECIMAL(10, 2),
-   payment_date TIMESTAMP,
+   payment_date DATE,
    CONSTRAINT fk_payments_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 CREATE TABLE history_transaction (
    id SERIAL PRIMARY KEY,
    user_id VARCHAR(255),
-   order_id INT,
+   order_id BIGINT,
    amount DECIMAL(10, 2),
    CONSTRAINT fk_history_orders_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
    CONSTRAINT fk_history_orders_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 -- +migrate Down
+ALTER TABLE payments DROP CONSTRAINT fk_payments_order_id;
+ALTER TABLE order_discounts DROP CONSTRAINT fk_order_discounts_order_id;
+ALTER TABLE order_discounts DROP CONSTRAINT fk_order_discounts_discount_code_id;
+-- ALTER TABLE order_customizations DROP CONSTRAINT fk_order_customizations_order_item_id;
+ALTER TABLE order_items DROP CONSTRAINT fk_order_items_order_id;
+ALTER TABLE order_items DROP CONSTRAINT fk_order_items_item_id;
+ALTER TABLE history_transaction DROP CONSTRAINT fk_history_orders_order_id;
+ALTER TABLE history_transaction DROP CONSTRAINT fk_history_orders_user_id;
+ALTER TABLE feedbacks DROP CONSTRAINT fk_feedbacks_order_id;
+ALTER TABLE feedbacks DROP CONSTRAINT fk_feedbacks_user_id;
+ALTER TABLE orders DROP CONSTRAINT fk_orders_user_id;
+ALTER TABLE orders DROP CONSTRAINT fk_orders_address;
+ALTER TABLE user_addresses DROP CONSTRAINT fk_user_addresses_user_id;
+ALTER TABLE recover_password DROP CONSTRAINT fk_recover_password_user_id;
+ALTER TABLE user_ratings DROP CONSTRAINT fk_user_ratings_user_id;
+
 DROP TABLE IF EXISTS payments;
 DROP TABLE IF EXISTS order_discounts;
-DROP TABLE IF EXISTS order_customizations;
+-- DROP TABLE IF EXISTS order_customizations;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS history_transaction;
+DROP TABLE IF EXISTS feedbacks;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS discount_codes;
-DROP TABLE IF EXISTS feedbacks;
 DROP TABLE IF EXISTS item_customizations;
 DROP TABLE IF EXISTS menu_items;
 DROP TABLE IF EXISTS user_addresses;

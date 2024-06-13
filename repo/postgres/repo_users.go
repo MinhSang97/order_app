@@ -260,17 +260,43 @@ func (s usersRepository) DefaultAddressUsersFunction(ctx context.Context, user_i
 }
 
 func (s usersRepository) AddOrderUsersOrder(ctx context.Context, user_id string, order *model.OrderModel) (*model.OrderModel, error) {
-	fmt.Println(user_id)
-	order_id := order.OrderID
-	price := order.Price
-	quantity := order.Quantity
-	item_id := order.ItemID
-	fmt.Println("order_id, price, quantity, item_id", order_id, price, quantity, item_id)
+	//fmt.Println(user_id)
+	//order_id := order.OrderID
+	//price := order.Price
+	//quantity := order.Quantity
+	//item_id := order.ItemID
+	//fmt.Println("order_id, price, quantity, item_id", order_id, price, quantity, item_id)
+	//Insert into the orders table
+	queryOrder := `INSERT INTO orders (order_id, user_id, order_date, total_price, status, address, payment_method) VALUES ($1, $2, $3, $4, $5, $6, $7);`
+	if err := s.db.Exec(queryOrder, order.OrderID, user_id, order.OrderDate, order.TotalPrice, order.Status, order.Address, order.PaymentMethod).Error; err != nil {
+		fmt.Println(err)
+		return nil, errors.AddOrderFail
+	}
 
-	query := `INSERT INTO order_items (order_id, item_id, quantity, price) VALUES($1, $2, $3, $4);`
-	for i, item := range item_id {
-		if err := s.db.Exec(query, order_id, item, quantity[i], price[i]).Error; err != nil {
-			return nil, errors.AddOrderFail
+	//Insert into the payments table
+	queryPayment := `INSERT INTO payments (order_id, payment_date, amount, payment_method) VALUES ($1, $2, $3, $4);`
+	if err := s.db.Exec(queryPayment, order.OrderID, order.PaymentDate, order.Amount, order.PaymentMethod).Error; err != nil {
+		return nil, errors.AddPaymentFail
+	}
+
+	//Insert into the order_discounts table
+	queryOrderDiscounts := `INSERT INTO order_discounts (order_id, discount_code_id) VALUES ($1, $2);`
+	if err := s.db.Exec(queryOrderDiscounts, order.OrderID, order.DiscountCodeId).Error; err != nil {
+		return nil, errors.AddOrderDiscountsFail
+
+	}
+
+	//Insert into the history_transaction table
+	queryHistoryTransaction := `INSERT INTO history_transaction (order_id, user_id, amount) VALUES ($1, $2, $3);`
+	if err := s.db.Exec(queryHistoryTransaction, order.OrderID, user_id, order.Amount).Error; err != nil {
+		return nil, errors.AddHistoryTransactionFail
+	}
+
+	//Insert into the order_items table
+	queryOrderItems := `INSERT INTO order_items (order_id, item_id, quantity, price) VALUES($1, $2, $3, $4);`
+	for i, item := range order.ItemID {
+		if err := s.db.Exec(queryOrderItems, order.OrderID, item, order.Quantity[i], order.Price[i]).Error; err != nil {
+			return nil, errors.AddOrderItemsFail
 		}
 
 	}
