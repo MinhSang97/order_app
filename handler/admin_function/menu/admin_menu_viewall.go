@@ -11,7 +11,7 @@ import (
 // AdminMenuView godoc
 // @Summary AdminMenuView
 // @Description AdminMenuView
-// @Tags adminFunction
+// @Tags AdminMenu
 // @Accept  json
 // @Produce  json
 // @Success 200 {object} res.Response

@@ -95,6 +95,7 @@ func Route() {
 
 			//user_order
 			api.POST("/users/order/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersOrder())
+			api.PATCH("/users/order_edit/:order_id", middleware.JWTMiddlewareUsers(), users_function.UsersOrderStatus())
 
 		}
 	}

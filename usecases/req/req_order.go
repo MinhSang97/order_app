@@ -21,3 +21,8 @@ type OrderItem struct {
 	Quantity int     `json:"quantity"`
 	Price    float64 `json:"price"`
 }
+
+type ReqOrderStatus struct {
+	OrderID string `json:"order_id" validate:"required"`
+	Status  string `json:"status" validate:"required"`
+}
