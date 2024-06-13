@@ -3,6 +3,7 @@ package usecases
 import (
 	"context"
 	"github.com/MinhSang97/order_app/dbutil"
+	"github.com/MinhSang97/order_app/model"
 	"github.com/MinhSang97/order_app/model/users_model"
 	"github.com/MinhSang97/order_app/repo"
 	"github.com/MinhSang97/order_app/repo/postgres"
@@ -46,4 +47,9 @@ func (uc *usersUseCase) AddAddressUsersFunction(ctx context.Context, user_id str
 
 func (uc *usersUseCase) DefaultAddressUsersFunction(ctx context.Context, user_id string, address *users_model.UsersAddressModel) error {
 	return uc.usersRepo.DefaultAddressUsersFunction(ctx, user_id, address)
+}
+
+// UsersOrder
+func (uc *usersUseCase) AddOrderUsersOrder(ctx context.Context, user_id string, order *model.OrderModel) (*model.OrderModel, error) {
+	return uc.usersRepo.AddOrderUsersOrder(ctx, user_id, order)
 }

@@ -29,7 +29,7 @@ CREATE TABLE recover_password (
 CREATE TABLE user_addresses (
    address_id SERIAL PRIMARY KEY,
    user_id VARCHAR(255) NOT NULL,
-   address VARCHAR(255),
+   address VARCHAR(255) UNIQUE,
    name VARCHAR(100) NOT NULL,
    phone_number VARCHAR(15) NOT NULL UNIQUE,
    type_address VARCHAR(255) CHECK (type_address IN ('home', 'office', 'other')) DEFAULT NULL,
@@ -90,15 +90,15 @@ CREATE TABLE item_customizations (
 );
 
 CREATE TABLE orders (
-   order_id SERIAL PRIMARY KEY,
+   order_id INT PRIMARY KEY,
    user_id VARCHAR(255),
    order_date TIMESTAMP NOT NULL,
    total_price DECIMAL(10, 2),
-   status VARCHAR(50),
-   address_id INT,
+   status VARCHAR(50) CHECK (status IN ('pending', 'completed', 'cancelled')) DEFAULT 'pending',
+   address VARCHAR(255),
    payment_method VARCHAR(50),
    CONSTRAINT fk_orders_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
-   CONSTRAINT fk_orders_address_id FOREIGN KEY (address_id) REFERENCES user_addresses(address_id)
+   CONSTRAINT fk_orders_address FOREIGN KEY (address) REFERENCES user_addresses(address)
 );
 
 CREATE TABLE order_items (
@@ -111,21 +111,23 @@ CREATE TABLE order_items (
    CONSTRAINT fk_order_items_item_id FOREIGN KEY (item_id) REFERENCES menu_items(item_id)
 );
 
-CREATE TABLE order_customizations (
-   order_customization_id SERIAL PRIMARY KEY,
-   order_item_id INT,
-   customization_option VARCHAR(255),
-   extra_price DECIMAL(10, 2),
-   CONSTRAINT fk_order_customizations_order_item_id FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id)
-);
+-- CREATE TABLE order_customizations (
+--    order_customization_id SERIAL PRIMARY KEY,
+--    order_item_id INT,
+--    customization_option VARCHAR(255),
+--    extra_price DECIMAL(10, 2),
+--    CONSTRAINT fk_order_customizations_order_item_id FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id)
+-- );
 
 CREATE TABLE feedbacks (
    feedback_id SERIAL PRIMARY KEY,
+   order_id INT,
    user_id VARCHAR(255),
    rating INT,
    comment TEXT,
    created_at TIMESTAMP,
-   CONSTRAINT fk_feedbacks_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+   CONSTRAINT fk_feedbacks_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
+   CONSTRAINT fk_feedbacks_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
 CREATE TABLE discount_codes (
@@ -151,7 +153,7 @@ CREATE TABLE order_discounts (
 CREATE TABLE payments (
    payment_id SERIAL PRIMARY KEY,
    order_id INT,
-   payment_method VARCHAR(50),
+   payment_method VARCHAR(50) CHECK ( payment_method IN ('cash', 'paypal')) DEFAULT 'cash',
    amount DECIMAL(10, 2),
    payment_date TIMESTAMP,
    CONSTRAINT fk_payments_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id)
@@ -161,7 +163,7 @@ CREATE TABLE history_transaction (
    id SERIAL PRIMARY KEY,
    user_id VARCHAR(255),
    order_id INT,
-   transaction FLOAT,
+   amount DECIMAL(10, 2),
    CONSTRAINT fk_history_orders_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
    CONSTRAINT fk_history_orders_order_id FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );

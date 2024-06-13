@@ -93,6 +93,9 @@ func Route() {
 			api.GET("/users/get_menu", middleware.JWTMiddlewareUsers(), users_function.UsersGetMenu())
 			api.GET("/users/get_promotion", middleware.JWTMiddlewareUsers(), users_function.UsersGetDiscountCodes())
 
+			//user_order
+			api.POST("/users/order/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersOrder())
+
 		}
 	}
 

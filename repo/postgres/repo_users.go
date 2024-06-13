@@ -2,6 +2,8 @@ package postgres
 
 import (
 	"context"
+	"fmt"
+	"github.com/MinhSang97/order_app/model"
 	"github.com/MinhSang97/order_app/model/users_model"
 	"github.com/MinhSang97/order_app/pkg/error"
 	"github.com/MinhSang97/order_app/pkg/log"
@@ -254,6 +256,26 @@ func (s usersRepository) DefaultAddressUsersFunction(ctx context.Context, user_i
 		}
 	}
 	return nil
+
+}
+
+func (s usersRepository) AddOrderUsersOrder(ctx context.Context, user_id string, order *model.OrderModel) (*model.OrderModel, error) {
+	fmt.Println(user_id)
+	order_id := order.OrderID
+	price := order.Price
+	quantity := order.Quantity
+	item_id := order.ItemID
+	fmt.Println("order_id, price, quantity, item_id", order_id, price, quantity, item_id)
+
+	query := `INSERT INTO order_items (order_id, item_id, quantity, price) VALUES($1, $2, $3, $4);`
+	for i, item := range item_id {
+		if err := s.db.Exec(query, order_id, item, quantity[i], price[i]).Error; err != nil {
+			return nil, errors.AddOrderFail
+		}
+
+	}
+
+	return order, nil
 
 }
 
