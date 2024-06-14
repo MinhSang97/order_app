@@ -2,7 +2,7 @@
 FROM golang:1.21-alpine
 
 # Set the Current Working Directory inside the container
-WORKDIR /app
+WORKDIR /order_app
 
 # Copy go mod and sum files
 COPY go.mod go.sum ./
