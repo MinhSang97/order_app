@@ -148,33 +148,11 @@ func (s adminFunctionRepository) DeleteUsers(ctx context.Context, email string) 
 
 // admin_function_menu
 
-//	func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuItemsModel, error) {
-//		var menu []model.MenuItemsModel
-//
-//		//if err := s.db.Table("menu_items").Scan(&menu).Error; err != nil {
-//		//	return menu, fmt.Errorf("get all menu items error: %w", err)
-//		//}
-//		//select a.item_id , a."name" , a.description , a.price , a.image_url , b.customization_option ,b.extra_price
-//		//	from menu_items a
-//		//	left join item_customizations b
-//		//	on a.item_id = b.item_id
-//
-//		//tôi kết quả trả về nhw thế này {
-//		//    "name":"món ăn_update",
-//		//    "description":"mô tả_update",
-//		//    "price": 79.891,
-//		//    "image_url":"https://www.facebook.com/_update",
-//		//    "customization_option":["trân châu_update", "thach dua_update","banh flan_update"],
-//		//    "extra_price":[10000,20000,30000]
-//		//}
-//
-//		return menu, nil
-//	}
 func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuItemsModel, error) {
 	var menu []model.MenuItemsModel
 	type MenuItemWithCustomization struct {
 		ItemID              string
-		Name                string
+		ItemName            string
 		Description         string
 		Price               float64
 		ImageUrl            string
@@ -184,7 +162,7 @@ func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuIt
 
 	// Custom SQL query to join the menu_items and item_customizations tables
 	query := `
-	SELECT a.item_id, a.name, a.description, a.price, a.image_url, b.customization_option, b.extra_price 
+	SELECT a.item_id, a.item_name, a.description, a.price, a.image_url, b.customization_option, b.extra_price 
     FROM menu_items a
     LEFT JOIN item_customizations b
     ON a.item_id = b.item_id;`
@@ -205,7 +183,7 @@ func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuIt
 		} else {
 			menuMap[result.ItemID] = &model.MenuItemsModel{
 				ItemID:              result.ItemID,
-				Name:                result.Name,
+				ItemName:            result.ItemName,
 				Description:         result.Description,
 				Price:               result.Price,
 				ImageUrl:            result.ImageUrl,
@@ -223,8 +201,8 @@ func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuIt
 	return menu, nil
 }
 func (s adminFunctionRepository) AddMenu(ctx context.Context, menu *model.MenuItemsModel) (*model.MenuItemsModel, error) {
-	query := `INSERT INTO menu_items (item_id, name, description, price, image_url) VALUES($1, $2, $3, $4, $5) RETURNING item_id;`
-	err := s.db.Raw(query, menu.ItemID, menu.Name, menu.Description, menu.Price, menu.ImageUrl).Scan(&menu).Error
+	query := `INSERT INTO menu_items (item_id, item_name, description, price, image_url) VALUES($1, $2, $3, $4, $5) RETURNING item_id;`
+	err := s.db.Raw(query, menu.ItemID, menu.ItemName, menu.Description, menu.Price, menu.ImageUrl).Scan(&menu).Error
 	if err != nil {
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "22P02" {
@@ -264,8 +242,8 @@ func (s adminFunctionRepository) EditMenu(ctx context.Context, item_id string, m
 
 	}
 
-	query_menu_items := `UPDATE menu_items SET name = $1, description = $2, price = $3, image_url = $4 WHERE item_id = $5;`
-	err = s.db.Exec(query_menu_items, menu.Name, menu.Description, menu.Price, menu.ImageUrl, item_id).Error
+	query_menu_items := `UPDATE menu_items SET item_name = $1, description = $2, price = $3, image_url = $4 WHERE item_id = $5;`
+	err = s.db.Exec(query_menu_items, menu.ItemName, menu.Description, menu.Price, menu.ImageUrl, item_id).Error
 	if err != nil {
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "22P02" {

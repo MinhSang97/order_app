@@ -7,7 +7,7 @@ import (
 
 type MenuItemsModel struct {
 	ItemID              string    `json:"item_id" db:"item_id"`
-	Name                string    `json:"name" db:"name"`
+	ItemName            string    `json:"item_name" db:"item_name"`
 	Description         string    `json:"description" db:"description"`
 	Price               float64   `json:"price" db:"price"`
 	ImageUrl            string    `json:"image_url" db:"image_url"`

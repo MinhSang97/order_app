@@ -12,6 +12,23 @@ import (
 	"net/http"
 )
 
+// AdminMenuAdd godoc
+// @Summary AdminMenuAdd
+// @Description AdminMenuAdd
+// @Tags AdminMenu
+// @Accept  json
+// @Produce  json
+// @Param name body string true "Name"
+// @Param description body string true "Description"
+// @Param price body float64 true "Price"
+// @Param image_url body string true "ImageUrl"
+// @Param customization_option body []string true "CustomizationOption"
+// @Param extra_price body []float64 true "ExtraPrice"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+
 func AdminMenuAdd() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var validate *validator.Validate
@@ -52,7 +69,7 @@ func AdminMenuAdd() func(*gin.Context) {
 
 		menu := dto.MenuItemsDto{
 			ItemID:              item_id,
-			Name:                req.Name,
+			ItemName:            req.ItemName,
 			Description:         req.Description,
 			Price:               req.Price,
 			ImageUrl:            req.ImageUrl,

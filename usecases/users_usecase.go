@@ -57,3 +57,7 @@ func (uc *usersUseCase) AddOrderUsersOrder(ctx context.Context, user_id string, 
 func (uc *usersUseCase) StatusOrderUserOrder(ctx context.Context, user_id string, order *model.OrderModel) error {
 	return uc.usersRepo.StatusOrderUserOrder(ctx, user_id, order)
 }
+
+func (uc *usersUseCase) HistoryOrderUserOrder(ctx context.Context, user_id string) ([]users_model.ResOrderHistory, error) {
+	return uc.usersRepo.HistoryOrderUserOrder(ctx, user_id)
+}

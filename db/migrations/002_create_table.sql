@@ -58,7 +58,7 @@ CREATE TABLE user_ratings (
 
 CREATE TABLE menu_items (
    item_id VARCHAR(255) PRIMARY KEY,
-   name VARCHAR(255) NOT NULL,
+   item_name VARCHAR(255) NOT NULL,
    description TEXT,
    price DECIMAL(10, 2) NOT NULL,
    image_url VARCHAR(255)

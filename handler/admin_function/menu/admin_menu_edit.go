@@ -21,26 +21,8 @@ import (
 // @Param description body string true "Description"
 // @Param price body float64 true "Price"
 // @Param image_url body string true "ImageUrl"
-// @Param customization_option_1 body string true "CustomizationOption1"
-// @Param extra_price_1 body float64 true "ExtraPrice1"
-// @Param customization_option_2 body string true "CustomizationOption2"
-// @Param extra_price_2 body float64 true "ExtraPrice2"
-// @Param customization_option_3 body string true "CustomizationOption3"
-// @Param extra_price_3 body float64 true "ExtraPrice3"
-// @Param customization_option_4 body string true "CustomizationOption4"
-// @Param extra_price_4 body float64 true "ExtraPrice4"
-// @Param customization_option_5 body string true "CustomizationOption5"
-// @Param extra_price_5 body float64 true "ExtraPrice5"
-// @Param customization_option_6 body string true "CustomizationOption6"
-// @Param extra_price_6 body float64 true "ExtraPrice6"
-// @Param customization_option_7 body string true "CustomizationOption7"
-// @Param extra_price_7 body float64 true "ExtraPrice7"
-// @Param customization_option_8 body string true "CustomizationOption8"
-// @Param extra_price_8 body float64 true "ExtraPrice8"
-// @Param customization_option_9 body string true "CustomizationOption9"
-// @Param extra_price_9 body float64 true "ExtraPrice9"
-// @Param customization_option_10 body string true "CustomizationOption10"
-// @Param extra_price_10 body float64 true "ExtraPrice10"
+// @Param customization_option body []string true "CustomizationOption"
+// @Param extra_price body []float64 true "ExtraPrice"
 // @Success 200 {object} res.Response
 // @Failure 400 {object} res.Response
 // @Failure 403 {object} res.Response
@@ -86,7 +68,7 @@ func AdminMenuEdit() func(*gin.Context) {
 		}
 
 		menu := dto.MenuItemsDto{
-			Name:                req.Name,
+			ItemName:            req.ItemName,
 			Description:         req.Description,
 			Price:               req.Price,
 			ImageUrl:            req.ImageUrl,

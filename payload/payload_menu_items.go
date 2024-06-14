@@ -8,7 +8,7 @@ import (
 
 type MenuItemsPayload struct {
 	ItemID              string    `json:"item_id" db:"item_id"`
-	Name                string    `json:"name" db:"name"`
+	ItemName            string    `json:"item_name" db:"item_name"`
 	Description         string    `json:"description" db:"description"`
 	Price               float64   `json:"price" db:"price"`
 	ImageUrl            string    `json:"image_url" db:"image_url"`
@@ -19,7 +19,7 @@ type MenuItemsPayload struct {
 func (c *MenuItemsPayload) ToModel() *model.MenuItemsModel {
 	menuItemsPayload := &model.MenuItemsModel{
 		ItemID:              c.ItemID,
-		Name:                c.Name,
+		ItemName:            c.ItemName,
 		Description:         c.Description,
 		Price:               c.Price,
 		ImageUrl:            c.ImageUrl,

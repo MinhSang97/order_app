@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"
@@ -20,6 +21,7 @@ func UsersOrderStatus() func(*gin.Context) {
 			})
 			return
 		}
+		fmt.Println("user_id: ", user_id)
 
 		var validate *validator.Validate
 		validate = validator.New(validator.WithRequiredStructEnabled())
