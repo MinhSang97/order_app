@@ -68,6 +68,14 @@ func AdminMenuEdit() func(*gin.Context) {
 			return
 		}
 
+		if len(req.CustomizationOption) != len(req.ExtraPrice) {
+			c.JSON(http.StatusBadRequest, res.Response{
+				StatusCode: http.StatusBadRequest,
+				Message:    "CustomizationOption và ExtraPrice  must have the same number of elements",
+				Data:       nil,
+			})
+			return
+		}
 		if err := validate.Struct(req); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -78,30 +86,12 @@ func AdminMenuEdit() func(*gin.Context) {
 		}
 
 		menu := dto.MenuItemsDto{
-			Name:                  req.Name,
-			Description:           req.Description,
-			Price:                 req.Price,
-			ImageUrl:              req.ImageUrl,
-			CustomizationOption1:  req.CustomizationOption1,
-			ExtraPrice1:           req.ExtraPrice1,
-			CustomizationOption2:  req.CustomizationOption2,
-			ExtraPrice2:           req.ExtraPrice2,
-			CustomizationOption3:  req.CustomizationOption3,
-			ExtraPrice3:           req.ExtraPrice3,
-			CustomizationOption4:  req.CustomizationOption4,
-			ExtraPrice4:           req.ExtraPrice4,
-			CustomizationOption5:  req.CustomizationOption5,
-			ExtraPrice5:           req.ExtraPrice5,
-			CustomizationOption6:  req.CustomizationOption6,
-			ExtraPrice6:           req.ExtraPrice6,
-			CustomizationOption7:  req.CustomizationOption7,
-			ExtraPrice7:           req.ExtraPrice7,
-			CustomizationOption8:  req.CustomizationOption8,
-			ExtraPrice8:           req.ExtraPrice8,
-			CustomizationOption9:  req.CustomizationOption9,
-			ExtraPrice9:           req.ExtraPrice9,
-			CustomizationOption10: req.CustomizationOption10,
-			ExtraPrice10:          req.ExtraPrice10,
+			Name:                req.Name,
+			Description:         req.Description,
+			Price:               req.Price,
+			ImageUrl:            req.ImageUrl,
+			CustomizationOption: req.CustomizationOption,
+			ExtraPrice:          req.ExtraPrice,
 		}
 
 		err := validate.Struct(menu)

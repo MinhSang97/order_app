@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/MinhSang97/order_app/pkg/log"
 	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
@@ -55,7 +54,7 @@ func UsersSignUp() func(*gin.Context) {
 			})
 			return
 		}
-		fmt.Println("req", req)
+
 		if err := validate.Struct(req); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -68,7 +67,7 @@ func UsersSignUp() func(*gin.Context) {
 		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
 		role := sercurity2.USERS.String()
 
-		userUsersId, err := uuid.NewUUID()
+		useId, err := uuid.NewUUID()
 
 		if err != nil {
 			log.Error(err.Error())
@@ -81,7 +80,7 @@ func UsersSignUp() func(*gin.Context) {
 		}
 
 		userUsers := usersdto.Users{
-			UserId:       userUsersId.String(),
+			UserId:       useId.String(),
 			Name:         req.Name,
 			PassWord:     PassHash,
 			Email:        req.Email,

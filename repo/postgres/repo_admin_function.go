@@ -26,11 +26,12 @@ func (s adminFunctionRepository) AddUser(ctx context.Context, users *admin_model
 	if tx.Error != nil {
 		return errors.SignUpFail
 	}
+	expired_at := time.Now().Add(time.Hour * 8)
 
 	// Insert into the users table
-	addUsers := `INSERT INTO users (user_id, pass_word, name, email, phone_number, address, role, created_at) 
-					VALUES($1,$2,$3,$4,$5,$6,$7,$8);`
-	err := tx.Exec(addUsers, users.UserId, users.Password, users.Name, users.Email, users.PhoneNumber, users.Address, users.Role, time.Now()).Error
+	addUsers := `INSERT INTO users (user_id, password, name, email, phone_number, address, role, created_at, expired_at) 
+					VALUES($1,$2,$3,$4,$5,$6,$7,$8, $9);`
+	err := tx.Exec(addUsers, users.UserId, users.Password, users.Name, users.Email, users.PhoneNumber, users.Address, users.Role, time.Now(), expired_at).Error
 	if err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
@@ -42,8 +43,8 @@ func (s adminFunctionRepository) AddUser(ctx context.Context, users *admin_model
 	}
 
 	// Insert into the user_addresses table
-	query := `INSERT INTO user_addresses (user_id, address) VALUES($1, $2);`
-	if err := tx.Exec(query, users.UserId, users.Address).Error; err != nil {
+	query := `INSERT INTO user_addresses (user_id, address, name, phone_number) VALUES($1, $2, $3, $4);`
+	if err := tx.Exec(query, users.UserId, users.Address, users.Name, users.PhoneNumber).Error; err != nil {
 		tx.Rollback()
 		return errors.SignUpFail
 	}
@@ -147,14 +148,80 @@ func (s adminFunctionRepository) DeleteUsers(ctx context.Context, email string) 
 
 // admin_function_menu
 
+//	func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuItemsModel, error) {
+//		var menu []model.MenuItemsModel
+//
+//		//if err := s.db.Table("menu_items").Scan(&menu).Error; err != nil {
+//		//	return menu, fmt.Errorf("get all menu items error: %w", err)
+//		//}
+//		//select a.item_id , a."name" , a.description , a.price , a.image_url , b.customization_option ,b.extra_price
+//		//	from menu_items a
+//		//	left join item_customizations b
+//		//	on a.item_id = b.item_id
+//
+//		//tôi kết quả trả về nhw thế này {
+//		//    "name":"món ăn_update",
+//		//    "description":"mô tả_update",
+//		//    "price": 79.891,
+//		//    "image_url":"https://www.facebook.com/_update",
+//		//    "customization_option":["trân châu_update", "thach dua_update","banh flan_update"],
+//		//    "extra_price":[10000,20000,30000]
+//		//}
+//
+//		return menu, nil
+//	}
 func (s adminFunctionRepository) GetMenuAll(ctx context.Context) ([]model.MenuItemsModel, error) {
 	var menu []model.MenuItemsModel
-	if err := s.db.Table("menu_items").Scan(&menu).Error; err != nil {
-		return menu, fmt.Errorf("get all menu items error: %w", err)
+	type MenuItemWithCustomization struct {
+		ItemID              string
+		Name                string
+		Description         string
+		Price               float64
+		ImageUrl            string
+		CustomizationOption string
+		ExtraPrice          float64
 	}
+
+	// Custom SQL query to join the menu_items and item_customizations tables
+	query := `
+	SELECT a.item_id, a.name, a.description, a.price, a.image_url, b.customization_option, b.extra_price 
+    FROM menu_items a
+    LEFT JOIN item_customizations b
+    ON a.item_id = b.item_id;`
+
+	var results []MenuItemWithCustomization
+
+	if err := s.db.Raw(query).Scan(&results).Error; err != nil {
+		return nil, fmt.Errorf("get all menu items error: %w", err)
+	}
+
+	// Create a map to aggregate customization options and extra prices
+	menuMap := make(map[string]*model.MenuItemsModel)
+
+	for _, result := range results {
+		if item, exists := menuMap[result.ItemID]; exists {
+			item.CustomizationOption = append(item.CustomizationOption, result.CustomizationOption)
+			item.ExtraPrice = append(item.ExtraPrice, result.ExtraPrice)
+		} else {
+			menuMap[result.ItemID] = &model.MenuItemsModel{
+				ItemID:              result.ItemID,
+				Name:                result.Name,
+				Description:         result.Description,
+				Price:               result.Price,
+				ImageUrl:            result.ImageUrl,
+				CustomizationOption: []string{result.CustomizationOption},
+				ExtraPrice:          []float64{result.ExtraPrice},
+			}
+		}
+	}
+
+	// Convert the map to a slice
+	for _, item := range menuMap {
+		menu = append(menu, *item)
+	}
+
 	return menu, nil
 }
-
 func (s adminFunctionRepository) AddMenu(ctx context.Context, menu *model.MenuItemsModel) (*model.MenuItemsModel, error) {
 	query := `INSERT INTO menu_items (item_id, name, description, price, image_url) VALUES($1, $2, $3, $4, $5) RETURNING item_id;`
 	err := s.db.Raw(query, menu.ItemID, menu.Name, menu.Description, menu.Price, menu.ImageUrl).Scan(&menu).Error
@@ -167,20 +234,18 @@ func (s adminFunctionRepository) AddMenu(ctx context.Context, menu *model.MenuIt
 		return nil, errors.AddMenuItemsFail
 	}
 
-	fmt.Println(menu.ExtraPrice1)
-
-	query_item_customizations := `INSERT INTO item_customizations (item_id, customization_option_1, extra_price_1, customization_option_2, extra_price_2, customization_option_3, extra_price_3, customization_option_4, extra_price_4, customization_option_5, extra_price_5, customization_option_6, extra_price_6, customization_option_7, extra_price_7, customization_option_8, extra_price_8, customization_option_9, extra_price_9, customization_option_10, extra_price_10)
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21);`
-	err = s.db.Exec(query_item_customizations, menu.ItemID, menu.CustomizationOption1, menu.ExtraPrice1, menu.CustomizationOption2, menu.ExtraPrice2, menu.CustomizationOption3, menu.ExtraPrice3, menu.CustomizationOption4, menu.ExtraPrice4, menu.CustomizationOption5, menu.ExtraPrice5, menu.CustomizationOption6, menu.ExtraPrice6, menu.CustomizationOption7, menu.ExtraPrice7, menu.CustomizationOption8, menu.ExtraPrice8, menu.CustomizationOption9, menu.ExtraPrice9, menu.CustomizationOption10, menu.ExtraPrice10).Error
-	if err != nil {
-		if pgErr, ok := err.(*pq.Error); ok {
-			if pgErr.Code == "22P02" {
-				return nil, errors.AddMenuItemsFail
+	query_item_customizations := `INSERT INTO item_customizations (item_id, customization_option, extra_price) VALUES($1, $2, $3);`
+	for i := 0; i < len(menu.CustomizationOption); i++ {
+		err = s.db.Exec(query_item_customizations, menu.ItemID, menu.CustomizationOption[i], menu.ExtraPrice[i]).Error
+		if err != nil {
+			if pgErr, ok := err.(*pq.Error); ok {
+				if pgErr.Code == "22P02" {
+					return nil, errors.AddMenuItemsFail
+				}
 			}
+			return nil, errors.AddMenuItemsFail
 		}
-		return nil, errors.AddMenuItemsFail
 	}
-
 	return menu, nil
 }
 
@@ -211,8 +276,7 @@ func (s adminFunctionRepository) EditMenu(ctx context.Context, item_id string, m
 
 	}
 
-	query_item_customizations := `UPDATE item_customizations SET customization_option_1 = $1, extra_price_1 = $2, customization_option_2 = $3, extra_price_2 = $4, customization_option_3 = $5, extra_price_3 = $6, customization_option_4 = $7, extra_price_4 = $8, customization_option_5 = $9, extra_price_5 = $10, customization_option_6 = $11, extra_price_6 = $12, customization_option_7 = $13, extra_price_7 = $14, customization_option_8 = $15, extra_price_8 = $16, customization_option_9 = $17, extra_price_9 = $18, customization_option_10 = $19, extra_price_10 = $20 WHERE item_id = $21;`
-	err = s.db.Exec(query_item_customizations, menu.CustomizationOption1, menu.ExtraPrice1, menu.CustomizationOption2, menu.ExtraPrice2, menu.CustomizationOption3, menu.ExtraPrice3, menu.CustomizationOption4, menu.ExtraPrice4, menu.CustomizationOption5, menu.ExtraPrice5, menu.CustomizationOption6, menu.ExtraPrice6, menu.CustomizationOption7, menu.ExtraPrice7, menu.CustomizationOption8, menu.ExtraPrice8, menu.CustomizationOption9, menu.ExtraPrice9, menu.CustomizationOption10, menu.ExtraPrice10, item_id).Error
+	err = s.db.Exec("DELETE FROM item_customizations WHERE item_id = $1", item_id).Error
 	if err != nil {
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "22P02" {
@@ -220,9 +284,22 @@ func (s adminFunctionRepository) EditMenu(ctx context.Context, item_id string, m
 			}
 		}
 		return errors.EditMenuItemsFail
+	}
 
+	query_item_customizations := `INSERT INTO item_customizations (item_id, customization_option, extra_price) VALUES($1, $2, $3);`
+	for i := 0; i < len(menu.CustomizationOption); i++ {
+		err = s.db.Exec(query_item_customizations, item_id, menu.CustomizationOption[i], menu.ExtraPrice[i]).Error
+		if err != nil {
+			if pgErr, ok := err.(*pq.Error); ok {
+				if pgErr.Code == "22P02" {
+					return errors.AddMenuItemsFail
+				}
+			}
+			return errors.AddMenuItemsFail
+		}
 	}
 	return nil
+
 }
 
 func (s adminFunctionRepository) DeleteMenu(ctx context.Context, item_id string) error {

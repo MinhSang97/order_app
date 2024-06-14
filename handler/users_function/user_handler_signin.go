@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	sercurity2 "github.com/MinhSang97/order_app/pkg/sercurity"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto/users_dto"
@@ -58,7 +57,7 @@ func UsersSignIn() func(*gin.Context) {
 			})
 			return
 		}
-		fmt.Println("Token: ", token)
+
 		PassHash := sercurity2.HashAndSalt([]byte(req.PassWord))
 		users := users_dto.ReqSignIn{
 			PassWord:    PassHash,

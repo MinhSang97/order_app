@@ -29,4 +29,5 @@ var (
 	AddOrderDiscountsFail     = errors.New("Thêm order discounts thất bại")
 	AddHistoryTransactionFail = errors.New("Thêm lịch sử giao dịch thất bại")
 	StatusOrderFail           = errors.New("Cập nhật trạng thái đơn hàng thất bại")
+	GetMenuItemsFail          = errors.New("Lấy menu items thất bại")
 )
