@@ -61,3 +61,12 @@ func (uc *usersUseCase) StatusOrderUserOrder(ctx context.Context, user_id string
 func (uc *usersUseCase) HistoryOrderUserOrder(ctx context.Context, user_id string) ([]users_model.ResOrderHistory, error) {
 	return uc.usersRepo.HistoryOrderUserOrder(ctx, user_id)
 }
+
+// UsersFeedback
+func (uc *usersUseCase) AddFeedbackUsersFeedback(ctx context.Context, user_id string, feedback *model.FeedbackModel) error {
+	return uc.usersRepo.AddFeedbackUsersFeedback(ctx, user_id, feedback)
+}
+
+func (uc *usersUseCase) HistoryFeedbackUserFeedback(ctx context.Context, user_id string, feedback *model.FeedbackModel) ([]model.FeedbackModel, error) {
+	return uc.usersRepo.HistoryFeedbackUserFeedback(ctx, user_id, feedback)
+}

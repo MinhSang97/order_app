@@ -124,6 +124,33 @@ paths:
       summary: AdminDiscountCodeEdit
       tags:
       - AdminPromotion
+  /v1/api/admin/feedback_view:
+    get:
+      consumes:
+      - application/json
+      description: AdminFeedbackView
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminFeedbackView
+      tags:
+      - AdminFeedback
   /v1/api/admin/member_add:
     post:
       consumes:
@@ -1199,6 +1226,96 @@ paths:
       summary: Delete user
       tags:
       - users
+  /v1/api/users/feedback_history{user_id}:
+    post:
+      consumes:
+      - application/json
+      description: UsersFeedbackHistory
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: OrderID
+        in: body
+        name: order_id
+        required: true
+        schema:
+          type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: UsersFeedbackHistory
+      tags:
+      - usersFeedback
+  /v1/api/users/feedback{user_id}:
+    post:
+      consumes:
+      - application/json
+      description: UsersFeedback
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: OrderID
+        in: body
+        name: order_id
+        required: true
+        schema:
+          type: integer
+      - description: Rating
+        in: body
+        name: rating
+        required: true
+        schema:
+          type: integer
+      - description: Comment
+        in: body
+        name: comment
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: UsersFeedback
+      tags:
+      - usersFeedback
   /v1/api/users/get-address/{user_id}:
     get:
       consumes:

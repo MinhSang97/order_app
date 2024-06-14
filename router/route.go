@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/MinhSang97/order_app/dbutil"
 	"github.com/MinhSang97/order_app/handler"
+	admin_function_feedback "github.com/MinhSang97/order_app/handler/admin_function/feedback"
 	admin_function_member "github.com/MinhSang97/order_app/handler/admin_function/member"
 	admin_function_menu "github.com/MinhSang97/order_app/handler/admin_function/menu"
 	admin_function_promotion "github.com/MinhSang97/order_app/handler/admin_function/promotion"
@@ -80,6 +81,9 @@ func Route() {
 			api.POST("/admin/promotion_add", middleware.JWTMiddlewareAdmin(), admin_function_promotion.AdminPromotionAdd())
 			api.DELETE("/admin/promotion_delete/:discount_code_id", middleware.JWTMiddlewareAdmin(), admin_function_promotion.AdminPromotionDelete())
 
+			//admin_function_feedback
+			api.GET("/admin/feedback_view", middleware.JWTMiddlewareAdmin(), admin_function_feedback.AdminFeedbackView())
+
 			//user
 			api.POST("/users/sign-up", users_function.UsersSignUp())
 			api.POST("/users/sign_in", users_function.UsersSignIn())
@@ -98,6 +102,9 @@ func Route() {
 			api.PATCH("/users/order_status/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersOrderStatus())
 			api.GET("/users/order_history/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersOrderHistory())
 
+			//user_feedback
+			api.POST("/users/feedback/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersFeedback())
+			api.GET("/users/feedback_history/:user_id", middleware.JWTMiddlewareUsers(), users_function.UsersFeedbackHistory())
 		}
 	}
 

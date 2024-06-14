@@ -70,3 +70,8 @@ func (uc *adminFunctionUseCase) EditDiscount(ctx context.Context, discount_code_
 func (uc *adminFunctionUseCase) DeleteDiscount(ctx context.Context, discount_code_id string) error {
 	return uc.adminFunctionRepo.DeleteDiscount(ctx, discount_code_id)
 }
+
+// admin_function_feedback
+func (uc *adminFunctionUseCase) GetFeedbackAll(ctx context.Context) ([]model.FeedbackModel, error) {
+	return uc.adminFunctionRepo.GetFeedbackAll(ctx)
+}

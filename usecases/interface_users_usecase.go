@@ -21,4 +21,8 @@ type UsersUsecase interface {
 	AddOrderUsersOrder(ctx context.Context, user_id string, order *model.OrderModel) (*model.OrderModel, error)
 	StatusOrderUserOrder(ctx context.Context, user_id string, order *model.OrderModel) error
 	HistoryOrderUserOrder(ctx context.Context, user_id string) ([]users_model.ResOrderHistory, error)
+
+	//UsersFeedback
+	AddFeedbackUsersFeedback(ctx context.Context, user_id string, feedback *model.FeedbackModel) error
+	HistoryFeedbackUserFeedback(ctx context.Context, user_id string, feedback *model.FeedbackModel) ([]model.FeedbackModel, error)
 }

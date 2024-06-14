@@ -425,86 +425,57 @@ func (s usersRepository) HistoryOrderUserOrder(ctx context.Context, user_id stri
 	return resOrderHistory, nil
 }
 
-//func (s usersRepository) HistoryOrderUserOrder(ctx context.Context, user_id string) ([]users_model.ResOrderHistory, error) {
-//	var resOrderHistory []users_model.ResOrderHistory
-//	type Result struct {
-//		UserID         string    `json:"user_id,omitempty" db:"user_id"`
-//		Name           string    `json:"name,omitempty" db:"name"`
-//		Email          string    `json:"email,omitempty" db:"email"`
-//		PhoneNumber    string    `json:"phone_number,omitempty" db:"phone_number"`
-//		OrderID        int64     `json:"order_id,omitempty" db:"order_id"`
-//		OrderDate      time.Time `json:"order_date,omitempty" db:"order_date"`
-//		TotalPrice     float64   `json:"total_price,omitempty" db:"total_price"`
-//		Status         string    `json:"status,omitempty" db:"status"`
-//		Address        string    `json:"address,omitempty" db:"address"`
-//		PaymentMethod  string    `json:"payment_method,omitempty" db:"payment_method"`
-//		DiscountCodeID string    `json:"discount_code_id,omitempty" db:"discount_code_id"`
-//		ItemID         string    `json:"item_id,omitempty" db:"item_id"`
-//		Quantity       int       `json:"quantity,omitempty" db:"quantity"`
-//		Price          float64   `json:"price,omitempty" db:"price"`
-//		ItemName       string    `json:"item_name,omitempty" db:"item_name"`
-//		Description    string    `json:"description,omitempty" db:"description"`
-//		ImageUrl       string    `json:"image_url,omitempty" db:"image_url"`
-//	}
-//	query := `
-//SELECT u.user_id, u.name,u.email,u.phone_number,o.order_id,o.order_date,o.total_price,o.status,o.address,o.payment_method,od.discount_code_id,oi.item_id,oi.quantity,oi.price, mi.item_name,mi.description,mi.image_url
-//FROM users u
-//LEFT JOIN orders o ON u.user_id = o.user_id
-//LEFT JOIN order_discounts od ON o.order_id = od.order_id
-//LEFT JOIN order_items oi ON od.order_id = oi.order_id
-//left join menu_items mi on  oi.item_id = mi.item_id
-//WHERE u.user_id = ?;
-//`
-//	var results []Result
-//	if err := s.db.Raw(query, user_id).Scan(&results).Error; err != nil {
-//		return nil, errors.HistoryOrderFail
-//	}
-//	resOrderHistoryMap := make(map[int64]users_model.ResOrderHistory)
-//	for _, result := range results {
-//		if item, exits := resOrderHistoryMap[result.OrderID]; exits {
-//			item.ItemID = append(item.ItemID, result.ItemID)
-//			item.Quantity = append(item.Quantity, result.Quantity)
-//			item.Price = append(item.Price, result.Price)
-//			item.ItemName = append(item.ItemName, result.ItemName)
-//			item.Description = append(item.Description, result.Description)
-//			item.ImageUrl = append(item.ImageUrl, result.ImageUrl)
-//		} else {
-//			resOrderHistoryMap[result.OrderID] = users_model.ResOrderHistory{
-//				UserID:         result.UserID,
-//				Name:           result.Name,
-//				Email:          result.Email,
-//				PhoneNumber:    result.PhoneNumber,
-//				OrderID:        result.OrderID,
-//				OrderDate:      result.OrderDate,
-//				TotalPrice:     result.TotalPrice,
-//				Status:         result.Status,
-//				Address:        result.Address,
-//				PaymentMethod:  result.PaymentMethod,
-//				DiscountCodeID: result.DiscountCodeID,
-//				ItemID:         []string{result.ItemID},
-//				Quantity:       []int{result.Quantity},
-//				Price:          []float64{result.Price},
-//				ItemName:       []string{result.ItemName},
-//				Description:    []string{result.Description},
-//				ImageUrl:       []string{result.ImageUrl},
-//			}
-//		}
-//	}
-//
-//	for _, item := range resOrderHistoryMap {
-//		resOrderHistory = append(resOrderHistory, item)
-//
-//	}
-//	return resOrderHistory, nil
-//
-//}
-
 func (s usersRepository) StatusOrderUserOrder(ctx context.Context, user_id string, order *model.OrderModel) error {
 	query := `UPDATE orders SET status = ? WHERE order_id = ? and user_id = ?;`
 	if err := s.db.Exec(query, order.Status, order.OrderID, user_id).Error; err != nil {
 		return errors.StatusOrderFail
 	}
 	return nil
+}
+
+// user_feedback
+func (s usersRepository) AddFeedbackUsersFeedback(ctx context.Context, user_id string, feedback *model.FeedbackModel) error {
+	err := s.db.Table("users").Where("user_id = ?", user_id).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return errors.UserNotFound
+	}
+	err = s.db.Table("orders").Where("order_id = ? and user_id = ?", feedback.OrderID, user_id).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.OrderNotFound
+		}
+		return errors.OrderNotFound
+
+	}
+	queryFeedback := `INSERT INTO feedbacks (order_id, user_id, rating, comment, created_at) VALUES ($1, $2, $3, $4, $5);`
+	if err := s.db.Exec(queryFeedback, feedback.OrderID, user_id, feedback.Rating, feedback.Comment, time.Now()).Error; err != nil {
+		return errors.AddFeedbackFail
+	}
+	err = s.db.Table("feedbacks").Where("order_id = ? and user_id = ?", feedback.OrderID, user_id).Scan(&feedback).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.FeedbackNotFound
+		}
+		return errors.FeedbackNotFound
+
+	}
+	return nil
+}
+
+func (s usersRepository) HistoryFeedbackUserFeedback(ctx context.Context, user_id string, feedback *model.FeedbackModel) ([]model.FeedbackModel, error) {
+	var feedbacks []model.FeedbackModel
+	err := s.db.Table("feedbacks").Where("order_id = ? and user_id = ?", feedback.OrderID, user_id).Scan(&feedbacks).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.FeedbackNotFound
+		}
+		return nil, errors.FeedbackNotFound
+	}
+	return feedbacks, nil
+
 }
 
 var instancesUsers usersRepository

@@ -24,4 +24,7 @@ type AdminFunctionUsecase interface {
 	AddDiscount(ctx context.Context, discount *model.DiscountCodesModel) (*model.DiscountCodesModel, error)
 	EditDiscount(ctx context.Context, discount_code_id string, discount *model.DiscountCodesModel) error
 	DeleteDiscount(ctx context.Context, discount_code_id string) error
+
+	//admin_function_feedback
+	GetFeedbackAll(ctx context.Context) ([]model.FeedbackModel, error)
 }

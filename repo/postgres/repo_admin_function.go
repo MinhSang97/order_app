@@ -400,6 +400,15 @@ func (s adminFunctionRepository) DeleteDiscount(ctx context.Context, discount_co
 
 }
 
+// admin_function_feedback
+func (s adminFunctionRepository) GetFeedbackAll(ctx context.Context) ([]model.FeedbackModel, error) {
+	var feedback []model.FeedbackModel
+	if err := s.db.Table("feedbacks").Scan(&feedback).Error; err != nil {
+		return feedback, fmt.Errorf("get all feedback error: %w", err)
+	}
+	return feedback, nil
+}
+
 var instance adminFunctionRepository
 
 func NewAdminFunctionUseCase(db *gorm.DB) repo.AdminFunctionRepo {
