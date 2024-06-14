@@ -88,7 +88,6 @@ func UsersSignIn() func(*gin.Context) {
 			})
 			return
 		}
-		fmt.Println("Token: ", usersPass.Token)
 
 		//check pass
 		isTheSame := sercurity2.ComparePasswords(usersPass.PassWord, []byte(req.PassWord))

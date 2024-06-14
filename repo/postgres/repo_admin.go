@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"database/sql"
 	"github.com/MinhSang97/order_app/model/admin_model"
 	"github.com/MinhSang97/order_app/model/users_model"
 	"github.com/MinhSang97/order_app/pkg/error"
@@ -24,9 +25,11 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 		return errors.SignUpFail
 	}
 
+	expired_at := time.Now().Add(time.Hour * 8)
+
 	// Insert into the users table
-	queryUser := `INSERT INTO users (user_id, email, password, name, phone_number, role, created_at, address, telegram) VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9);`
-	if err := tx.Exec(queryUser, admin.UserId, admin.Email, admin.PassWord, admin.Name, admin.PhoneNumber, admin.Role, time.Now(), admin.Address, admin.Telegram).Error; err != nil {
+	queryUser := `INSERT INTO users (user_id, email, password, name, phone_number, role, created_at, address, telegram, expired_at) VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9, $10);`
+	if err := tx.Exec(queryUser, admin.UserId, admin.Email, admin.PassWord, admin.Name, admin.PhoneNumber, admin.Role, time.Now(), admin.Address, admin.Telegram, expired_at).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "23514" {
@@ -59,6 +62,7 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 
 func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSignIn) (*admin_model.ReqSignIn, error) {
 	users := admin
+	token := admin.Token
 
 	// Step 1: Query the database to get the user's role based on their email
 	var role string
@@ -98,14 +102,63 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 		return nil, err
 	}
 
-	queryInsertToken := `UPDATE users SET token = ? WHERE user_id = ?;`
-	if err := s.db.Exec(queryInsertToken, users.Token, user_id).Error; err != nil {
-		if pgErr, ok := err.(*pq.Error); ok {
-			if pgErr.Code == "42P01" {
-				return users, errors.SignInFail
-			}
+	var expired_at time.Time
+	err = s.db.Table("users").Select("expired_at").Where("user_id = ?", user_id).Scan(&expired_at).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.UserNotFound
 		}
-		return users, errors.SignInFail
+		return nil, err
+	}
+
+	// Truncate to remove milliseconds and timezone info
+	expired_at_str := expired_at.Format("2006-01-02 15:04:05")
+	expired_at, err = time.Parse("2006-01-02 15:04:05", expired_at_str)
+	if err != nil {
+		return nil, err
+	}
+
+	// Get current time in UTC and truncate to remove milliseconds
+	expired_now := time.Now()
+	expired_now_str := expired_now.Format("2006-01-02 15:04:05")
+	expired_now, err = time.Parse("2006-01-02 15:04:05", expired_now_str)
+	if err != nil {
+		return nil, err
+	}
+
+	kq := expired_now.Sub(expired_at)
+
+	var token_db sql.NullString
+	err = s.db.Table("users").Select("token").Where("user_id = ?", user_id).Scan(&token_db).Error
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, errors.UserNotFound
+		}
+		return nil, err
+	}
+
+	expired_at_db := time.Now().Add(time.Hour * 8)
+
+	if kq > 8*time.Hour || token_db.String == "" {
+		queryInsertToken := `UPDATE users SET token = ?, expired_at = ? WHERE user_id = ?;`
+		if err := s.db.Exec(queryInsertToken, token, expired_at_db, user_id).Error; err != nil {
+			return nil, errors.SignInFail
+		}
+	}
+	if kq > 8*time.Hour || token_db.String == "" {
+		users = &admin_model.ReqSignIn{
+			Email:    users.Email,
+			PassWord: users.PassWord,
+			Token:    token,
+		}
+		return users, nil
+	} else {
+		users = &admin_model.ReqSignIn{
+			Email:    users.Email,
+			PassWord: users.PassWord,
+			Token:    token_db.String,
+		}
+		return users, nil
 	}
 	return users, nil
 }

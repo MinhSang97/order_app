@@ -13,7 +13,8 @@ CREATE TABLE users (
    role VARCHAR(255) CHECK (role IN ('admin', 'users', 'driver','shop')) DEFAULT NULL,
    created_at TIMESTAMP(3) DEFAULT NULL,
    updated_at TIMESTAMP(3) DEFAULT NULL,
-   token VARCHAR(255)
+   token VARCHAR(255),
+   expired_at TIMESTAMP(3) DEFAULT NULL
 );
 
 CREATE TABLE recover_password (
@@ -66,26 +67,8 @@ CREATE TABLE menu_items (
 CREATE TABLE item_customizations (
    customization_id SERIAL PRIMARY KEY,
    item_id VARCHAR(255),
-   customization_option_1 VARCHAR(255) DEFAULT NULL,
-   extra_price_1 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_2 VARCHAR(255) DEFAULT NULL,
-   extra_price_2 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_3 VARCHAR(255) DEFAULT NULL,
-   extra_price_3 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_4 VARCHAR(255) DEFAULT NULL,
-   extra_price_4 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_5 VARCHAR(255) DEFAULT NULL,
-   extra_price_5 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_6 VARCHAR(255) DEFAULT NULL,
-   extra_price_6 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_7 VARCHAR(255) DEFAULT NULL,
-   extra_price_7 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_8 VARCHAR(255) DEFAULT NULL,
-   extra_price_8 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_9 VARCHAR(255) DEFAULT NULL,
-   extra_price_9 DECIMAL(10, 2) DEFAULT NULL,
-   customization_option_10 VARCHAR(255) DEFAULT NULL,
-   extra_price_10 DECIMAL(10, 2) DEFAULT NULL,
+   customization_option VARCHAR(255) DEFAULT NULL,
+   extra_price DECIMAL(10, 2) DEFAULT NULL,
    CONSTRAINT fk_item_customizations_item_id FOREIGN KEY (item_id) REFERENCES menu_items(item_id)
 );
 
@@ -112,11 +95,11 @@ CREATE TABLE order_items (
 );
 
 -- CREATE TABLE order_customizations (
---    order_customization_id SERIAL PRIMARY KEY,
---    order_item_id INT,
---    customization_option VARCHAR(255),
---    extra_price DECIMAL(10, 2),
---    CONSTRAINT fk_order_customizations_order_item_id FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id)
+--   order_customization_id SERIAL PRIMARY KEY,
+--   order_item_id INT,
+--   customization_option VARCHAR(255),
+--   extra_price DECIMAL(10, 2),
+--   CONSTRAINT fk_order_customizations_order_item_id FOREIGN KEY (order_item_id) REFERENCES order_items(order_item_id)
 -- );
 
 CREATE TABLE feedbacks (
@@ -132,8 +115,8 @@ CREATE TABLE feedbacks (
 
 CREATE TABLE discount_codes (
    discount_code_id VARCHAR(255) PRIMARY KEY,
-    title VARCHAR(255),
-    description TEXT,
+   title VARCHAR(255),
+   description TEXT,
    quantity INT,
    code VARCHAR(50) NOT NULL UNIQUE,
    discount_percentage DECIMAL(10, 2),
