@@ -56,17 +56,14 @@ func (s usersRepository) CreateUsers(ctx context.Context, users *users_model.Use
 	return nil
 }
 func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUsersSignIn) (*users_model.ReqUsersSignIn, error) {
-
+	fmt.Println("db: ", users.Token)
 	// Step 1: Query the database to get the user's role based on their email
 	var role string
-	err := s.db.Table("users").Select("role").Where("email = ? or phone_number = ?", users.Email, users.PhoneNumber).Scan(&role).Error
+	err := s.db.Table("users").Select("role").Where("email = ?", users.Email).Scan(&role).Error
 	if err != nil {
-		//log.Error(err.Error())
-		// Step 2: Check if the role is "users"
-		if role == "" {
+		log.Error(err.Error())
+		if err == gorm.ErrRecordNotFound {
 			return nil, errors.UserNotFound
-		} else if role != "users" {
-			return nil, errors.NotUsers
 		}
 		return nil, err
 	}
@@ -87,7 +84,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 		return nil, err
 	}
 
-	// Step 3: Proceed with the rest of the function if the role is "admin"
+	// Step 3: Proceed with the rest of the function if the role is "users"
 	var user_id string
 	err = s.db.Table("users").Select("user_id").Where("email = ?", users.Email).Scan(&user_id).Error
 	if err != nil {
@@ -107,6 +104,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 		}
 		return users, errors.SignInFail
 	}
+	fmt.Println("user: ", users.Token)
 	return users, nil
 }
 
@@ -260,13 +258,6 @@ func (s usersRepository) DefaultAddressUsersFunction(ctx context.Context, user_i
 }
 
 func (s usersRepository) AddOrderUsersOrder(ctx context.Context, user_id string, order *model.OrderModel) (*model.OrderModel, error) {
-	//fmt.Println(user_id)
-	//order_id := order.OrderID
-	//price := order.Price
-	//quantity := order.Quantity
-	//item_id := order.ItemID
-	//fmt.Println("order_id, price, quantity, item_id", order_id, price, quantity, item_id)
-	//Insert into the orders table
 	queryOrder := `INSERT INTO orders (order_id, user_id, order_date, total_price, status, address, payment_method) VALUES ($1, $2, $3, $4, $5, $6, $7);`
 	if err := s.db.Exec(queryOrder, order.OrderID, user_id, order.OrderDate, order.TotalPrice, order.Status, order.Address, order.PaymentMethod).Error; err != nil {
 		fmt.Println(err)
@@ -300,8 +291,15 @@ func (s usersRepository) AddOrderUsersOrder(ctx context.Context, user_id string,
 		}
 
 	}
-
 	return order, nil
+}
+
+func (s usersRepository) StatusOrderUserOrder(ctx context.Context, user_id string, order *model.OrderModel) error {
+	query := `UPDATE orders SET status = ? WHERE order_id = ? and user_id = ?;`
+	if err := s.db.Exec(query, order.Status, order.OrderID).Error; err != nil {
+		return errors.StatusOrderFail
+	}
+	return nil
 
 }
 

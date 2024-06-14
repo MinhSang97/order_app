@@ -1,12 +1,14 @@
 package handler
 
 import (
+	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto"
 	"github.com/MinhSang97/order_app/usecases/req"
 	"github.com/MinhSang97/order_app/usecases/res"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	"net/http"
+	"strconv"
 )
 
 func UsersOrderStatus() func(*gin.Context) {
@@ -43,5 +45,22 @@ func UsersOrderStatus() func(*gin.Context) {
 			return
 		}
 
+		data := orderStatus.ToPayload().ToModel()
+		uc := usecases.NewUsersUseCase()
+		err = uc.StatusOrderUserOrder(c.Request.Context(), user_id, data)
+		if err != nil {
+			c.JSON(http.StatusConflict, res.Response{
+				StatusCode: http.StatusConflict,
+				Message:    err.Error(),
+				Data:       nil,
+			})
+			return
+		}
+
+		c.JSON(http.StatusOK, res.Response{
+			StatusCode: http.StatusOK,
+			Message:    "Cập nhật thành công",
+			Data:       "Status của order: " + strconv.FormatInt(req.OrderID, 10) + " " + req.Status,
+		})
 	}
 }

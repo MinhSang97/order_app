@@ -53,3 +53,7 @@ func (uc *usersUseCase) DefaultAddressUsersFunction(ctx context.Context, user_id
 func (uc *usersUseCase) AddOrderUsersOrder(ctx context.Context, user_id string, order *model.OrderModel) (*model.OrderModel, error) {
 	return uc.usersRepo.AddOrderUsersOrder(ctx, user_id, order)
 }
+
+func (uc *usersUseCase) StatusOrderUserOrder(ctx context.Context, user_id string, order *model.OrderModel) error {
+	return uc.usersRepo.StatusOrderUserOrder(ctx, user_id, order)
+}

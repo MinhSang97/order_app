@@ -28,4 +28,5 @@ var (
 	AddPaymentFail            = errors.New("Thêm payment thất bại")
 	AddOrderDiscountsFail     = errors.New("Thêm order discounts thất bại")
 	AddHistoryTransactionFail = errors.New("Thêm lịch sử giao dịch thất bại")
+	StatusOrderFail           = errors.New("Cập nhật trạng thái đơn hàng thất bại")
 )
