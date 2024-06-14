@@ -341,126 +341,22 @@ paths:
         required: true
         schema:
           type: string
-      - description: CustomizationOption1
+      - description: CustomizationOption
         in: body
-        name: customization_option1
+        name: customization_option
         required: true
         schema:
-          type: string
-      - description: ExtraPrice1
+          items:
+            type: string
+          type: array
+      - description: ExtraPrice
         in: body
-        name: extra_price1
+        name: extra_price
         required: true
         schema:
-          type: number
-      - description: CustomizationOption2
-        in: body
-        name: customization_option2
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice2
-        in: body
-        name: extra_price2
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption3
-        in: body
-        name: customization_option3
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice3
-        in: body
-        name: extra_price3
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption4
-        in: body
-        name: customization_option4
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice4
-        in: body
-        name: extra_price4
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption5
-        in: body
-        name: customization_option5
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice5
-        in: body
-        name: extra_price5
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption6
-        in: body
-        name: customization_option6
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice6
-        in: body
-        name: extra_price6
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption7
-        in: body
-        name: customization_option7
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice7
-        in: body
-        name: extra_price7
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption8
-        in: body
-        name: customization_option8
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice8
-        in: body
-        name: extra_price8
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption9
-        in: body
-        name: customization_option9
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice9
-        in: body
-        name: extra_price9
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption10
-        in: body
-        name: customization_option10
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice10
-        in: body
-        name: extra_price10
-        required: true
-        schema:
-          type: number
+          items:
+            type: number
+          type: array
       produces:
       - application/json
       responses:
@@ -551,126 +447,22 @@ paths:
         required: true
         schema:
           type: string
-      - description: CustomizationOption1
+      - description: CustomizationOption
         in: body
-        name: customization_option_1
+        name: customization_option
         required: true
         schema:
-          type: string
-      - description: ExtraPrice1
+          items:
+            type: string
+          type: array
+      - description: ExtraPrice
         in: body
-        name: extra_price_1
+        name: extra_price
         required: true
         schema:
-          type: number
-      - description: CustomizationOption2
-        in: body
-        name: customization_option_2
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice2
-        in: body
-        name: extra_price_2
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption3
-        in: body
-        name: customization_option_3
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice3
-        in: body
-        name: extra_price_3
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption4
-        in: body
-        name: customization_option_4
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice4
-        in: body
-        name: extra_price_4
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption5
-        in: body
-        name: customization_option_5
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice5
-        in: body
-        name: extra_price_5
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption6
-        in: body
-        name: customization_option_6
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice6
-        in: body
-        name: extra_price_6
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption7
-        in: body
-        name: customization_option_7
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice7
-        in: body
-        name: extra_price_7
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption8
-        in: body
-        name: customization_option_8
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice8
-        in: body
-        name: extra_price_8
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption9
-        in: body
-        name: customization_option_9
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice9
-        in: body
-        name: extra_price_9
-        required: true
-        schema:
-          type: number
-      - description: CustomizationOption10
-        in: body
-        name: customization_option_10
-        required: true
-        schema:
-          type: string
-      - description: ExtraPrice10
-        in: body
-        name: extra_price_10
-        required: true
-        schema:
-          type: number
+          items:
+            type: number
+          type: array
       produces:
       - application/json
       responses:
@@ -719,7 +511,7 @@ paths:
             $ref: '#/definitions/res.Response'
       summary: AdminMenuView
       tags:
-      - adminFunction
+      - AdminMenu
   /v1/api/admin/promotion_add:
     post:
       consumes:
@@ -1570,6 +1362,84 @@ paths:
           schema:
             $ref: '#/definitions/res.Response'
       summary: Users can order
+      tags:
+      - usersOrder
+  /v1/api/users/order_history/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: History order user
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: History order user
+      tags:
+      - usersOrder
+  /v1/api/users/order_status/{user_id}/status:
+    patch:
+      consumes:
+      - application/json
+      description: Update status order
+      parameters:
+      - description: User ID
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - description: OrderID
+        in: body
+        name: order_id
+        required: true
+        schema:
+          type: integer
+      - description: Status
+        in: body
+        name: status
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: Update status của order
       tags:
       - usersOrder
   /v1/api/users/send_otp:

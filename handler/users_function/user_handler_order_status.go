@@ -12,6 +12,20 @@ import (
 	"strconv"
 )
 
+// UsersOrderStatus godoc
+// @Summary Update status của order
+// @Description Update status order
+// @Tags usersOrder
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Param order_id body int true "OrderID"
+// @Param status body string true "Status"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/order_status/{user_id}/status [patch]
 func UsersOrderStatus() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")

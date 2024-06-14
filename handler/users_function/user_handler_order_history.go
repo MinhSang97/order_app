@@ -7,6 +7,18 @@ import (
 	"net/http"
 )
 
+// UsersOrderHistory godoc
+// @Summary History order user
+// @Description History order user
+// @Tags usersOrder
+// @Accept json
+// @Produce json
+// @Param user_id path string true "User ID"
+// @Success 200 {object} res.Response
+// @Failure 400 {object} res.Response
+// @Failure 403 {object} res.Response
+// @Failure 500 {object} res.Response
+// @Router /v1/api/users/order_history/{user_id} [get]
 func UsersOrderHistory() func(*gin.Context) {
 	return func(c *gin.Context) {
 		user_id := c.Param("user_id")

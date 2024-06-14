@@ -510,183 +510,27 @@
                         }
                     },
                     {
-                        "description": "CustomizationOption1",
-                        "name": "customization_option1",
+                        "description": "CustomizationOption",
+                        "name": "customization_option",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
-                        "description": "ExtraPrice1",
-                        "name": "extra_price1",
+                        "description": "ExtraPrice",
+                        "name": "extra_price",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption2",
-                        "name": "customization_option2",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice2",
-                        "name": "extra_price2",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption3",
-                        "name": "customization_option3",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice3",
-                        "name": "extra_price3",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption4",
-                        "name": "customization_option4",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice4",
-                        "name": "extra_price4",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption5",
-                        "name": "customization_option5",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice5",
-                        "name": "extra_price5",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption6",
-                        "name": "customization_option6",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice6",
-                        "name": "extra_price6",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption7",
-                        "name": "customization_option7",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice7",
-                        "name": "extra_price7",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption8",
-                        "name": "customization_option8",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice8",
-                        "name": "extra_price8",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption9",
-                        "name": "customization_option9",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice9",
-                        "name": "extra_price9",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption10",
-                        "name": "customization_option10",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice10",
-                        "name": "extra_price10",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
                         }
                     }
                 ],
@@ -826,183 +670,27 @@
                         }
                     },
                     {
-                        "description": "CustomizationOption1",
-                        "name": "customization_option_1",
+                        "description": "CustomizationOption",
+                        "name": "customization_option",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
                         }
                     },
                     {
-                        "description": "ExtraPrice1",
-                        "name": "extra_price_1",
+                        "description": "ExtraPrice",
+                        "name": "extra_price",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption2",
-                        "name": "customization_option_2",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice2",
-                        "name": "extra_price_2",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption3",
-                        "name": "customization_option_3",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice3",
-                        "name": "extra_price_3",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption4",
-                        "name": "customization_option_4",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice4",
-                        "name": "extra_price_4",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption5",
-                        "name": "customization_option_5",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice5",
-                        "name": "extra_price_5",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption6",
-                        "name": "customization_option_6",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice6",
-                        "name": "extra_price_6",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption7",
-                        "name": "customization_option_7",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice7",
-                        "name": "extra_price_7",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption8",
-                        "name": "customization_option_8",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice8",
-                        "name": "extra_price_8",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption9",
-                        "name": "customization_option_9",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice9",
-                        "name": "extra_price_9",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "description": "CustomizationOption10",
-                        "name": "customization_option_10",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "ExtraPrice10",
-                        "name": "extra_price_10",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
                         }
                     }
                 ],
@@ -1044,7 +732,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "adminFunction"
+                    "AdminMenu"
                 ],
                 "summary": "AdminMenuView",
                 "responses": {
@@ -2330,6 +2018,124 @@
                             "items": {
                                 "type": "number"
                             }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/api/users/order_history/{user_id}": {
+            "get": {
+                "description": "History order user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usersOrder"
+                ],
+                "summary": "History order user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/res.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/api/users/order_status/{user_id}/status": {
+            "patch": {
+                "description": "Update status order",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "usersOrder"
+                ],
+                "summary": "Update status của order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "User ID",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "OrderID",
+                        "name": "order_id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "Status",
+                        "name": "status",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
