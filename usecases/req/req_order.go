@@ -23,6 +23,6 @@ type OrderItem struct {
 }
 
 type ReqOrderStatus struct {
-	OrderID string `json:"order_id" validate:"required"`
+	OrderID int64  `json:"order_id" validate:"required"`
 	Status  string `json:"status" validate:"required"`
 }
