@@ -3,7 +3,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/MinhSang97/order_app/pkg/id"
 	"github.com/MinhSang97/order_app/usecases"
 	"github.com/MinhSang97/order_app/usecases/dto"
@@ -60,7 +59,6 @@ func UsersOrder() func(*gin.Context) {
 			})
 			return
 		}
-		fmt.Println("req", reqBody)
 
 		if len(reqBody.ItemID) != len(reqBody.Quantity) || len(reqBody.ItemID) != len(reqBody.Price) {
 			c.JSON(http.StatusBadRequest, res.Response{
@@ -79,7 +77,6 @@ func UsersOrder() func(*gin.Context) {
 			}
 		}
 
-		fmt.Println("order", order)
 		if err := validate.Struct(reqBody); err != nil {
 			c.JSON(http.StatusForbidden, res.Response{
 				StatusCode: http.StatusForbidden,
@@ -105,7 +102,6 @@ func UsersOrder() func(*gin.Context) {
 			Quantity:       reqBody.Quantity,
 			Price:          reqBody.Price,
 		}
-		fmt.Println("orderData", orderData)
 
 		// Save order to database
 		data := orderData.ToPayload().ToModel()
