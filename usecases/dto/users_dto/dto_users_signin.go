@@ -7,7 +7,7 @@ import (
 type ReqSignIn struct {
 	PassWord    string `json:"-" validate:"required"`
 	Token       string `json:"-"`
-	Email       string `json:"email" validate:"required,email"`
+	Email       string `json:"email"`
 	PhoneNumber string `json:"phone_number" validate:"required"`
 }
 

@@ -6,7 +6,7 @@ import (
 )
 
 type ReqUsersSignIn struct {
-	Email       string `json:"email,omitempty" validate:"required"`
+	Email       string `json:"email,omitempty"`
 	PassWord    string `json:"password,omitempty" validate:"required"`
 	Token       string `json:"token,omitempty" validate:"required"`
 	PhoneNumber string `json:"phone_number,omitempty" validate:"required"`

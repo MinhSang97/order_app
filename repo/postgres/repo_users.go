@@ -80,7 +80,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 		return nil, errors.NotUsers
 	}
 
-	err = s.db.Table("users").Where("email = ? OR phone_number = ? AND password = ?", users.Email, users.PhoneNumber, users.PassWord).First(users).Error
+	err = s.db.Table("users").Where("email = ? OR phone_number = ?", users.Email, users.PhoneNumber).First(users).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.UserNotFound
@@ -91,7 +91,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 
 	// Step 3: Proceed with the rest of the function if the role is "users"
 	var user_id string
-	err = s.db.Table("users").Select("user_id").Where("email = ?", users.Email).Scan(&user_id).Error
+	err = s.db.Table("users").Select("user_id").Where("phone_number = ?", users.PhoneNumber).Scan(&user_id).Error
 	if err != nil {
 		log.Error(err.Error())
 		if err == gorm.ErrRecordNotFound {

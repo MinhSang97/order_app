@@ -82,7 +82,7 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 		return nil, errors.NotAdmin
 	}
 
-	err = s.db.Table("users").Where("email = ?or phone_number = ? and password = ?", users.Email, users.PhoneNumber, users.PassWord).First(users).Error
+	err = s.db.Table("users").Where("email = ?or phone_number = ? ", users.Email, users.PhoneNumber).First(users).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.UserNotFound
@@ -93,7 +93,7 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 
 	// Step 3: Proceed with the rest of the function if the role is "admin"
 	var user_id string
-	err = s.db.Table("users").Select("user_id").Where("email = ?", users.Email).Scan(&user_id).Error
+	err = s.db.Table("users").Select("user_id").Where("phone_number = ?", users.PhoneNumber).Scan(&user_id).Error
 	if err != nil {
 		log.Error(err.Error())
 		if err == gorm.ErrRecordNotFound {
