@@ -27,4 +27,7 @@ type AdminFunctionRepo interface {
 
 	//admin_function_feedback
 	GetFeedbackAll(ctx context.Context) ([]model.FeedbackModel, error)
+
+	//admin_function_order
+	GetOrderAll(ctx context.Context) ([]admin_model.ResOrderHistory, error)
 }

@@ -7,7 +7,7 @@ import (
 )
 
 type GetAdminRequest struct {
-	PassWord    string `json:"-" db:"password, omitempty" validate:"required"`
+	PassWord    string `json:"-" db:"password, omitempty"`
 	Email       string `json:"email,omitempty" db:"email, omitempty" validate:"required"`
 	Token       string `json:"token,omitempty" db:"token, omitempty" validate:"required"`
 	PhoneNumber string `json:"phone_number,omitempty" db:"phone_number, omitempty" validate:"required"`

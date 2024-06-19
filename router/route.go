@@ -7,6 +7,7 @@ import (
 	admin_function_feedback "github.com/MinhSang97/order_app/handler/admin_function/feedback"
 	admin_function_member "github.com/MinhSang97/order_app/handler/admin_function/member"
 	admin_function_menu "github.com/MinhSang97/order_app/handler/admin_function/menu"
+	admin_function_order "github.com/MinhSang97/order_app/handler/admin_function/order"
 	admin_function_promotion "github.com/MinhSang97/order_app/handler/admin_function/promotion"
 	admin_login "github.com/MinhSang97/order_app/handler/admin_login"
 	users_function "github.com/MinhSang97/order_app/handler/users_function"
@@ -83,6 +84,9 @@ func Route() {
 
 			//admin_function_feedback
 			api.GET("/admin/feedback_view", middleware.JWTMiddlewareAdmin(), admin_function_feedback.AdminFeedbackView())
+
+			//admin_hístory_order
+			api.GET("/admin/order_history", middleware.JWTMiddlewareAdmin(), admin_function_order.AdminOrderHistory())
 
 			//user
 			api.POST("/users/sign-up", users_function.UsersSignUp())

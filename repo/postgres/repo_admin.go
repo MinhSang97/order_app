@@ -82,7 +82,7 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 		return nil, errors.NotAdmin
 	}
 
-	err = s.db.Table("users").Where("email = ?or phone_number = ? ", users.Email, users.PhoneNumber).First(users).Error
+	err = s.db.Table("users").Where("email = ? or phone_number = ? ", users.Email, users.PhoneNumber).First(users).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return nil, errors.UserNotFound

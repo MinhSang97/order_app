@@ -75,3 +75,8 @@ func (uc *adminFunctionUseCase) DeleteDiscount(ctx context.Context, discount_cod
 func (uc *adminFunctionUseCase) GetFeedbackAll(ctx context.Context) ([]model.FeedbackModel, error) {
 	return uc.adminFunctionRepo.GetFeedbackAll(ctx)
 }
+
+// admin_function_order
+func (uc *adminFunctionUseCase) GetOrderAll(ctx context.Context) ([]admin_model.ResOrderHistory, error) {
+	return uc.adminFunctionRepo.GetOrderAll(ctx)
+}
