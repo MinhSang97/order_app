@@ -539,6 +539,42 @@ paths:
       summary: AdminMenuView
       tags:
       - AdminMenu
+  /v1/api/admin/order_history:
+    get:
+      consumes:
+      - application/json
+      description: AdminOrderHistory
+      parameters:
+      - description: Page
+        in: query
+        name: page
+        type: integer
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/res.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/res.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/res.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/res.Response'
+      summary: AdminOrderHistory
+      tags:
+      - AdminOrder
   /v1/api/admin/promotion_add:
     post:
       consumes:
