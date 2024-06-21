@@ -1,39 +1,73 @@
-# Use the official Golang image as a base
-FROM golang:1.21-alpine
+## Use the official Golang image as a base
+#FROM golang:1.21-alpine
+#
+## Install the curl package
+#RUN apk add --no-cache curl
+#
+## Install the postgresql-client package
+#RUN curl -OL https://golang.org/dl/go1.22.3.linux-amd64.tar.gz && \
+#    tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz && \
+#    rm go1.22.3.linux-amd64.tar.gz && \
+#    export PATH=$PATH:/usr/local/go/bin
+#
+## Set the Current Working Directory inside the container
+#WORKDIR /order_app
+#
+## Copy go mod and sum files
+#COPY go.mod go.sum ./
+#
+## Install dependencies
+#RUN /usr/local/go/bin/go mod tidy
+#
+## Install sql-migrate
+#RUN go install github.com/rubenv/sql-migrate/...@latest
+#
+## Copy the source code into the container
+#COPY . .
+#
+## Set environment variables
+#ENV GO_ENV=development
+#
+## Expose port 8080 to the outside world
+#EXPOSE 8080
+#
+## Run the migrations
+#RUN chmod +x ./run_migrations.sh
+#RUN ./run_migrations.sh
+#
+## Command to run the application
+#CMD ["go", "run", "./cmd/main.go"]
 
-# Install the curl package
-RUN apk add --no-cache curl
 
-# Install the postgresql-client package
-RUN curl -OL https://golang.org/dl/go1.22.3.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz && \
-    rm go1.22.3.linux-amd64.tar.gz && \
-    export PATH=$PATH:/usr/local/go/bin
+# Use a specific version of Go that matches your requirements
+FROM golang:1.22-alpine
 
-# Set the Current Working Directory inside the container
+# Install curl and git
+RUN apk add --no-cache curl git
+
+# Set Go environment variable
+ENV PATH /usr/local/go/bin:$PATH
+
 WORKDIR /order_app
 
-# Copy go mod and sum files
+# Copy go mod files and install dependencies
 COPY go.mod go.sum ./
-
-# Install dependencies
-RUN /usr/local/go/bin/go mod tidy
+RUN go mod tidy
 
 # Install sql-migrate
 RUN go install github.com/rubenv/sql-migrate/...@latest
 
-# Copy the source code into the container
+# Copy the rest of the application files
 COPY . .
+
+# Ensure the migration script is executable
+RUN chmod +x ./run_migrations.sh
 
 # Set environment variables
 ENV GO_ENV=development
 
-# Expose port 8080 to the outside world
+# Expose the application port
 EXPOSE 8080
 
-# Run the migrations
-RUN chmod +x ./run_migrations.sh
+# Run the migration script
 RUN ./run_migrations.sh
-
-# Command to run the application
-CMD ["go", "run", "./cmd/main.go"]
