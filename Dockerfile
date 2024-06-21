@@ -17,7 +17,7 @@ WORKDIR /order_app
 COPY go.mod go.sum ./
 
 # Install dependencies
-RUN go mod tidy
+RUN /usr/local/go/bin/go mod tidy
 
 # Copy the source code into the container
 COPY . .
