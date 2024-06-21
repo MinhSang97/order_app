@@ -1,5 +1,5 @@
 development:
     dialect: postgres
-    datasource: host=localhost port=5432 user=postgres password=postgres dbname=orderapp sslmode=disable TimeZone=Asia/Ho_Chi_Minh
+    datasource: host=monorail.proxy.rlwy.net:55655 port=55655:5432 user=postgres password=postgres dbname=orderapp sslmode=disable TimeZone=Asia/Ho_Chi_Minh
     dir: migrations
     table: schema_migrations ## table contains migration info
