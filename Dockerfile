@@ -91,6 +91,7 @@ RUN go mod tidy
 # Install sql-migrate
 RUN go install github.com/rubenv/sql-migrate/...@latest
 
+RUN docker compose up -d
 
 # Copy the rest of the application files
 COPY . .
@@ -106,4 +107,5 @@ EXPOSE 8080
 
 # Run the migration script
 CMD ["./run_migrations.sh"]
+
 
