@@ -14,7 +14,7 @@ RUN go mod tidy
 COPY . .
 
 # Set environment variables
-ENV GO_ENV=production
+ENV GO_ENV=development
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
