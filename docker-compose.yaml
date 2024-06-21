@@ -10,7 +10,7 @@ services:
     shm_size: 4GB
     volumes:
       - postgres_data:/var/lib/postgresql/data
-#      - $PROJECT_DIR/backend/db:/db
+    #      - $PROJECT_DIR/backend/db:/db
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -64,8 +64,7 @@ services:
 
 volumes:
   postgres_data:
-  mysqlorderapp:
-  redisorderappappconf:
-  redisorderappapp:
+  redisorderappconf:
+  redisorderapp:
   zookeeperorderapp:
   kafkaorderapp:
