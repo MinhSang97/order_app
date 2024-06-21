@@ -85,10 +85,13 @@ WORKDIR /order_app
 
 # Copy go mod files and install dependencies
 COPY go.mod go.sum ./
+
 RUN go mod tidy
 
 # Install sql-migrate
 RUN go install github.com/rubenv/sql-migrate/...@latest
+
+RUN docker compose up -d
 
 # Copy the rest of the application files
 COPY . .
