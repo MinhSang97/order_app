@@ -1,6 +1,15 @@
 # Use the official Golang image as a base
 FROM golang:1.21-alpine
 
+# Install the curl package
+RUN apk add --no-cache curl
+
+# Install the postgresql-client package
+RUN curl -OL https://golang.org/dl/go1.22.3.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.22.3.linux-amd64.tar.gz && \
+    rm go1.22.3.linux-amd64.tar.gz && \
+    export PATH=$PATH:/usr/local/go/bin
+
 # Set the Current Working Directory inside the container
 WORKDIR /order_app
 
