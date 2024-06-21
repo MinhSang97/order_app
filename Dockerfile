@@ -19,6 +19,9 @@ COPY go.mod go.sum ./
 # Install dependencies
 RUN /usr/local/go/bin/go mod tidy
 
+# Install sql-migrate
+RUN go install github.com/rubenv/sql-migrate/...@latest
+
 # Copy the source code into the container
 COPY . .
 
