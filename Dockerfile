@@ -78,6 +78,13 @@ FROM golang:1.22-alpine
 # Install curl, git, and PostgreSQL client tools
 RUN apk add --no-cache curl git postgresql-client
 
+FROM postgres:latest
+
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=orderapp
+
+
 # Set Go environment variable
 ENV PATH /usr/local/go/bin:$PATH
 
