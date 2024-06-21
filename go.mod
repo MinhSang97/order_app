@@ -1,6 +1,6 @@
 module github.com/MinhSang97/order_app
 
-go 1.22.3
+go 1.21.9
 
 require (
 	github.com/gin-gonic/gin v1.10.0
