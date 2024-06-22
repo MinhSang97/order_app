@@ -21,6 +21,6 @@
 
 development:
     dialect: postgres
-    datasource: host=${PGHOST} port=${PGPORT} user=${PGUSER} password=${PGPASSWORD} dbname=${PGDATABASE} sslmode=disable TimeZone=Asia/Ho_Chi_Minh
+    datasource: host=${RAILWAY_TCP_PROXY_DOMAIN} port=${RAILWAY_TCP_PROXY_PORT} user=${PGUSER} password=${PGPASSWORD} dbname=${PGDATABASE} sslmode=disable TimeZone=Asia/Ho_Chi_Minh
     dir: migrations
     table: schema_migrations
