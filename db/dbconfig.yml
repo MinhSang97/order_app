@@ -1,8 +1,8 @@
-#development:
-#    dialect: postgres
-#    datasource: host=monorail.proxy.rlwy.net:55655 port=55655:5432 user=postgres password=postgres dbname=orderapp sslmode=disable TimeZone=Asia/Ho_Chi_Minh
-#    dir: migrations
-#    table: schema_migrations ## table contains migration info
+development:
+    dialect: postgres
+    datasource: host=monorail.proxy.rlwy.net port=55655:5432 user=postgres password=postgres dbname=orderapp sslmode=disable TimeZone=Asia/Ho_Chi_Minh
+    dir: migrations
+    table: schema_migrations # table contains migration info
 
 
 #development:
@@ -12,9 +12,9 @@
 #    table: schema_migrations
 
 
-development:
-    dialect: postgres
-    datasource: postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
-    dir: migrations
-    table: schema_migrations
+#development:
+#    dialect: postgres
+#    datasource: postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}?sslmode=disable&TimeZone=Asia/Ho_Chi_Minh
+#    dir: migrations
+#    table: schema_migrations
     # dir: db/migrations
