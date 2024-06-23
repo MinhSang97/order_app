@@ -106,4 +106,7 @@ EXPOSE 8080
 # Run the migration script
 CMD ["./run_migrations.sh"]
 
+RUN chmod +x ./run_go.sh
+CMD ["./run_go.sh"]
+
 
