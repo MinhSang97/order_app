@@ -7,6 +7,7 @@ type ReqSignIn struct {
 	Token       string `json:"-"`
 	Email       string `json:"email"`
 	PhoneNumber string `json:"phone_number"`
+	UserID      string `json:"user_id"`
 }
 
 func (c *ReqSignIn) ToPayload() *admin_payload.GetAdminRequest {

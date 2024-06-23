@@ -10,6 +10,7 @@ type ReqUsersSignIn struct {
 	PassWord    string `json:"password,omitempty" validate:"required"`
 	Token       string `json:"token,omitempty" validate:"required"`
 	PhoneNumber string `json:"phone_number,omitempty" validate:"required"`
+	UserID      string `json:"user_id,omitempty"`
 }
 
 func (c *ReqUsersSignIn) TableName() string {

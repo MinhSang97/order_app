@@ -148,6 +148,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 			Email:    users.Email,
 			PassWord: users.PassWord,
 			Token:    token,
+			UserID:   user_id,
 		}
 		return users, nil
 	} else {
@@ -155,6 +156,7 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 			Email:    users.Email,
 			PassWord: users.PassWord,
 			Token:    token_db.String,
+			UserID:   user_id,
 		}
 		return users, nil
 	}

@@ -11,6 +11,7 @@ type GetAdminRequest struct {
 	Email       string `json:"email,omitempty" db:"email, omitempty" validate:"required"`
 	Token       string `json:"token,omitempty" db:"token, omitempty" validate:"required"`
 	PhoneNumber string `json:"phone_number,omitempty" db:"phone_number, omitempty" validate:"required"`
+	UserID      string `json:"user_id,omitempty"`
 }
 
 func (c *GetAdminRequest) ToModel() *admin_model.ReqSignIn {
@@ -19,6 +20,7 @@ func (c *GetAdminRequest) ToModel() *admin_model.ReqSignIn {
 		Email:       c.Email,
 		Token:       c.Token,
 		PhoneNumber: c.PhoneNumber,
+		UserID:      c.UserID,
 	}
 
 	return admin

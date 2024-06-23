@@ -11,6 +11,7 @@ type GetUsersRequest struct {
 	Email       string `json:"email,omitempty" db:"email, omitempty"`
 	Token       string `json:"token,omitempty" validate:"required"`
 	PhoneNumber string `json:"phone_number,omitempty" db:"phone_number, omitempty" validate:"required"`
+	UserID      string `json:"user_id,omitempty"`
 }
 
 func (c *GetUsersRequest) ToModel() *users.ReqUsersSignIn {
@@ -19,6 +20,7 @@ func (c *GetUsersRequest) ToModel() *users.ReqUsersSignIn {
 		Email:       c.Email,
 		Token:       c.Token,
 		PhoneNumber: c.PhoneNumber,
+		UserID:      c.UserID,
 	}
 
 	return admin

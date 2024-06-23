@@ -150,6 +150,7 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 			Email:    users.Email,
 			PassWord: users.PassWord,
 			Token:    token,
+			UserID:   user_id,
 		}
 		return users, nil
 	} else {
@@ -157,6 +158,7 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 			Email:    users.Email,
 			PassWord: users.PassWord,
 			Token:    token_db.String,
+			UserID:   user_id,
 		}
 		return users, nil
 	}

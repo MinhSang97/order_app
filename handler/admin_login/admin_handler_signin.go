@@ -11,6 +11,14 @@ import (
 	"net/http"
 )
 
+type DataRes struct {
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
+	PassWord    string `json:"password"`
+	Token       string `json:"token"`
+	UserID      string `json:"user_id"`
+}
+
 // AdminSignIn godoc
 // @Summary Admin can sign in
 // @Description Admin can sign in
@@ -99,10 +107,17 @@ func AdminSignIn() func(*gin.Context) {
 			return
 		}
 
+		dataRes := DataRes{
+			Email:       adminPass.Email,
+			PhoneNumber: adminPass.PhoneNumber,
+			PassWord:    req.PassWord,
+			Token:       adminPass.Token,
+			UserID:      adminPass.UserID,
+		}
 		c.JSON(http.StatusOK, res.Response{
 			StatusCode: http.StatusOK,
 			Message:    "Xử lý thành công",
-			Data:       "Token: " + adminPass.Token,
+			Data:       dataRes,
 		})
 
 	}
