@@ -14,6 +14,7 @@ type AdminFunctionRepo interface {
 	DeleteUsers(ctx context.Context, email string) error
 
 	//admin_function_menu
+
 	GetMenuAll(ctx context.Context) ([]model.MenuItemsModel, error)
 	AddMenu(ctx context.Context, menu *model.MenuItemsModel) (*model.MenuItemsModel, error)
 	EditMenu(ctx context.Context, item_id string, menu *model.MenuItemsModel) error
