@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"github.com/MinhSang97/order_app/model/admin_model"
 	"github.com/MinhSang97/order_app/model/users_model"
 	"github.com/MinhSang97/order_app/pkg/error"
@@ -167,9 +168,21 @@ func (s adminRepository) GetAdmin(ctx context.Context, admin *admin_model.ReqSig
 
 func (s adminRepository) UpdateAdmin(ctx context.Context, user_id string, admin *admin_model.Admin) error {
 	users := admin
+	fmt.Println(users.Sex, users.BirthDate, users.Telegram, users.Email, users.PhoneNumber, user_id)
+	// Check if user exists
+	var count int64
+	if err := s.db.Table("users").Where("user_id = ?", user_id).Count(&count).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return err
+	}
+	if count == 0 {
+		return errors.UserNotFound
+	}
 
-	queryUpdate := `UPDATE users SET name = ?, sex = ?, birth_date = ?, telegram = ?, updated_at = ? WHERE user_id = ?;`
-	if err := s.db.Exec(queryUpdate, users.Name, users.Sex, users.BirthDate, users.Telegram, time.Now(), user_id).Error; err != nil {
+	queryUpdate := `UPDATE users SET name = ?, sex = ?, birth_date = ?, telegram = ?, updated_at = ?, email =?, phone_number =? WHERE user_id = ?;`
+	if err := s.db.Exec(queryUpdate, users.Name, users.Sex, users.BirthDate, users.Telegram, time.Now(), users.Email, users.PhoneNumber, user_id).Error; err != nil {
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "42P01" {
 				return errors.UserNotUpdated

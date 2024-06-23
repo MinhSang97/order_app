@@ -7,9 +7,9 @@ import (
 
 type Users struct {
 	UserId       string    `json:"-"`
-	Name         string    `json:"name"  validate:"required"`
+	Name         string    `json:"name" validate:"required"`
 	PassWord     string    `json:"-"`
-	Email        string    `json:"email" validate:"required,email"`
+	Email        string    `json:"email" validate:"required"`
 	Role         string    `json:"-"`
 	CreatedAt    time.Time `json:"-"`
 	UpdatedAt    time.Time `json:"-"`
@@ -44,6 +44,8 @@ func (c *Users) ToPayload() *users_payload.AddUsersRequest {
 		PhoneNumber:  c.PhoneNumber,
 		Address:      c.Address,
 		Telegram:     c.Telegram,
+		BirthDate:    c.BirthDate,
+		Sex:          c.Sex,
 		Lat:          c.Lat,
 		Long:         c.Long,
 		WardId:       c.WardId,

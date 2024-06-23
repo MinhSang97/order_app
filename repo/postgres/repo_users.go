@@ -164,8 +164,15 @@ func (s usersRepository) GetUsers(ctx context.Context, users *users_model.ReqUse
 }
 
 func (s usersRepository) UpdateUsers(ctx context.Context, user_id string, users *users_model.Users) error {
-	queryUpdate := `UPDATE users SET name = ?, sex = ?, birth_date = ?, telegram = ?, updated_at = ? WHERE user_id = ?;`
-	if err := s.db.Exec(queryUpdate, users.Name, users.Sex, users.BirthDate, users.Telegram, time.Now(), user_id).Error; err != nil {
+	if err := s.db.Table("users").Where("user_id = ?", user_id).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return errors.UserNotFound
+		}
+		return err
+	}
+
+	queryUpdate := `UPDATE users SET name = ?, sex = ?, birth_date = ?, telegram = ?, updated_at = ?, email = ?, phone_number = ? WHERE user_id = ?;`
+	if err := s.db.Exec(queryUpdate, users.Name, users.Sex, users.BirthDate, users.Telegram, time.Now(), users.Email, users.PhoneNumber, user_id).Error; err != nil {
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "42P01" {
 				return errors.UserNotUpdated

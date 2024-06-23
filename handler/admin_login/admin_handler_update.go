@@ -11,12 +11,12 @@ import (
 )
 
 type AdminUpdateResponse struct {
-	Name string `json:"name"`
-	//Email       string `json:"email"`
-	//PhoneNumber string `json:"phone_number"`
-	Sex       string `json:"sex"`
-	BirthDate string `json:"birth_date"`
-	Telegram  string `json:"telegram"`
+	Name        string `json:"name"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
+	Sex         string `json:"sex"`
+	BirthDate   string `json:"birth_date"`
+	Telegram    string `json:"telegram"`
 }
 
 // AdminUpdate godoc
@@ -67,12 +67,12 @@ func AdminUpdate() func(*gin.Context) {
 		}
 
 		userAdmin := admindto.Admin{
-			Name: req.Name,
-			//Email:       req.Email,
-			//PhoneNumber: req.PhoneNumber,
-			Sex:       req.Sex,
-			BirthDate: req.BirthDate,
-			Telegram:  req.Telegram,
+			Name:        req.Name,
+			Email:       req.Email,
+			PhoneNumber: req.PhoneNumber,
+			Sex:         req.Sex,
+			BirthDate:   req.BirthDate,
+			Telegram:    req.Telegram,
 		}
 
 		err := validate.Struct(userAdmin)
@@ -99,12 +99,12 @@ func AdminUpdate() func(*gin.Context) {
 		}
 
 		usersUpdate := AdminUpdateResponse{
-			Name: req.Name,
-			//Email:       req.Email,
-			//PhoneNumber: req.PhoneNumber,
-			Sex:       req.Sex,
-			BirthDate: req.BirthDate,
-			Telegram:  req.Telegram,
+			Name:        req.Name,
+			Email:       req.Email,
+			PhoneNumber: req.PhoneNumber,
+			Sex:         req.Sex,
+			BirthDate:   req.BirthDate,
+			Telegram:    req.Telegram,
 		}
 
 		c.JSON(http.StatusOK, res.Response{

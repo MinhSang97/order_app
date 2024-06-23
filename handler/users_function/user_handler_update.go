@@ -68,12 +68,12 @@ func UsersUpdate() func(*gin.Context) {
 
 		//PassHashNew := sercurity.HashAndSalt([]byte(req.PassWord))
 		userUsers := usersdto.Users{
-			Name: req.Name,
-			//Email:       req.Email,
-			//PhoneNumber: req.PhoneNumber,
-			Sex:       req.Sex,
-			BirthDate: req.BirthDate,
-			Telegram:  req.Telegram,
+			Name:        req.Name,
+			Email:       req.Email,
+			PhoneNumber: req.PhoneNumber,
+			Sex:         req.Sex,
+			BirthDate:   req.BirthDate,
+			Telegram:    req.Telegram,
 		}
 
 		err := validate.Struct(userUsers)
@@ -100,12 +100,12 @@ func UsersUpdate() func(*gin.Context) {
 		}
 
 		usersUpdate := usersdto.Users{
-			Name: req.Name,
-			//Email:       req.Email,
-			//PhoneNumber: req.PhoneNumber,
-			Sex:       req.Sex,
-			BirthDate: req.BirthDate,
-			Telegram:  req.Telegram,
+			Name:        req.Name,
+			Email:       req.Email,
+			PhoneNumber: req.PhoneNumber,
+			Sex:         req.Sex,
+			BirthDate:   req.BirthDate,
+			Telegram:    req.Telegram,
 		}
 
 		c.JSON(http.StatusOK, res.Response{
