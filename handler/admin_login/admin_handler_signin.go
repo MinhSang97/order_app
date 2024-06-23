@@ -109,7 +109,7 @@ func AdminSignIn() func(*gin.Context) {
 
 		dataRes := DataRes{
 			Email:       adminPass.Email,
-			PhoneNumber: adminPass.PhoneNumber,
+			PhoneNumber: req.PhoneNumber,
 			PassWord:    req.PassWord,
 			Token:       adminPass.Token,
 			UserID:      adminPass.UserID,

@@ -109,7 +109,7 @@ func UsersSignIn() func(*gin.Context) {
 
 		dataRes := DataRes{
 			Email:       usersPass.Email,
-			PhoneNumber: usersPass.PhoneNumber,
+			PhoneNumber: req.PhoneNumber,
 			PassWord:    req.PassWord,
 			Token:       usersPass.Token,
 			UserID:      usersPass.UserID,
