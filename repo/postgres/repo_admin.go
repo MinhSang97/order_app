@@ -32,11 +32,11 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 	if err := tx.Exec(queryUser, admin.UserId, admin.Email, admin.PassWord, admin.Name, admin.PhoneNumber, admin.Role, time.Now(), admin.Address, admin.Telegram, expired_at).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
-			if pgErr.Code == "23514" {
+			if pgErr.Code == "23505" {
 				return errors.UserConflict
 			}
 		}
-		return errors.SignUpFail
+		return errors.UserConflict
 	}
 
 	// Insert into the user_addresses table
@@ -44,7 +44,7 @@ func (s adminRepository) CreateAdmin(ctx context.Context, admin *admin_model.Adm
 	if err := tx.Exec(queryUserAddress, admin.UserId, admin.Address, admin.Lat, admin.Long, admin.WardId, admin.WardText, admin.DistrictId, admin.DistrictText, admin.ProvinceId, admin.ProvinceText, admin.NationalId, admin.NationalText, "no", admin.Name, admin.PhoneNumber).Error; err != nil {
 		tx.Rollback()
 		if pgErr, ok := err.(*pq.Error); ok {
-			if pgErr.Code == "23502" {
+			if pgErr.Code == "23505" {
 				return errors.SignUpFail
 			}
 

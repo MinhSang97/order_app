@@ -8,7 +8,7 @@ type ReqSignIn struct {
 	PassWord    string `json:"-" validate:"required"`
 	Token       string `json:"-"`
 	Email       string `json:"email"`
-	PhoneNumber string `json:"phone_number" validate:"required"`
+	PhoneNumber string `json:"phone_number"`
 }
 
 func (c *ReqSignIn) ToPayload() *users_payload.GetUsersRequest {
