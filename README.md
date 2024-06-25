@@ -13,7 +13,7 @@ Order App is an application that allows users to place orders online.
 ## Clone project
 
 ```bash
-git clone https://github.com/MinhSang97/order_app.git
+
 ```
 
 ## Move to oneship folder
